@@ -33,6 +33,7 @@ struct AddAlarmView: View {
                             DayButton(day: weekdays[index], isSelected: $selectedWeekdays[index])
                         }
                     }
+                    .contentShape(Rectangle()) // HStack의 터치 가능 영역을 제한
                 }
 
                 // 소지품 추가
