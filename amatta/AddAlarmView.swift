@@ -44,10 +44,13 @@ struct AddAlarmView: View {
                 Section {
                     Button(action: {
                         // 소지품 추가 기능
-                    }) {
+                    }
+                    ) {
                         HStack {
                             Image(systemName: "plus")
+                                .foregroundColor(Color(red: 127 / 255, green: 127 / 255, blue: 127 / 255))
                             Text("여기를 눌러 소지품 추가")
+                                .foregroundColor(Color(red: 127 / 255, green: 127 / 255, blue: 127 / 255))
                         }
                     }
                 }
