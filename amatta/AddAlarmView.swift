@@ -28,26 +28,26 @@ struct AddAlarmView: View {
                 }
                 // 요일 선택
                 Section(header: Text("알림 요일 선택")) {
-                                    HStack {
-                                        ForEach(0..<weekdays.count, id: \.self) { index in
-                                            Button(action: {
-                                                withAnimation {
-                                                    self.selectedWeekdays[index].toggle()
-                                                }
-                                            }) {
-                                                Text(weekdays[index])
-                                                    .foregroundColor(selectedWeekdays[index] ? .white : .blue)
-                                                    .padding()
-                                                    .font(.system(size: 14))
-                                                    .background(selectedWeekdays[index] ? Color.blue : Color.clear)
-                                                    .clipShape(Circle())
-                                                    .overlay(
-                                                        Circle().stroke(Color.blue, lineWidth: 1)
-                                                    )
-                                            }
-                                        }
-                                    }
-                                }
+                                   HStack {
+                                       ForEach(0..<weekdays.count, id: \.self) { index in
+                                           Button(action: {
+                                               withAnimation {
+                                                   self.selectedWeekdays[index].toggle()
+                                               }
+                                           }) {
+                                               Text(weekdays[index])
+                                                   .foregroundColor(selectedWeekdays[index] ? .white : .blue)
+                                                   .padding()
+                                                   .font(.system(size: 14))
+                                                   .background(selectedWeekdays[index] ? Color.blue : Color.clear)
+                                                   .clipShape(Circle())
+                                                   .overlay(
+                                                       Circle().stroke(Color.blue, lineWidth: selectedWeekdays[index] ? 0 : 1)
+                                                   )
+                                           }
+                                       }
+                                   }
+                               }
                 // 소지품 추가
                 Section {
                     Button(action: {
