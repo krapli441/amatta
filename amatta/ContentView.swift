@@ -13,7 +13,7 @@ struct ContentView: View {
         VStack {
             // 상단 바
             HStack {
-                Text("루틴")
+                Text("알림")
                     .font(.largeTitle)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
@@ -35,8 +35,8 @@ struct ContentView: View {
             Spacer()
 
             // 중앙 텍스트
-            Text("아직 생성된 루틴이 없습니다.")
-                .font(.system(size:14))
+            Text("아직 생성된 알림이 없습니다.")
+                .font(.system(size:16))
                 .foregroundColor(.gray)
 
             Spacer()
@@ -47,7 +47,7 @@ struct ContentView: View {
             }) {
                 HStack {
                     Image(systemName: "plus")
-                    Text("새로운 루틴 추가")
+                    Text("새로운 알림 추가")
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
