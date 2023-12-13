@@ -15,7 +15,11 @@ struct ContentView: View {
             HStack {
                 Text("루틴")
                     .font(.largeTitle)
+                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+
                     .padding()
+
 
                 Spacer()
 
@@ -23,6 +27,7 @@ struct ContentView: View {
                     // 톱니바퀴 버튼 기능
                 }) {
                     Image(systemName: "gear")
+                        .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                         .padding()
                 }
             }
@@ -30,8 +35,9 @@ struct ContentView: View {
             Spacer()
 
             // 중앙 텍스트
-            Text("아직 생성된 루틴이 없습니다")
-                .font(.title)
+            Text("아직 생성된 루틴이 없습니다.")
+                .font(.system(size:14))
+                .foregroundColor(.gray)
 
             Spacer()
 
@@ -46,7 +52,7 @@ struct ContentView: View {
                 .padding()
                 .frame(maxWidth: .infinity)
             }
-            .background(Color.blue)
+            .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
             .foregroundColor(.white)
             .cornerRadius(10)
             .padding()
