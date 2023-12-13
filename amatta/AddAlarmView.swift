@@ -21,10 +21,13 @@ struct AddAlarmView: View {
                     TextField("알림 이름을 입력해주세요.", text: $alarmName)
                 }
 
-                // 알림 시간 설정
                 Section(header: Text("알림 시간")) {
-                    DatePicker("", selection: $selectedTime, displayedComponents: .hourAndMinute)
+                    CustomDatePicker(selection: $selectedTime)
+                        .frame(maxWidth: .infinity, alignment: .center) // 프레임과 정렬
                 }
+
+
+
 
                 // 요일 선택
                 Section(header: Text("요일 선택")) {
