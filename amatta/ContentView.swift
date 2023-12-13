@@ -9,58 +9,55 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
-#if os(macOS)
-            .navigationSplitViewColumnWidth(min: 180, ideal: 200)
-#endif
-            .toolbar {
-#if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-#endif
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-        } detail: {
-            Text("Select an item")
-        }
-    }
+        VStack {
+            // 상단 바
+            HStack {
+                Text("루틴")
+                    .font(.largeTitle)
+                    .padding()
 
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
+                Spacer()
 
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
+                Button(action: {
+                    // 톱니바퀴 버튼 기능
+                }) {
+                    Image(systemName: "gear")
+                        .padding()
+                }
             }
+
+            Spacer()
+
+            // 중앙 텍스트
+            Text("아직 생성된 루틴이 없습니다")
+                .font(.title)
+
+            Spacer()
+
+            // 하단 버튼
+            Button(action: {
+                // + 버튼 기능
+            }) {
+                HStack {
+                    Image(systemName: "plus")
+                    Text("새로운 루틴 추가")
+                }
+                .padding()
+                .frame(maxWidth: .infinity)
+            }
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(10)
+            .padding()
         }
+        .padding(.horizontal)
     }
 }
 
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+// 프리뷰
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }
