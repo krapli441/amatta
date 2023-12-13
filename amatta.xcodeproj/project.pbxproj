@@ -15,6 +15,7 @@
 		63203DDD2B296D6400855113 /* amattaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203DDC2B296D6400855113 /* amattaTests.swift */; };
 		63203DE72B296D6400855113 /* amattaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203DE62B296D6400855113 /* amattaUITests.swift */; };
 		63203DE92B296D6400855113 /* amattaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203DE82B296D6400855113 /* amattaUITestsLaunchTests.swift */; };
+		63203DF62B29951300855113 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63203DF52B29951300855113 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		63203DE22B296D6400855113 /* amattaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = amattaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63203DE62B296D6400855113 /* amattaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = amattaUITests.swift; sourceTree = "<group>"; };
 		63203DE82B296D6400855113 /* amattaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = amattaUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		63203DF52B29951300855113 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				63203DCE2B296D6400855113 /* Assets.xcassets */,
 				63203DD02B296D6400855113 /* amatta.entitlements */,
 				63203DD12B296D6400855113 /* Preview Content */,
+				63203DF52B29951300855113 /* Launch Screen.storyboard */,
 			);
 			path = amatta;
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63203DF62B29951300855113 /* Launch Screen.storyboard in Resources */,
 				63203DD32B296D6400855113 /* Preview Assets.xcassets in Resources */,
 				63203DCF2B296D6400855113 /* Assets.xcassets in Resources */,
 			);
