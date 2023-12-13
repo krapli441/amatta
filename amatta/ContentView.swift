@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    @State private var showingAdd = false
     var body: some View {
         VStack {
             // 상단 바
@@ -43,7 +44,7 @@ struct ContentView: View {
 
             // 하단 버튼
             Button(action: {
-                // + 버튼 기능
+                self.showingAdd = true
             }) {
                 HStack {
                     Image(systemName: "plus")
@@ -56,10 +57,27 @@ struct ContentView: View {
             .foregroundColor(.white)
             .cornerRadius(10)
             .padding()
+            .sheet(isPresented: $showingAdd) {
+                            AddAlertView()
+                        }
         }
         .padding(.horizontal)
     }
 }
+
+// 새로운 알림 추가 뷰
+struct AddAlertView: View {
+    var body: some View {
+        VStack {
+            Text("알림 추가")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .padding()
+            Spacer()
+        }
+    }
+}
+
 
 // 프리뷰
 struct ContentView_Previews: PreviewProvider {
