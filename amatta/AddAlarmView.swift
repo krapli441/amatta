@@ -28,26 +28,13 @@ struct AddAlarmView: View {
                 }
                 // 요일 선택
                 Section(header: Text("알림 요일 선택")) {
-                                   HStack {
-                                       ForEach(0..<weekdays.count, id: \.self) { index in
-                                           Button(action: {
-                                               withAnimation {
-                                                   self.selectedWeekdays[index].toggle()
-                                               }
-                                           }) {
-                                               Text(weekdays[index])
-                                                   .foregroundColor(selectedWeekdays[index] ? .white : .blue)
-                                                   .padding()
-                                                   .font(.system(size: 14))
-                                                   .background(selectedWeekdays[index] ? Color.blue : Color.clear)
-                                                   .clipShape(Circle())
-                                                   .overlay(
-                                                       Circle().stroke(Color.blue, lineWidth: selectedWeekdays[index] ? 0 : 1)
-                                                   )
-                                           }
-                                       }
-                                   }
-                               }
+                    HStack {
+                        ForEach(0..<weekdays.count, id: \.self) { index in
+                            DayButton(day: weekdays[index], isSelected: $selectedWeekdays[index])
+                        }
+                    }
+                }
+
                 // 소지품 추가
                 Section {
                     Button(action: {
@@ -65,6 +52,30 @@ struct AddAlarmView: View {
             }
             .navigationTitle("알림 추가")
             .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+}
+
+struct DayButton: View {
+    var day: String
+    @Binding var isSelected: Bool
+
+    var body: some View {
+        Button(action: {
+            withAnimation {
+                isSelected.toggle()
+                print("\(day) is now \(isSelected ? "selected" : "unselected")")
+            }
+        }) {
+            Text(day)
+                .foregroundColor(isSelected ? .white : .blue)
+                .padding()
+                .font(.system(size: 14))
+                .background(isSelected ? Color.blue : Color.clear)
+                .clipShape(Circle())
+                .overlay(
+                    Circle().stroke(Color.blue, lineWidth: 1)
+                )
         }
     }
 }
