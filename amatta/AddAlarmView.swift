@@ -15,7 +15,20 @@ struct AddAlarmView: View {
     let weekdays = ["월", "화", "수", "목", "금", "토", "일"]
 
     var body: some View {
-        NavigationView {
+        VStack {
+            HStack  {
+                Text("알림 추가")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                    .padding()
+
+                Spacer()
+            }
+            .background(Color(UIColor.systemBackground))
+
+                        // 필요한 경우 추가 버튼이나 기능 구현
+                    
             Form {
                 // 알림 이름 입력
                 Section(header: Text("알림 이름")) {
@@ -51,10 +64,9 @@ struct AddAlarmView: View {
                     }
                 }
             }
-            .navigationTitle("알림 추가")
-            .navigationBarTitleDisplayMode(.inline)
         }
     }
+    
 }
 
 struct DayButton: View {
