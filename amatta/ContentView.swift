@@ -58,25 +58,14 @@ struct ContentView: View {
             .cornerRadius(10)
             .padding()
             .sheet(isPresented: $showingAdd) {
-                            AddAlertView()
+                            AddAlarmView()
                         }
         }
         .padding(.horizontal)
     }
 }
 
-// 새로운 알림 추가 뷰
-struct AddAlertView: View {
-    var body: some View {
-        VStack {
-            Text("알림 추가")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .padding()
-            Spacer()
-        }
-    }
-}
+
 
 
 // 프리뷰

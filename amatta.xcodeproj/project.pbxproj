@@ -16,6 +16,7 @@
 		63203DE72B296D6400855113 /* amattaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203DE62B296D6400855113 /* amattaUITests.swift */; };
 		63203DE92B296D6400855113 /* amattaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203DE82B296D6400855113 /* amattaUITestsLaunchTests.swift */; };
 		63203DF62B29951300855113 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63203DF52B29951300855113 /* Launch Screen.storyboard */; };
+		63203DF82B29A1A400855113 /* AddAlarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203DF72B29A1A400855113 /* AddAlarmView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		63203DE62B296D6400855113 /* amattaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = amattaUITests.swift; sourceTree = "<group>"; };
 		63203DE82B296D6400855113 /* amattaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = amattaUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		63203DF52B29951300855113 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		63203DF72B29A1A400855113 /* AddAlarmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlarmView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				63203DD02B296D6400855113 /* amatta.entitlements */,
 				63203DD12B296D6400855113 /* Preview Content */,
 				63203DF52B29951300855113 /* Launch Screen.storyboard */,
+				63203DF72B29A1A400855113 /* AddAlarmView.swift */,
 			);
 			path = amatta;
 			sourceTree = "<group>";
@@ -268,6 +271,7 @@
 			files = (
 				63203DCB2B296D6300855113 /* ContentView.swift in Sources */,
 				63203DCD2B296D6300855113 /* Item.swift in Sources */,
+				63203DF82B29A1A400855113 /* AddAlarmView.swift in Sources */,
 				63203DC92B296D6300855113 /* amattaApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
