@@ -12,6 +12,7 @@ struct AddAlarmView: View {
     @State private var alarmName: String = ""
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
+    let weekdays = ["월", "화", "수", "목", "금", "토", "일"]
 
     var body: some View {
         NavigationView {
@@ -25,21 +26,28 @@ struct AddAlarmView: View {
                     CustomDatePicker(selection: $selectedTime)
                         .frame(maxWidth: .infinity, alignment: .center) // 프레임과 정렬
                 }
-
-
-
-
                 // 요일 선택
-                Section(header: Text("요일 선택")) {
-                    Toggle("월", isOn: $selectedWeekdays[0])
-                    Toggle("화", isOn: $selectedWeekdays[1])
-                    Toggle("수", isOn: $selectedWeekdays[2])
-                    Toggle("목", isOn: $selectedWeekdays[3])
-                    Toggle("금", isOn: $selectedWeekdays[4])
-                    Toggle("토", isOn: $selectedWeekdays[5])
-                    Toggle("일", isOn: $selectedWeekdays[6])
-                }
-
+                Section(header: Text("알림 요일 선택")) {
+                                    HStack {
+                                        ForEach(0..<weekdays.count, id: \.self) { index in
+                                            Button(action: {
+                                                withAnimation {
+                                                    self.selectedWeekdays[index].toggle()
+                                                }
+                                            }) {
+                                                Text(weekdays[index])
+                                                    .foregroundColor(selectedWeekdays[index] ? .white : .blue)
+                                                    .padding()
+                                                    .font(.system(size: 14))
+                                                    .background(selectedWeekdays[index] ? Color.blue : Color.clear)
+                                                    .clipShape(Circle())
+                                                    .overlay(
+                                                        Circle().stroke(Color.blue, lineWidth: 1)
+                                                    )
+                                            }
+                                        }
+                                    }
+                                }
                 // 소지품 추가
                 Section {
                     Button(action: {
