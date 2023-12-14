@@ -27,16 +27,16 @@ struct AddAlarmView: View {
 
 
                 Form {
-                    Section(header: Text("알림 이름").font(.headline)) {
+                    Section(header: Text("알림 이름").font(.headline).foregroundColor(Color(red: 27 / 255, green: 27 / 255, blue: 27 / 255))) {
                         TextField("알림 이름을 입력해주세요.", text: $alarmName)
                     }
 
-                    Section(header: Text("알림 시간").font(.headline)) {
+                    Section(header: Text("알림 시간").font(.headline).foregroundColor(Color(red: 27 / 255, green: 27 / 255, blue: 27 / 255))) {
                         CustomDatePicker(selection: $selectedTime)
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
 
-                    Section(header: Text("요일 선택").font(.headline)) {
+                    Section(header: Text("요일 선택").font(.headline).foregroundColor(Color(red: 27 / 255, green: 27 / 255, blue: 27 / 255))) {
                         HStack {
                             ForEach(0..<weekdays.count, id: \.self) { index in
                                 DayButton(day: weekdays[index], isSelected: $selectedWeekdays[index])
