@@ -13,42 +13,69 @@ struct AddAlarmView: View {
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
     let weekdays = ["월", "화", "수", "목", "금", "토", "일"]
+
     var body: some View {
             VStack {
                 AlarmHeaderView()
-                Form {
-                    Section(header: Text("알림 이름").font(.headline).foregroundColor(Color.primary)) {
-                        TextField("이름을 입력해주세요.", text: $alarmName)
+
+                VStack(spacing: 20) {
+                    SectionHeaderView(title: "알림 이름")
+                    CustomTextField(placeholder: "이름을 입력해주세요.", text: $alarmName)
+
+                    SectionHeaderView(title: "알림 시간")
+                    CustomDatePicker(selection: $selectedTime)
+
+                    SectionHeaderView(title: "요일 선택")
+                    HStack {
+                        ForEach(0..<weekdays.count, id: \.self) { index in
+                            DayButton(day: weekdays[index], isSelected: $selectedWeekdays[index])
+                        }
                     }
 
-                    Section(header: Text("알림 시간").font(.headline).foregroundColor(Color.primary)) {
-                        CustomDatePicker(selection: $selectedTime)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                    }
-
-                    Section(header: Text("요일 선택").font(.headline).foregroundColor(Color.primary)) {
+                    SectionHeaderView(title: "챙겨야 할 소지품")
+                    Button(action: {
+                        // 소지품 추가 기능
+                    }) {
                         HStack {
-                            ForEach(0..<weekdays.count, id: \.self) { index in
-                                DayButton(day: weekdays[index], isSelected: $selectedWeekdays[index])
-                            }
+                            Image(systemName: "plus")
+                            Text("여기를 눌러 소지품 추가")
                         }
                     }
-
-                    Section(header: Text("챙겨야 할 소지품").font(.headline).foregroundColor(Color.primary)) {
-                        Button(action: {
-                            // 소지품 추가 기능
-                        }) {
-                            HStack {
-                                Image(systemName: "plus")
-                                Text("여기를 눌러 소지품 추가")
-                            }
-                        }
-                    }
+                    .padding()
                 }
+                .padding()
             }
         }
 }
 
+struct CustomTextField: View {
+    var placeholder: String
+    @Binding var text: String
+
+    var body: some View {
+        TextField(placeholder, text: $text)
+            .padding()
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.gray, lineWidth: 1)
+            )
+    }
+}
+
+struct SectionHeaderView: View {
+    let title: String
+
+    var body: some View {
+        HStack {
+            Text(title)
+                .font(.headline)
+                .foregroundColor(.primary)
+            Spacer() // 이 Spacer가 텍스트를 왼쪽에 정렬시킴
+        }
+        .padding(.vertical, 5)
+        .padding(.leading, 25) // 왼쪽 패딩 추가
+    }
+}
 
 struct AlarmHeaderView: View {
     var body: some View {
