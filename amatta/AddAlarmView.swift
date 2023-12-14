@@ -15,12 +15,16 @@ struct AddAlarmView: View {
     let weekdays = ["월", "화", "수", "목", "금", "토", "일"]
     var body: some View {
             VStack {
-                Text("알림 추가")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                    .padding(.top, 20)
-                    .padding([.leading, .trailing], 40)
+                HStack {
+                    Text("알림 추가")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                        .padding(.top, 20)
+                        .padding([.leading, .trailing], 40)
+                        Spacer()
+                }
+
 
                 Form {
                     Section(header: Text("알림 이름").font(.headline)) {
@@ -78,6 +82,22 @@ struct DayButton: View {
         }
     }
 }
+
+struct CustomDatePicker: UIViewRepresentable {
+    @Binding var selection: Date
+
+    func makeUIView(context: Context) -> UIDatePicker {
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .time
+        datePicker.preferredDatePickerStyle = .wheels // 다이얼 스타일 지정
+        return datePicker
+    }
+
+    func updateUIView(_ uiView: UIDatePicker, context: Context) {
+        uiView.date = self.selection
+    }
+}
+
 
 // 프리뷰
 struct AddAlertView_Previews: PreviewProvider {
