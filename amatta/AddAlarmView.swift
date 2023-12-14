@@ -15,28 +15,18 @@ struct AddAlarmView: View {
     let weekdays = ["월", "화", "수", "목", "금", "토", "일"]
     var body: some View {
             VStack {
-                HStack {
-                    Text("알림 추가")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                        .padding([.leading, .trailing], 40)
-                    
-                        Spacer()
-                }
-
-
+                AlarmHeaderView()
                 Form {
-                    Section(header: Text("알림 이름").font(.headline).foregroundColor(Color(red: 27 / 255, green: 27 / 255, blue: 27 / 255))) {
-                        TextField("알림 이름을 입력해주세요.", text: $alarmName)
+                    Section(header: Text("알림 이름").font(.headline).foregroundColor(Color.primary)) {
+                        TextField("이름을 입력해주세요.", text: $alarmName)
                     }
 
-                    Section(header: Text("알림 시간").font(.headline).foregroundColor(Color(red: 27 / 255, green: 27 / 255, blue: 27 / 255))) {
+                    Section(header: Text("알림 시간").font(.headline).foregroundColor(Color.primary)) {
                         CustomDatePicker(selection: $selectedTime)
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
 
-                    Section(header: Text("요일 선택").font(.headline).foregroundColor(Color(red: 27 / 255, green: 27 / 255, blue: 27 / 255))) {
+                    Section(header: Text("요일 선택").font(.headline).foregroundColor(Color.primary)) {
                         HStack {
                             ForEach(0..<weekdays.count, id: \.self) { index in
                                 DayButton(day: weekdays[index], isSelected: $selectedWeekdays[index])
@@ -44,7 +34,7 @@ struct AddAlarmView: View {
                         }
                     }
 
-                    Section {
+                    Section(header: Text("챙겨야 할 소지품").font(.headline).foregroundColor(Color.primary)) {
                         Button(action: {
                             // 소지품 추가 기능
                         }) {
@@ -57,6 +47,21 @@ struct AddAlarmView: View {
                 }
             }
         }
+}
+
+
+struct AlarmHeaderView: View {
+    var body: some View {
+        HStack {
+            Text("알림 추가")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                .padding(.leading, 40)
+            Spacer()
+        }
+        .padding(.top, 20)
+    }
 }
 
 
