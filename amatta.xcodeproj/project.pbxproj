@@ -17,6 +17,7 @@
 		63203DF62B29951300855113 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63203DF52B29951300855113 /* Launch Screen.storyboard */; };
 		63203DF82B29A1A400855113 /* AddAlarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203DF72B29A1A400855113 /* AddAlarmView.swift */; };
 		63203DFC2B2AA68400855113 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203DFB2B2AA68400855113 /* AppDelegate.swift */; };
+		63203DFF2B2AAB2B00855113 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63203E012B2AAB2B00855113 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,8 @@
 		63203DF52B29951300855113 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		63203DF72B29A1A400855113 /* AddAlarmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlarmView.swift; sourceTree = "<group>"; };
 		63203DFB2B2AA68400855113 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		63203E002B2AAB2B00855113 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		63203E022B2AAB8C00855113 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +104,7 @@
 		63203DC72B296D6300855113 /* amatta */ = {
 			isa = PBXGroup;
 			children = (
+				63203E012B2AAB2B00855113 /* Localizable.strings */,
 				63203DFB2B2AA68400855113 /* AppDelegate.swift */,
 				63203DC82B296D6300855113 /* amattaApp.swift */,
 				63203DCA2B296D6300855113 /* ContentView.swift */,
@@ -219,11 +223,12 @@
 			};
 			buildConfigurationList = 63203DC02B296D6300855113 /* Build configuration list for PBXProject "amatta" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = 63203DBC2B296D6300855113;
 			productRefGroup = 63203DC62B296D6300855113 /* Products */;
@@ -243,6 +248,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63203DF62B29951300855113 /* Launch Screen.storyboard in Resources */,
+				63203DFF2B2AAB2B00855113 /* Localizable.strings in Resources */,
 				63203DD32B296D6400855113 /* Preview Assets.xcassets in Resources */,
 				63203DCF2B296D6400855113 /* Assets.xcassets in Resources */,
 			);
@@ -308,12 +314,25 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		63203E012B2AAB2B00855113 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				63203E002B2AAB2B00855113 /* en */,
+				63203E022B2AAB8C00855113 /* ko */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		63203DEA2B296D6400855113 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -375,6 +394,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -442,6 +462,7 @@
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -480,6 +501,7 @@
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
