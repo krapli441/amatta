@@ -10,7 +10,7 @@ import SwiftUI
 
 struct AddAlarmView: View {
     var body: some View {
-        HStack {
+        VStack {
             Text("알림")
                 .font(.largeTitle)
                 .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
