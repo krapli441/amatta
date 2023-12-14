@@ -8,18 +8,47 @@
 import Foundation
 import SwiftUI
 
-struct CustomDatePicker: UIViewRepresentable {
+struct CustomDatePicker: View {
     @Binding var selection: Date
+    @State private var isPickerPresented = false
 
-    func makeUIView(context: Context) -> UIDatePicker {
-        let datePicker = UIDatePicker()
-        datePicker.datePickerMode = .time
-        datePicker.preferredDatePickerStyle = .wheels
-        return datePicker
+    var formattedTime: String {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        return formatter.string(from: selection)
     }
 
-    func updateUIView(_ uiView: UIDatePicker, context: Context) {
-        uiView.date = self.selection
+    var body: some View {
+        Button(action: {
+            self.isPickerPresented = true
+        }) {
+            HStack {
+                Spacer()
+                Text(formattedTime)
+                    .foregroundColor(.black)
+                Spacer()
+            }
+            .padding()
+            .frame(maxWidth: 350) // 최대 너비 설정
+            .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255)) // 배경색 설정
+            .cornerRadius(10)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.gray, lineWidth: 1)
+            )
+        }
+        .sheet(isPresented: $isPickerPresented) {
+            VStack {
+                DatePicker("", selection: $selection, displayedComponents: .hourAndMinute)
+                    .datePickerStyle(WheelDatePickerStyle())
+                    .labelsHidden()
+                Button("완료") {
+                    self.isPickerPresented = false
+                }
+                .padding()
+            }
+            .presentationDetents([.fraction(0.35)])
+        }
     }
 }
 
