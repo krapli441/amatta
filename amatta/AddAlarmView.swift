@@ -48,19 +48,19 @@ struct AddAlarmView: View {
                 DayButton(day: weekdays[index], isSelected: $selectedWeekdays[index])
             }
         }
-        .frame(maxWidth: 320)
+        .frame(maxWidth: 320, maxHeight: 15)
         .commonInputStyle(colorScheme: colorScheme)
     }
 
     private func itemsToBringSection() -> some View {
-        SectionHeaderView(title: "챙겨야 할 소지품")
+        SectionHeaderView(title: "챙겨야 할 것들")
     }
 
     private func addItemButton() -> some View {
         Button(action: { /* 소지품 추가 기능 */ }) {
             HStack {
                 Image(systemName: "plus")
-                Text("여기를 눌러 소지품 추가")
+                Text("여기를 눌러 물건 추가")
             }
         }
         .frame(maxWidth: 320)
