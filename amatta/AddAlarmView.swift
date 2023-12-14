@@ -20,7 +20,7 @@ struct AddAlarmView: View {
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                        .padding(.top, 20)
+//                        .padding(.top, 20)
                         .padding([.leading, .trailing], 40)
                         Spacer()
                 }
