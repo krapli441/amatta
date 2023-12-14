@@ -33,6 +33,7 @@ struct AddAlarmView: View {
                             ForEach(0..<weekdays.count, id: \.self) { index in
                                 DayButton(day: weekdays[index], isSelected: $selectedWeekdays[index])
                             }
+                            
                         }
                         .frame(maxWidth: 350) // 박스의 너비를 350으로 설정
                                         .overlay(
