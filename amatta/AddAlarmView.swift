@@ -17,7 +17,7 @@ struct AddAlarmView: View {
     var body: some View {
             VStack {
                 AlarmHeaderView()
-                VStack(spacing: 20) {
+                VStack(spacing: 12) {
                     SectionHeaderView(title: "알림 이름")
                     CustomTextField(placeholder: "이름을 입력해주세요.", text: $alarmName)
                         .frame(maxWidth: 350)
@@ -46,14 +46,25 @@ struct AddAlarmView: View {
                             Text("여기를 눌러 소지품 추가")
                         }
                     }
-                    .padding()
-                    .frame(maxWidth: 350) // 너비 설정
+                    .frame(maxWidth: 350, maxHeight:50) // 너비 설정
                     .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255))
                     .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                     .cornerRadius(10)
                     .overlay(RoundedRectangle(cornerRadius: 10)
                     .stroke(Color.gray, lineWidth: 1)
                     )
+                    Button(action: {
+                                       // 나중에 추가될 기능
+                                   }) {
+                    Text("추가")
+                    .foregroundColor(.white)
+                    .frame(maxWidth: 320)
+                    .padding()
+                    .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                    .cornerRadius(10)
+                }
+                .padding(.top, 12)
+                    
                 }
                 .padding()
             }
