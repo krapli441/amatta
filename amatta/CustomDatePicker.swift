@@ -29,14 +29,14 @@ struct CustomDatePicker: View {
                     .foregroundColor(.primary)
                 Spacer()
             }
-            .padding()
+//            .padding()
             .frame(maxWidth: 350) // 최대 너비 설정
-            .background(colorScheme == .dark ? Color(white: 0.2) : Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255))
-            .cornerRadius(10)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.gray, lineWidth: 1)
-            )
+//            .background(colorScheme == .dark ? Color(white: 0.2) : Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255))
+//            .cornerRadius(10)
+//            .overlay(
+//                RoundedRectangle(cornerRadius: 10)
+//                    .stroke(Color.gray, lineWidth: 1)
+//            )
         }
         .sheet(isPresented: $isPickerPresented) {
             VStack {
