@@ -18,6 +18,11 @@
 		63203DF82B29A1A400855113 /* AddAlarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203DF72B29A1A400855113 /* AddAlarmView.swift */; };
 		63203DFC2B2AA68400855113 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203DFB2B2AA68400855113 /* AppDelegate.swift */; };
 		63203DFF2B2AAB2B00855113 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63203E012B2AAB2B00855113 /* Localizable.strings */; };
+		63203E042B2AC61700855113 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203E032B2AC61700855113 /* CustomTextField.swift */; };
+		63203E062B2AC62E00855113 /* DayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203E052B2AC62E00855113 /* DayButton.swift */; };
+		63203E082B2AC63B00855113 /* CustomDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203E072B2AC63B00855113 /* CustomDatePicker.swift */; };
+		63203E0A2B2AC64700855113 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203E092B2AC64700855113 /* SectionHeaderView.swift */; };
+		63203E0C2B2AC65500855113 /* AlarmHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203E0B2B2AC65500855113 /* AlarmHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +59,11 @@
 		63203DFB2B2AA68400855113 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63203E002B2AAB2B00855113 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		63203E022B2AAB8C00855113 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		63203E032B2AC61700855113 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		63203E052B2AC62E00855113 /* DayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayButton.swift; sourceTree = "<group>"; };
+		63203E072B2AC63B00855113 /* CustomDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePicker.swift; sourceTree = "<group>"; };
+		63203E092B2AC64700855113 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
+		63203E0B2B2AC65500855113 /* AlarmHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +114,7 @@
 		63203DC72B296D6300855113 /* amatta */ = {
 			isa = PBXGroup;
 			children = (
+				63203E032B2AC61700855113 /* CustomTextField.swift */,
 				63203E012B2AAB2B00855113 /* Localizable.strings */,
 				63203DFB2B2AA68400855113 /* AppDelegate.swift */,
 				63203DC82B296D6300855113 /* amattaApp.swift */,
@@ -113,6 +124,10 @@
 				63203DD12B296D6400855113 /* Preview Content */,
 				63203DF52B29951300855113 /* Launch Screen.storyboard */,
 				63203DF72B29A1A400855113 /* AddAlarmView.swift */,
+				63203E052B2AC62E00855113 /* DayButton.swift */,
+				63203E072B2AC63B00855113 /* CustomDatePicker.swift */,
+				63203E092B2AC64700855113 /* SectionHeaderView.swift */,
+				63203E0B2B2AC65500855113 /* AlarmHeaderView.swift */,
 			);
 			path = amatta;
 			sourceTree = "<group>";
@@ -278,7 +293,12 @@
 				63203DFC2B2AA68400855113 /* AppDelegate.swift in Sources */,
 				63203DCB2B296D6300855113 /* ContentView.swift in Sources */,
 				63203DF82B29A1A400855113 /* AddAlarmView.swift in Sources */,
+				63203E0A2B2AC64700855113 /* SectionHeaderView.swift in Sources */,
 				63203DC92B296D6300855113 /* amattaApp.swift in Sources */,
+				63203E062B2AC62E00855113 /* DayButton.swift in Sources */,
+				63203E0C2B2AC65500855113 /* AlarmHeaderView.swift in Sources */,
+				63203E082B2AC63B00855113 /* CustomDatePicker.swift in Sources */,
+				63203E042B2AC61700855113 /* CustomTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
