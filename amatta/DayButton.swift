@@ -25,7 +25,7 @@ struct DayButton: View {
 
     var body: some View {
         Button(action: {
-            withAnimation(.easeInOut(duration: 0.3)) {
+            withAnimation(.easeInOut(duration: 0)) {
                 isSelected.toggle()
             }
         }) {

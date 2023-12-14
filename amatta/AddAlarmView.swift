@@ -26,7 +26,7 @@ struct AddAlarmView: View {
                     CustomDatePicker(selection: $selectedTime)
 
                     SectionHeaderView(title: "요일 선택")
-                    HStack {
+                    HStack(spacing: -2) {
                         ForEach(0..<weekdays.count, id: \.self) { index in
                             DayButton(day: weekdays[index], isSelected: $selectedWeekdays[index])
                         }
