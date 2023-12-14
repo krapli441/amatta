@@ -13,7 +13,7 @@ struct AddAlarmView: View {
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
     @Environment(\.colorScheme) var colorScheme
-    let weekdays = ["일","월", "화", "수", "목", "금", "토"]
+    let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
 
     var body: some View {
         VStack {
@@ -23,6 +23,7 @@ struct AddAlarmView: View {
                     inputSection(title: "알림 이름", content: CustomTextField(placeholder: "이름을 입력해주세요.", text: $alarmName))
                     inputSection(title: "알림 시간", content: CustomDatePicker(selection: $selectedTime))
                     daySelectionSection()
+                    itemsToBringSection()
                     addItemButton()
                 }
             }
@@ -31,11 +32,6 @@ struct AddAlarmView: View {
         .onTapGesture { hideKeyboard() }
     }
 
-    private func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-
-    // 별도의 뷰나 메서드로 섹션 생성
     @ViewBuilder
     private func inputSection<Content: View>(title: String, content: Content) -> some View {
         SectionHeaderView(title: title)
@@ -52,9 +48,12 @@ struct AddAlarmView: View {
                 DayButton(day: weekdays[index], isSelected: $selectedWeekdays[index])
             }
         }
-        .frame(maxWidth: 320, maxHeight: 20)
-    
+        .frame(maxWidth: 320)
         .commonInputStyle(colorScheme: colorScheme)
+    }
+
+    private func itemsToBringSection() -> some View {
+        SectionHeaderView(title: "챙겨야 할 소지품")
     }
 
     private func addItemButton() -> some View {
@@ -78,6 +77,10 @@ struct AddAlarmView: View {
             .cornerRadius(10)
         }
     }
+
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 }
 
 extension View {
@@ -93,13 +96,9 @@ extension View {
     }
 }
 
-    private func hideKeyboard() {
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-        }
-
-// 프리뷰
 struct AddAlertView_Previews: PreviewProvider {
     static var previews: some View {
         AddAlarmView()
     }
 }
+
