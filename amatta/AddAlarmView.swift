@@ -17,10 +17,10 @@ struct AddAlarmView: View {
     var body: some View {
             VStack {
                 AlarmHeaderView()
-
                 VStack(spacing: 20) {
                     SectionHeaderView(title: "알림 이름")
                     CustomTextField(placeholder: "이름을 입력해주세요.", text: $alarmName)
+                        .frame(maxWidth: 350)
 
                     SectionHeaderView(title: "알림 시간")
                     CustomDatePicker(selection: $selectedTime)
