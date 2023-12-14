@@ -12,20 +12,30 @@ struct DayButton: View {
     var day: String
     @Binding var isSelected: Bool
 
+    var textColor: Color {
+        switch day {
+        case "토":
+            return .blue
+        case "일":
+            return .red
+        default:
+            return .black
+        }
+    }
+
     var body: some View {
         Button(action: {
-            withAnimation {
+            withAnimation(.easeInOut(duration: 0.3)) {
                 isSelected.toggle()
             }
         }) {
             Text(day)
-                .foregroundColor(isSelected ? .white : .blue)
+                .foregroundColor(textColor)
                 .padding()
                 .font(.system(size: 14))
-                .background(isSelected ? Color.blue : Color.clear)
-                .clipShape(Circle())
                 .overlay(
-                    Circle().stroke(Color.blue, lineWidth: 1)
+                    isSelected ? Circle().stroke(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255), lineWidth: 2)
+                                .frame(width: 30, height: 30) : nil
                 )
         }
     }
@@ -36,3 +46,5 @@ struct DayButton_Previews: PreviewProvider {
         DayButton(day: "월", isSelected: .constant(true))
     }
 }
+
+

@@ -12,7 +12,7 @@ struct AddAlarmView: View {
     @State private var alarmName: String = ""
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
-    let weekdays = ["월", "화", "수", "목", "금", "토", "일"]
+    let weekdays = ["일","월", "화", "수", "목", "금", "토"]
 
     var body: some View {
             VStack {
@@ -31,6 +31,11 @@ struct AddAlarmView: View {
                             DayButton(day: weekdays[index], isSelected: $selectedWeekdays[index])
                         }
                     }
+                    .frame(maxWidth: 350) // 박스의 너비를 350으로 설정
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.gray, lineWidth: 1)
+                                    )
 
                     SectionHeaderView(title: "챙겨야 할 소지품")
                     Button(action: {
