@@ -19,9 +19,8 @@ struct ContentView: View {
                         .font(.largeTitle)
                         .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-
-                        .padding()
-
+                        .padding([.leading, .trailing], 40)
+                        .padding(.top, 20)
 
                     Spacer()
 
@@ -30,7 +29,8 @@ struct ContentView: View {
                     }) {
                         Image(systemName: "gear")
                             .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                            .padding()
+                            .padding([.leading, .trailing], 40)
+                            .padding(.top, 20)
                     }
                 }
 
