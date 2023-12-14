@@ -19,7 +19,7 @@ struct DayButton: View {
         case "일":
             return .red
         default:
-            return .black
+            return Color.primary
         }
     }
 

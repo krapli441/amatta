@@ -47,6 +47,13 @@ struct AddAlarmView: View {
                         }
                     }
                     .padding()
+                    .frame(maxWidth: 350) // 너비 설정
+                    .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255))
+                    .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                    .cornerRadius(10)
+                    .overlay(RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.gray, lineWidth: 1)
+                    )
                 }
                 .padding()
             }
