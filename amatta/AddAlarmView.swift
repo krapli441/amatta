@@ -68,6 +68,12 @@ struct AddAlarmView: View {
                 .cornerRadius(10)
             }
             }
+            .onTapGesture {
+                        self.hideKeyboard()
+                    }
+        }
+    private func hideKeyboard() {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
 }
 // 프리뷰
