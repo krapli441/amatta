@@ -14,11 +14,14 @@ struct CustomTextField: View {
 
     var body: some View {
         TextField(placeholder, text: $text)
-            .padding()
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.gray, lineWidth: 1)
-            )
+                    .multilineTextAlignment(.center) // 텍스트를 가운데로 정렬
+                    .padding()
+                    .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255)) // 배경색 설정
+                    .cornerRadius(10) // 배경색 라운드 코너 적용
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
     }
 }
 
