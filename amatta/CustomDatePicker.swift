@@ -11,6 +11,7 @@ import SwiftUI
 struct CustomDatePicker: View {
     @Binding var selection: Date
     @State private var isPickerPresented = false
+    @Environment(\.colorScheme) var colorScheme
 
     var formattedTime: String {
         let formatter = DateFormatter()
@@ -25,12 +26,12 @@ struct CustomDatePicker: View {
             HStack {
                 Spacer()
                 Text(formattedTime)
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
                 Spacer()
             }
             .padding()
             .frame(maxWidth: 350) // 최대 너비 설정
-            .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255)) // 배경색 설정
+            .background(colorScheme == .dark ? Color(white: 0.2) : Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255))
             .cornerRadius(10)
             .overlay(
                 RoundedRectangle(cornerRadius: 10)

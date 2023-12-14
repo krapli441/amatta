@@ -12,7 +12,9 @@ struct AddAlarmView: View {
     @State private var alarmName: String = ""
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
+    @Environment(\.colorScheme) var colorScheme
     let weekdays = ["일","월", "화", "수", "목", "금", "토"]
+
 
     var body: some View {
             VStack {
@@ -49,8 +51,8 @@ struct AddAlarmView: View {
                         }
                         .frame(maxWidth: 350)
                         .padding(.vertical, 15)
-                        .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255))
-                        .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                        .background(colorScheme == .dark ? Color(white: 0.2) : Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255))
+                        .foregroundColor(.gray)
                         .cornerRadius(10)
                         .overlay(RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.gray, lineWidth: 1)
