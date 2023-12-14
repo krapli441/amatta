@@ -15,7 +15,7 @@ struct AlarmHeaderView: View {
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                .padding(.leading, 40)
+                .padding(.leading, 35)
             Spacer()
         }
         .padding(.top, 20)

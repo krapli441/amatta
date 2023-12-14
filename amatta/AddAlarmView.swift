@@ -17,56 +17,56 @@ struct AddAlarmView: View {
     var body: some View {
             VStack {
                 AlarmHeaderView()
-                VStack(spacing: 12) {
-                    SectionHeaderView(title: "알림 이름")
-                    CustomTextField(placeholder: "이름을 입력해주세요.", text: $alarmName)
+                ScrollView{
+                    VStack(spacing: 12) {
+                        SectionHeaderView(title: "알림 이름")
+                        CustomTextField(placeholder: "이름을 입력해주세요.", text: $alarmName)
+                            .frame(maxWidth: 350)
+
+                        SectionHeaderView(title: "알림 시간")
+                        CustomDatePicker(selection: $selectedTime)
+
+                        SectionHeaderView(title: "요일 선택")
+                        HStack(spacing: -2) {
+                            ForEach(0..<weekdays.count, id: \.self) { index in
+                                DayButton(day: weekdays[index], isSelected: $selectedWeekdays[index])
+                            }
+                        }
+                        .frame(maxWidth: 350) // 박스의 너비를 350으로 설정
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .stroke(Color.gray, lineWidth: 1)
+                                        )
+
+                        SectionHeaderView(title: "챙겨야 할 소지품")
+                        Button(action: {
+                            // 소지품 추가 기능
+                        }) {
+                            HStack {
+                                Image(systemName: "plus")
+                                Text("여기를 눌러 소지품 추가")
+                            }
+                        }
                         .frame(maxWidth: 350)
-
-                    SectionHeaderView(title: "알림 시간")
-                    CustomDatePicker(selection: $selectedTime)
-
-                    SectionHeaderView(title: "요일 선택")
-                    HStack(spacing: -2) {
-                        ForEach(0..<weekdays.count, id: \.self) { index in
-                            DayButton(day: weekdays[index], isSelected: $selectedWeekdays[index])
-                        }
+                        .padding(.vertical, 15)
+                        .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255))
+                        .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                        .cornerRadius(10)
+                        .overlay(RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.gray, lineWidth: 1)
+                        )
                     }
-                    .frame(maxWidth: 350) // 박스의 너비를 350으로 설정
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(Color.gray, lineWidth: 1)
-                                    )
-
-                    SectionHeaderView(title: "챙겨야 할 소지품")
-                    Button(action: {
-                        // 소지품 추가 기능
-                    }) {
-                        HStack {
-                            Image(systemName: "plus")
-                            Text("여기를 눌러 소지품 추가")
-                        }
-                    }
-                    .frame(maxWidth: 350, maxHeight:50) // 너비 설정
-                    .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255))
-                    .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                    .cornerRadius(10)
-                    .overlay(RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.gray, lineWidth: 1)
-                    )
-                    Button(action: {
-                                       // 나중에 추가될 기능
-                                   }) {
-                    Text("추가")
-                    .foregroundColor(.white)
-                    .frame(maxWidth: 320)
-                    .padding()
-                    .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                    .cornerRadius(10)
                 }
-                .padding(.top, 12)
-                    
-                }
+                Button(action: {
+                                   // 나중에 추가될 기능
+                               }) {
+                Text("추가")
+                .foregroundColor(.white)
+                .frame(maxWidth: 320)
                 .padding()
+                .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                .cornerRadius(10)
+            }
             }
         }
 }
