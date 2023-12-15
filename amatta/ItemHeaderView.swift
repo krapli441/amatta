@@ -11,11 +11,11 @@ import SwiftUI
 struct ItemHeaderView: View {
     var body: some View {
         HStack {
-            Text("소지품 추가")
+            Text("물건 추가")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                .padding(.leading, 35)
+                .padding(.leading, 45)
             Spacer()
         }
         .padding(.top, 20)
