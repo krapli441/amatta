@@ -24,10 +24,6 @@
 		63203E0A2B2AC64700855113 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203E092B2AC64700855113 /* SectionHeaderView.swift */; };
 		63203E0C2B2AC65500855113 /* AlarmHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203E0B2B2AC65500855113 /* AlarmHeaderView.swift */; };
 		637C303F2B2BEF050006812D /* AlarmData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 637C303D2B2BEF050006812D /* AlarmData.xcdatamodeld */; };
-		63AAADC42B2C13B600714F0E /* UserAlarm+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AAADC02B2C13B600714F0E /* UserAlarm+CoreDataClass.swift */; };
-		63AAADC52B2C13B600714F0E /* UserAlarm+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AAADC12B2C13B600714F0E /* UserAlarm+CoreDataProperties.swift */; };
-		63AAADC62B2C13B600714F0E /* UserItems+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AAADC22B2C13B600714F0E /* UserItems+CoreDataClass.swift */; };
-		63AAADC72B2C13B600714F0E /* UserItems+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AAADC32B2C13B600714F0E /* UserItems+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,10 +66,6 @@
 		63203E092B2AC64700855113 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		63203E0B2B2AC65500855113 /* AlarmHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmHeaderView.swift; sourceTree = "<group>"; };
 		637C303E2B2BEF050006812D /* AlarmData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AlarmData.xcdatamodel; sourceTree = "<group>"; };
-		63AAADC02B2C13B600714F0E /* UserAlarm+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserAlarm+CoreDataClass.swift"; sourceTree = "<group>"; };
-		63AAADC12B2C13B600714F0E /* UserAlarm+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserAlarm+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		63AAADC22B2C13B600714F0E /* UserItems+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserItems+CoreDataClass.swift"; sourceTree = "<group>"; };
-		63AAADC32B2C13B600714F0E /* UserItems+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserItems+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,10 +96,6 @@
 		63203DBC2B296D6300855113 = {
 			isa = PBXGroup;
 			children = (
-				63AAADC02B2C13B600714F0E /* UserAlarm+CoreDataClass.swift */,
-				63AAADC12B2C13B600714F0E /* UserAlarm+CoreDataProperties.swift */,
-				63AAADC22B2C13B600714F0E /* UserItems+CoreDataClass.swift */,
-				63AAADC32B2C13B600714F0E /* UserItems+CoreDataProperties.swift */,
 				63203DC72B296D6300855113 /* amatta */,
 				63203DDB2B296D6400855113 /* amattaTests */,
 				63203DE52B296D6400855113 /* amattaUITests */,
@@ -309,16 +297,12 @@
 				63203DCB2B296D6300855113 /* ContentView.swift in Sources */,
 				63203DF82B29A1A400855113 /* AddAlarmView.swift in Sources */,
 				63203E0A2B2AC64700855113 /* SectionHeaderView.swift in Sources */,
-				63AAADC62B2C13B600714F0E /* UserItems+CoreDataClass.swift in Sources */,
-				63AAADC72B2C13B600714F0E /* UserItems+CoreDataProperties.swift in Sources */,
-				63AAADC52B2C13B600714F0E /* UserAlarm+CoreDataProperties.swift in Sources */,
 				63203DC92B296D6300855113 /* amattaApp.swift in Sources */,
 				63203E062B2AC62E00855113 /* DayButton.swift in Sources */,
 				63203E0C2B2AC65500855113 /* AlarmHeaderView.swift in Sources */,
 				637C303F2B2BEF050006812D /* AlarmData.xcdatamodeld in Sources */,
 				63203E082B2AC63B00855113 /* CustomDatePicker.swift in Sources */,
 				63203E042B2AC61700855113 /* CustomTextField.swift in Sources */,
-				63AAADC42B2C13B600714F0E /* UserAlarm+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

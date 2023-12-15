@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22222" systemVersion="23B81" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
-    <entity name="UserAlarm" representedClassName="UserAlarm" syncable="YES" codeGenerationType="class">
+    <entity name="UserAlarm" representedClassName="UserAlarm" syncable="YES" codeGenerationType="category">
         <attribute name="friday" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="monday" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
@@ -12,7 +12,7 @@
         <attribute name="wednesday" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserItems" inverseName="alarm" inverseEntity="UserItems"/>
     </entity>
-    <entity name="UserItems" representedClassName="UserItems" syncable="YES" codeGenerationType="class">
+    <entity name="UserItems" representedClassName="UserItems" syncable="YES" codeGenerationType="category">
         <attribute name="importance" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="isContainer" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
