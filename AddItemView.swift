@@ -12,6 +12,7 @@ struct AddItemView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var itemName: String = ""
     @State private var canContainOtherItems: Bool = false
+    @State private var importance: Float = 1
 
     var body: some View {
         VStack {
@@ -40,6 +41,18 @@ struct AddItemView: View {
                     }
                     .frame(maxWidth: 320)
                     
+                    if canContainOtherItems {
+                    SectionHeaderView(title: "그 안에 무엇이 들어가나요?")
+                    Button("여기를 눌러 물건 추가") {
+                    // 물건 추가 로직
+                    }
+                    .transition(.opacity)
+                                        }
+                    SectionHeaderView(title: "얼마나 중요한 물건인가요?")
+                    Slider(value: $importance, in: 1...10, step: 1)
+                    .frame(maxWidth: 320)
+                    .commonInputStyle(colorScheme: colorScheme)
+                    .accentColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                     // 여기에 나머지 뷰 구성 요소 추가
                 }
             }
@@ -63,15 +76,10 @@ struct ChoiceButtonStyle: ButtonStyle {
     }
 }
 
+
+
 struct AddItemView_Previews: PreviewProvider {
     static var previews: some View {
         AddItemView()
     }
 }
-
-
-
-
-
-
-
