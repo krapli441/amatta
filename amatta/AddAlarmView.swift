@@ -62,8 +62,10 @@ struct AddAlarmView: View {
             showingAddItemView = true
         }) {
             HStack {
-                Image(systemName: "plus")
+                Image(systemName: "plus") // 아이콘 추가
+                    .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255)) // 아이콘 색상 설정
                 Text("여기를 눌러 물건 추가")
+                    .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
             }
         }
         .sheet(isPresented: $showingAddItemView) {
