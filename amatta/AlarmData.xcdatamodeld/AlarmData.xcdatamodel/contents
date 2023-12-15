@@ -17,5 +17,7 @@
         <attribute name="isContainer" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
         <relationship name="alarm" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Alarm" inverseName="items" inverseEntity="Alarm"/>
+        <relationship name="children" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Items" inverseName="parent" inverseEntity="Items"/>
+        <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Items" inverseName="children" inverseEntity="Items"/>
     </entity>
 </model>
