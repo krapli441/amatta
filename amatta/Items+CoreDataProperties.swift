@@ -16,7 +16,7 @@ extension Items {
         return NSFetchRequest<Items>(entityName: "Items")
     }
 
-    @NSManaged public var importance: Int16
+    @NSManaged public var importance: Float
     @NSManaged public var isContainer: Bool
     @NSManaged public var name: String?
     @NSManaged public var alarm: Alarm?
