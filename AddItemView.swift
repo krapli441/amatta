@@ -57,6 +57,7 @@ struct AddItemView: View {
             addButton()
             // 추가적인 버튼이나 기능을 여기에 추가
         }
+        .onTapGesture { hideKeyboard() }
         .animation(.easeInOut, value: canContainOtherItems)
     }
 
@@ -84,6 +85,10 @@ struct AddItemView: View {
             .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
             .cornerRadius(10)
         }
+    }
+    
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
     
 }
