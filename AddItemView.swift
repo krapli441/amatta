@@ -58,8 +58,9 @@ struct AddItemView: View {
             }
             // 추가적인 버튼이나 기능을 여기에 추가
         }
-        // 스타일 또는 레이아웃 조정
+        .animation(.easeInOut, value: canContainOtherItems)
     }
+
 }
 
 // 선택 버튼 스타일
