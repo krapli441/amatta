@@ -54,14 +54,15 @@ struct AddItemView: View {
                                    )
                                    .frame(width: 325) // 여백을 고려하여 너비를 조정
 
-                               Button(action: {
-                                   items.remove(at: index)
-                               }) {
-                                   Image(systemName: "minus.circle")
-                                       .foregroundColor(.red)
-                               }
+                            Button(action: {
+                                removeItem(at: index)
+                            }) {
+                                Image(systemName: "minus.circle")
+                                    .foregroundColor(.red)
+                            }
                            }
-                                        }
+                        .transition(.opacity)
+                        }
                     addItemButton()
                     .transition(.opacity)
                                         }
@@ -79,11 +80,19 @@ struct AddItemView: View {
         .onTapGesture { hideKeyboard() }
         .animation(.easeInOut, value: canContainOtherItems)
     }
+    
+    private func removeItem(at index: Int) {
+        withAnimation(.easeInOut) {
+            items.remove(at: index)
+        }
+    }
 
     private func addItemButton() -> some View {
-            Button(action: {
+        Button(action: {
+            withAnimation {
                 items.append("")
-            }) {
+            }
+        }) {
                 HStack {
                     Image(systemName: "plus") // 아이콘 추가
                         .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255)) // 아이콘 색상 설정
