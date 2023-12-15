@@ -12,6 +12,7 @@ struct AddAlarmView: View {
     @State private var alarmName: String = ""
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
+    @State private var showingAddItemView = false
     @Environment(\.colorScheme) var colorScheme
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
 
@@ -57,12 +58,17 @@ struct AddAlarmView: View {
     }
 
     private func addItemButton() -> some View {
-        Button(action: { /* 소지품 추가 기능 */ }) {
+        Button(action: {
+            showingAddItemView = true
+        }) {
             HStack {
                 Image(systemName: "plus")
                 Text("여기를 눌러 물건 추가")
             }
         }
+        .sheet(isPresented: $showingAddItemView) {
+                        AddItemView()
+                    }
         .frame(maxWidth: 320)
         .commonInputStyle(colorScheme: colorScheme)
     }
