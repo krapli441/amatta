@@ -56,11 +56,23 @@ struct AddItemView: View {
                     // 여기에 나머지 뷰 구성 요소 추가
                 }
             }
+            addButton()
             // 추가적인 버튼이나 기능을 여기에 추가
         }
         .animation(.easeInOut, value: canContainOtherItems)
     }
 
+    private func addButton() -> some View {
+        Button(action: { /* 추가될 기능 */ }) {
+            Text("추가")
+            .foregroundColor(.white)
+            .frame(maxWidth: 320)
+            .padding()
+            .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+            .cornerRadius(10)
+        }
+    }
+    
 }
 
 // 선택 버튼 스타일
