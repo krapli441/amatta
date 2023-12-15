@@ -43,9 +43,7 @@ struct AddItemView: View {
                     
                     if canContainOtherItems {
                     SectionHeaderView(title: "그 안에 무엇이 들어가나요?")
-                    Button("여기를 눌러 물건 추가") {
-                    // 물건 추가 로직
-                    }
+                    addItemButton()
                     .transition(.opacity)
                                         }
                     SectionHeaderView(title: "얼마나 중요한 물건인가요?")
@@ -62,6 +60,21 @@ struct AddItemView: View {
         .animation(.easeInOut, value: canContainOtherItems)
     }
 
+    private func addItemButton() -> some View {
+            Button(action: {
+                // 물건 추가 로직
+            }) {
+                HStack {
+                    Image(systemName: "plus") // 아이콘 추가
+                        .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255)) // 아이콘 색상 설정
+                    Text("여기를 눌러 물건 추가")
+                        .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                }
+                .frame(maxWidth: 320)
+                .commonInputStyle(colorScheme: colorScheme)
+            }
+        }
+    
     private func addButton() -> some View {
         Button(action: { /* 추가될 기능 */ }) {
             Text("추가")
