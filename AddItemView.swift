@@ -13,6 +13,7 @@ struct AddItemView: View {
     @State private var itemName: String = ""
     @State private var canContainOtherItems: Bool = false
     @State private var importance: Float = 1
+    @State private var items: [String] = []
 
     var body: some View {
         VStack {
@@ -43,6 +44,24 @@ struct AddItemView: View {
                     
                     if canContainOtherItems {
                     SectionHeaderView(title: "그 안에 무엇이 들어가나요?")
+                    ForEach(items.indices, id: \.self) { index in
+                        HStack {
+                               TextField("이름", text: $items[index])
+                                   .padding(10)
+                                   .overlay(
+                                       RoundedRectangle(cornerRadius: 10)
+                                           .stroke(Color.gray, lineWidth: 1)
+                                   )
+                                   .frame(width: 325) // 여백을 고려하여 너비를 조정
+
+                               Button(action: {
+                                   items.remove(at: index)
+                               }) {
+                                   Image(systemName: "minus.circle")
+                                       .foregroundColor(.red)
+                               }
+                           }
+                                        }
                     addItemButton()
                     .transition(.opacity)
                                         }
@@ -63,12 +82,12 @@ struct AddItemView: View {
 
     private func addItemButton() -> some View {
             Button(action: {
-                // 물건 추가 로직
+                items.append("")
             }) {
                 HStack {
                     Image(systemName: "plus") // 아이콘 추가
                         .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255)) // 아이콘 색상 설정
-                    Text("여기를 눌러 물건 추가")
+                    Text("물건 추가")
                         .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                 }
                 .frame(maxWidth: 320)
