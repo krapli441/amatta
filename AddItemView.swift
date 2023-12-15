@@ -11,6 +11,7 @@ import SwiftUI
 struct AddItemView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) var managedObjectContext
+    @Environment(\.presentationMode) var presentationMode
     @State private var itemName: String = ""
     @State private var canContainOtherItems: Bool = false
     @State private var importance: Float = 1
@@ -130,8 +131,9 @@ struct AddItemView: View {
 
         do {
             try managedObjectContext.save()
-        } catch {
-            // 에러 처리 로직
+            print("저장 성공: \(newItem)")
+            presentationMode.wrappedValue.dismiss()
+            } catch {
             print("저장 실패: \(error.localizedDescription)")
         }
     }
