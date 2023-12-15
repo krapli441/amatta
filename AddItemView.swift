@@ -10,6 +10,7 @@ import SwiftUI
 
 struct AddItemView: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.managedObjectContext) var managedObjectContext
     @State private var itemName: String = ""
     @State private var canContainOtherItems: Bool = false
     @State private var importance: Float = 1
@@ -86,7 +87,7 @@ struct AddItemView: View {
             items.remove(at: index)
         }
     }
-
+    
 
     private func addItemButton() -> some View {
         Button(action: {
@@ -106,7 +107,9 @@ struct AddItemView: View {
         }
     
     private func addButton() -> some View {
-        Button(action: { /* 추가될 기능 */ }) {
+        Button(action: {
+            saveItem()
+        }) {
             Text("추가")
             .foregroundColor(.white)
             .frame(maxWidth: 320)
@@ -115,6 +118,24 @@ struct AddItemView: View {
             .cornerRadius(10)
         }
     }
+    
+    private func saveItem() {
+        let newItem = Items(context: managedObjectContext)
+        newItem.name = itemName
+        newItem.importance = importance
+        newItem.isContainer = canContainOtherItems
+
+        // 여기에서 children 아이템들을 추가하는 로직을 구현할 수 있습니다.
+        // 예: newItem.children = ...
+
+        do {
+            try managedObjectContext.save()
+        } catch {
+            // 에러 처리 로직
+            print("저장 실패: \(error.localizedDescription)")
+        }
+    }
+
     
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
