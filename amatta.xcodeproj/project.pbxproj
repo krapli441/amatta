@@ -23,6 +23,7 @@
 		63203E082B2AC63B00855113 /* CustomDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203E072B2AC63B00855113 /* CustomDatePicker.swift */; };
 		63203E0A2B2AC64700855113 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203E092B2AC64700855113 /* SectionHeaderView.swift */; };
 		63203E0C2B2AC65500855113 /* AlarmHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203E0B2B2AC65500855113 /* AlarmHeaderView.swift */; };
+		637C303F2B2BEF050006812D /* AlarmData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 637C303D2B2BEF050006812D /* AlarmData.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		63203E072B2AC63B00855113 /* CustomDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePicker.swift; sourceTree = "<group>"; };
 		63203E092B2AC64700855113 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		63203E0B2B2AC65500855113 /* AlarmHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmHeaderView.swift; sourceTree = "<group>"; };
+		637C303E2B2BEF050006812D /* AlarmData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AlarmData.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 				63203E032B2AC61700855113 /* CustomTextField.swift */,
 				63203E012B2AAB2B00855113 /* Localizable.strings */,
 				63203DFB2B2AA68400855113 /* AppDelegate.swift */,
+				637C303D2B2BEF050006812D /* AlarmData.xcdatamodeld */,
 				63203DC82B296D6300855113 /* amattaApp.swift */,
 				63203DCA2B296D6300855113 /* ContentView.swift */,
 				63203DCE2B296D6400855113 /* Assets.xcassets */,
@@ -297,6 +300,7 @@
 				63203DC92B296D6300855113 /* amattaApp.swift in Sources */,
 				63203E062B2AC62E00855113 /* DayButton.swift in Sources */,
 				63203E0C2B2AC65500855113 /* AlarmHeaderView.swift in Sources */,
+				637C303F2B2BEF050006812D /* AlarmData.xcdatamodeld in Sources */,
 				63203E082B2AC63B00855113 /* CustomDatePicker.swift in Sources */,
 				63203E042B2AC61700855113 /* CustomTextField.swift in Sources */,
 			);
@@ -671,6 +675,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		637C303D2B2BEF050006812D /* AlarmData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				637C303E2B2BEF050006812D /* AlarmData.xcdatamodel */,
+			);
+			currentVersion = 637C303E2B2BEF050006812D /* AlarmData.xcdatamodel */;
+			path = AlarmData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 63203DBD2B296D6300855113 /* Project object */;
 }
