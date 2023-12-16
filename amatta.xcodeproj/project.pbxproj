@@ -108,10 +108,6 @@
 		63203DBC2B296D6300855113 = {
 			isa = PBXGroup;
 			children = (
-				63AAADE62B2C4A5900714F0E /* Alarm+CoreDataClass.swift */,
-				63AAADE72B2C4A5900714F0E /* Alarm+CoreDataProperties.swift */,
-				63AAADE82B2C4A5900714F0E /* Items+CoreDataClass.swift */,
-				63AAADE92B2C4A5900714F0E /* Items+CoreDataProperties.swift */,
 				63203DC72B296D6300855113 /* amatta */,
 				63203DDB2B296D6400855113 /* amattaTests */,
 				63203DE52B296D6400855113 /* amattaUITests */,
@@ -132,6 +128,10 @@
 		63203DC72B296D6300855113 /* amatta */ = {
 			isa = PBXGroup;
 			children = (
+				63AAADE62B2C4A5900714F0E /* Alarm+CoreDataClass.swift */,
+				63AAADE72B2C4A5900714F0E /* Alarm+CoreDataProperties.swift */,
+				63AAADE82B2C4A5900714F0E /* Items+CoreDataClass.swift */,
+				63AAADE92B2C4A5900714F0E /* Items+CoreDataProperties.swift */,
 				63203E032B2AC61700855113 /* CustomTextField.swift */,
 				63203E012B2AAB2B00855113 /* Localizable.strings */,
 				63203DFB2B2AA68400855113 /* AppDelegate.swift */,

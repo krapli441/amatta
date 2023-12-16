@@ -18,6 +18,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         }
+        
+        // CoreData 모델 검증 코드
+        let persistentContainer = self.persistentContainer
+        let managedObjectModel = persistentContainer.managedObjectModel
+        let entities = managedObjectModel.entities
+
+        for entity in entities {
+            print("Entity name: \(entity.name ?? "Unknown")")
+            // 여기에서 추가적인 검증 로직을 구현할 수 있습니다.
+        }
+        
         return true
     }
 
