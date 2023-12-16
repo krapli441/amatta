@@ -2,7 +2,7 @@
 //  Alarm+CoreDataProperties.swift
 //  amatta
 //
-//  Created by 박준형 on 12/15/23.
+//  Created by 박준형 on 12/16/23.
 //
 //
 
