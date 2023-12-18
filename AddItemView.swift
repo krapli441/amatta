@@ -33,6 +33,16 @@ struct AddItemView: View {
     @State private var containedItems: [String] = []
     var editingItem: TemporaryItem?
 
+    init(alarmCreationData: AlarmCreationData, editingItem: TemporaryItem?) {
+        _alarmCreationData = StateObject(wrappedValue: alarmCreationData)
+        self.editingItem = editingItem
+        if let editingItem = editingItem {
+            _itemName = State(initialValue: editingItem.name)
+            _canContainOtherItems = State(initialValue: editingItem.isContainer)
+            _importance = State(initialValue: editingItem.importance)
+            _containedItems = State(initialValue: editingItem.containedItems)
+        }
+    }
 
     var body: some View {
         VStack {
@@ -98,6 +108,9 @@ struct AddItemView: View {
         }
         .onTapGesture { hideKeyboard() }
         .animation(.easeInOut, value: canContainOtherItems)
+        .onAppear {
+            print("Editing Item: \(String(describing: editingItem))")
+        }
     }
     
     private func removeItem(at index: Int) {
@@ -169,6 +182,7 @@ struct ChoiceButtonStyle: ButtonStyle {
 
 struct AddItemView_Previews: PreviewProvider {
     static var previews: some View {
-        AddItemView(alarmCreationData: AlarmCreationData())
+        AddItemView(alarmCreationData: AlarmCreationData(), editingItem: nil)
     }
 }
+
