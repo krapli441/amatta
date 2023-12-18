@@ -13,8 +13,10 @@ struct AddAlarmView: View {
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
     @State private var showingAddItemView = false
+    @State private var alarmCreationData = AlarmCreationData()
     @Environment(\.colorScheme) var colorScheme
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
+    
     
     @FetchRequest(
             entity: Items.entity(),
@@ -84,8 +86,8 @@ struct AddAlarmView: View {
             }
         }
         .sheet(isPresented: $showingAddItemView) {
-                        AddItemView()
-                    }
+            AddItemView(alarmCreationData: alarmCreationData)
+        }
         .frame(maxWidth: 320)
         .commonInputStyle(colorScheme: colorScheme)
     }

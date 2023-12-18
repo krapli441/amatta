@@ -8,14 +8,31 @@
 import Foundation
 import SwiftUI
 
+// 임시 데이터를 저장할 클래스
+class AlarmCreationData: ObservableObject {
+    @Published var items: [TemporaryItem] = []
+}
+
+// 임시 아이템 데이터 구조
+struct TemporaryItem: Identifiable {
+    let id = UUID()
+    var name: String
+    var isContainer: Bool
+    var importance: Float
+    var containedItems: [String] = []
+}
+
 struct AddItemView: View {
     @Environment(\.colorScheme) var colorScheme
-    @Environment(\.managedObjectContext) var managedObjectContext
     @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var alarmCreationData: AlarmCreationData
+
     @State private var itemName: String = ""
     @State private var canContainOtherItems: Bool = false
     @State private var importance: Float = 1
-    @State private var items: [String] = []
+    @State private var containedItems: [String] = []
+    
+
 
     var body: some View {
         VStack {
@@ -46,9 +63,9 @@ struct AddItemView: View {
                     
                     if canContainOtherItems {
                     SectionHeaderView(title: "그 안에 무엇이 들어가나요?")
-                    ForEach(items.indices, id: \.self) { index in
+                    ForEach(containedItems.indices, id: \.self) { index in
                         HStack {
-                               TextField("이름", text: $items[index])
+                               TextField("이름", text: $containedItems[index])
                                    .padding(10)
                                    .overlay(
                                        RoundedRectangle(cornerRadius: 10)
@@ -85,7 +102,7 @@ struct AddItemView: View {
     
     private func removeItem(at index: Int) {
         withAnimation(.easeInOut) {
-            items.remove(at: index)
+            containedItems.remove(at: index)
         }
     }
     
@@ -93,7 +110,7 @@ struct AddItemView: View {
     private func addItemButton() -> some View {
         Button(action: {
             withAnimation {
-                items.append("")
+                containedItems.append("")
             }
         }) {
                 HStack {
@@ -109,7 +126,9 @@ struct AddItemView: View {
     
     private func addButton() -> some View {
         Button(action: {
-            saveItem()
+            let newItem = TemporaryItem(name: itemName, isContainer: canContainOtherItems, importance: importance, containedItems: containedItems)
+            alarmCreationData.items.append(newItem)
+            presentationMode.wrappedValue.dismiss()
         }) {
             Text("추가")
             .foregroundColor(.white)
@@ -120,23 +139,6 @@ struct AddItemView: View {
         }
     }
     
-    private func saveItem() {
-        let newItem = Items(context: managedObjectContext)
-        newItem.name = itemName
-        newItem.importance = importance
-        newItem.isContainer = canContainOtherItems
-
-        // 여기에서 children 아이템들을 추가하는 로직을 구현할 수 있습니다.
-        // 예: newItem.children = ...
-
-        do {
-            try managedObjectContext.save()
-            print("저장 성공: \(newItem)")
-            presentationMode.wrappedValue.dismiss()
-            } catch {
-            print("저장 실패: \(error.localizedDescription)")
-        }
-    }
 
     
     private func hideKeyboard() {
@@ -163,6 +165,6 @@ struct ChoiceButtonStyle: ButtonStyle {
 
 struct AddItemView_Previews: PreviewProvider {
     static var previews: some View {
-        AddItemView()
+        AddItemView(alarmCreationData: AlarmCreationData())
     }
 }
