@@ -35,6 +35,9 @@ struct AddAlarmView: View {
                     daySelectionSection()
                     itemsToBringSection()
                     addItemButton()
+                        .sheet(item: $editingItem) { item in
+                                AddItemView(alarmCreationData: self.alarmCreationData, editingItem: item)  // 물건 편집 모드
+                            }
                 }
             }
             addButton()
@@ -66,9 +69,9 @@ struct AddAlarmView: View {
         VStack(alignment: .center, spacing: 5) {  // VStack의 정렬을 .center로 변경
             SectionHeaderView(title: "챙겨야 할 것들")
             ForEach(alarmCreationData.items) { item in
-                Button(action: {
-                    self.editingItem = item  // 버튼을 누르면 선택된 아이템을 저장
-                }) {
+                        Button(action: {
+                            self.editingItem = item  // 물건을 터치하면 editingItem을 설정
+                        }) {
                     HStack {
                         VStack(alignment: .leading) {
                             Text(item.name)
@@ -126,7 +129,7 @@ struct AddAlarmView: View {
             }
         }
         .sheet(isPresented: $showingNewItemView) {
-            AddItemView(alarmCreationData: self.alarmCreationData, editingItem: nil)
+            AddItemView(alarmCreationData: self.alarmCreationData, editingItem: nil)  // 새 물건 추가 모드
         }
         .frame(maxWidth: 320)
         .commonInputStyle(colorScheme: colorScheme)
