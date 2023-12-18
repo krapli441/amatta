@@ -15,8 +15,9 @@ struct AddAlarmView: View {
     @State private var showingAddItemView = false
     @StateObject private var alarmCreationData = AlarmCreationData()
     @Environment(\.colorScheme) var colorScheme
+    @State private var editingItem: TemporaryItem?  // 선택된 아이템을 저장하는 상태 변수
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
-    
+
     
     @FetchRequest(
             entity: Items.entity(),
