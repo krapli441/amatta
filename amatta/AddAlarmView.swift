@@ -61,23 +61,27 @@ struct AddAlarmView: View {
     }
 
     private func itemsToBringSection() -> some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .center, spacing: 5) {
             SectionHeaderView(title: "챙겨야 할 것들")
             ForEach(alarmCreationData.items) { item in
-                HStack(alignment: .top, spacing: 5) {
+                VStack(alignment: .leading) {
                     Text(item.name)
                         .font(.headline)
 
                     if !item.containedItems.isEmpty {
-                        Text(item.containedItems.joined(separator: ", "))
+                        Text(formatContainedItems(item.containedItems))
                             .font(.subheadline)
                             .foregroundColor(.gray)
                     }
                 }
                 .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(width: 320, alignment: .leading)
                 .background(Color.gray.opacity(0.1))
                 .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
                 .onAppear {
                     print("렌더링됨: \(item)")
                 }
@@ -85,10 +89,15 @@ struct AddAlarmView: View {
         }
     }
 
-
-
-
-
+    private func formatContainedItems(_ items: [String]) -> String {
+        let maxDisplayCount = 2
+        if items.count > maxDisplayCount {
+            let displayedItems = items.prefix(maxDisplayCount).joined(separator: ", ")
+            return "\(displayedItems) 외 \(items.count - maxDisplayCount)개"
+        } else {
+            return items.joined(separator: ", ")
+        }
+    }
 
 
     private func addItemButton() -> some View {
