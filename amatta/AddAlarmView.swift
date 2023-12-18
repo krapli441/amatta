@@ -31,7 +31,7 @@ struct AddAlarmView: View {
                     inputSection(title: "알림 이름", content: CustomTextField(placeholder: "이름을 입력해주세요.", text: $alarmName))
                     inputSection(title: "알림 시간", content: CustomDatePicker(selection: $selectedTime))
                     daySelectionSection()
-                    itemsToBringSection()
+
                     addItemButton()
                 }
             }
