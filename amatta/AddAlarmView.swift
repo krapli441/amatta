@@ -66,7 +66,7 @@ struct AddAlarmView: View {
             SectionHeaderView(title: "챙겨야 할 것들")
             ForEach(alarmCreationData.items) { item in
                 Button(action: {
-                    // TODO: 여기에 아이템을 편집하는 뷰로 이동하는 로직을 추가하세요.
+                    self.editingItem = item  // 버튼을 누르면 선택된 아이템을 저장
                 }) {
                     HStack {
                         VStack(alignment: .leading) {
@@ -124,9 +124,9 @@ struct AddAlarmView: View {
                     .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
             }
         }
-        .sheet(isPresented: $showingAddItemView) {
-            AddItemView(alarmCreationData: alarmCreationData)
-        }
+        .sheet(item: $editingItem) { item in
+                    AddItemView(alarmCreationData: self.alarmCreationData, editingItem: item)
+                }
         .frame(maxWidth: 320)
         .commonInputStyle(colorScheme: colorScheme)
     }

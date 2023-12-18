@@ -31,7 +31,7 @@ struct AddItemView: View {
     @State private var canContainOtherItems: Bool = false
     @State private var importance: Float = 1
     @State private var containedItems: [String] = []
-    
+    var editingItem: TemporaryItem?
 
 
     var body: some View {
