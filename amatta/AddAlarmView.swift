@@ -61,33 +61,45 @@ struct AddAlarmView: View {
     }
 
     private func itemsToBringSection() -> some View {
-        VStack(alignment: .center, spacing: 5) {
+        VStack(alignment: .center, spacing: 5) {  // VStack의 정렬을 .center로 변경
             SectionHeaderView(title: "챙겨야 할 것들")
             ForEach(alarmCreationData.items) { item in
-                VStack(alignment: .leading) {
-                    Text(item.name)
-                        .font(.headline)
+                Button(action: {
+                    // TODO: 여기에 아이템을 편집하는 뷰로 이동하는 로직을 추가하세요.
+                }) {
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(item.name)
+                                .font(.headline)
+                                .foregroundColor(.black)  // 물건 이름의 글씨 색상을 검정색으로 변경
 
-                    if !item.containedItems.isEmpty {
-                        Text(formatContainedItems(item.containedItems))
-                            .font(.subheadline)
+                            if !item.containedItems.isEmpty {
+                                Text(formatContainedItems(item.containedItems))
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        Spacer()
+                        Image(systemName: "chevron.right")
                             .foregroundColor(.gray)
                     }
+                    .padding()
+                    .frame(maxWidth: 350, alignment: .leading)  // HStack의 최대 너비를 무한대로 설정하여 중앙 정렬
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
                 }
-                .padding()
-                .frame(width: 350, alignment: .leading)
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(10)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.gray, lineWidth: 1)
-                )
                 .onAppear {
                     print("렌더링됨: \(item)")
                 }
             }
         }
     }
+
+
 
     private func formatContainedItems(_ items: [String]) -> String {
         let maxDisplayCount = 2
