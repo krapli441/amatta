@@ -75,7 +75,7 @@ struct AddAlarmView: View {
                     }
                 }
                 .padding()
-                .frame(width: 320, alignment: .leading)
+                .frame(width: 350, alignment: .leading)
                 .background(Color.gray.opacity(0.1))
                 .cornerRadius(10)
                 .overlay(
