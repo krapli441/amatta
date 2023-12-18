@@ -25,7 +25,7 @@ struct TemporaryItem: Identifiable {
 struct AddItemView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var alarmCreationData: AlarmCreationData
+    @StateObject var alarmCreationData: AlarmCreationData
 
     @State private var itemName: String = ""
     @State private var canContainOtherItems: Bool = false
@@ -128,6 +128,7 @@ struct AddItemView: View {
         Button(action: {
             let newItem = TemporaryItem(name: itemName, isContainer: canContainOtherItems, importance: importance, containedItems: containedItems)
             alarmCreationData.items.append(newItem)
+            print("물건 추가됨: \(newItem)")
             presentationMode.wrappedValue.dismiss()
         }) {
             Text("추가")
@@ -138,6 +139,7 @@ struct AddItemView: View {
             .cornerRadius(10)
         }
     }
+
     
 
     

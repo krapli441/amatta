@@ -13,7 +13,7 @@ struct AddAlarmView: View {
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
     @State private var showingAddItemView = false
-    @State private var alarmCreationData = AlarmCreationData()
+    @StateObject private var alarmCreationData = AlarmCreationData()
     @Environment(\.colorScheme) var colorScheme
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
     
@@ -31,7 +31,7 @@ struct AddAlarmView: View {
                     inputSection(title: "알림 이름", content: CustomTextField(placeholder: "이름을 입력해주세요.", text: $alarmName))
                     inputSection(title: "알림 시간", content: CustomDatePicker(selection: $selectedTime))
                     daySelectionSection()
-
+                    itemsToBringSection()
                     addItemButton()
                 }
             }
@@ -63,15 +63,20 @@ struct AddAlarmView: View {
     private func itemsToBringSection() -> some View {
         VStack(alignment: .leading, spacing: 10) {
             SectionHeaderView(title: "챙겨야 할 것들")
-            ForEach(fetchedItems, id: \.self) { item in
-                Text(item.name ?? "알 수 없음")
+            ForEach(alarmCreationData.items) { item in
+                Text(item.name)
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(10)
+                // 콘솔 메시지 추가
+                .onAppear {
+                    print("렌더링됨: \(item)")
+                }
             }
         }
     }
+
 
 
     private func addItemButton() -> some View {
