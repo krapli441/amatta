@@ -13,6 +13,7 @@ struct AddAlarmView: View {
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
     @State private var showingAddItemView = false
+    @State private var showingNewItemView = false
     @StateObject private var alarmCreationData = AlarmCreationData()
     @Environment(\.colorScheme) var colorScheme
     @State private var editingItem: TemporaryItem?  // 선택된 아이템을 저장하는 상태 변수
@@ -115,7 +116,7 @@ struct AddAlarmView: View {
 
     private func addItemButton() -> some View {
         Button(action: {
-            showingAddItemView = true
+            showingNewItemView = true
         }) {
             HStack {
                 Image(systemName: "plus") // 아이콘 추가
@@ -124,9 +125,9 @@ struct AddAlarmView: View {
                     .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
             }
         }
-        .sheet(item: $editingItem) { item in
-                    AddItemView(alarmCreationData: self.alarmCreationData, editingItem: item)
-                }
+        .sheet(isPresented: $showingNewItemView) {
+            AddItemView(alarmCreationData: self.alarmCreationData, editingItem: nil)
+        }
         .frame(maxWidth: 320)
         .commonInputStyle(colorScheme: colorScheme)
     }
