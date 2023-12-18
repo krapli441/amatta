@@ -126,6 +126,7 @@ struct AddItemView: View {
     
     private func addButton() -> some View {
         Button(action: {
+            // containedItems를 포함하여 TemporaryItem 생성
             let newItem = TemporaryItem(name: itemName, isContainer: canContainOtherItems, importance: importance, containedItems: containedItems)
             alarmCreationData.items.append(newItem)
             print("물건 추가됨: \(newItem)")
@@ -139,6 +140,7 @@ struct AddItemView: View {
             .cornerRadius(10)
         }
     }
+
 
     
 

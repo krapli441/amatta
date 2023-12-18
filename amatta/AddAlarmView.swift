@@ -64,18 +64,30 @@ struct AddAlarmView: View {
         VStack(alignment: .leading, spacing: 10) {
             SectionHeaderView(title: "챙겨야 할 것들")
             ForEach(alarmCreationData.items) { item in
-                Text(item.name)
-                    .padding()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(10)
-                // 콘솔 메시지 추가
+                VStack(alignment: .leading) {
+                    Text(item.name)
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(10)
+                    
+                    // containedItems 출력
+                    if item.isContainer && !item.containedItems.isEmpty {
+                        ForEach(item.containedItems, id: \.self) { containedItem in
+                            Text(containedItem)
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                                .padding([.leading, .bottom], 5)
+                        }
+                    }
+                }
                 .onAppear {
                     print("렌더링됨: \(item)")
                 }
             }
         }
     }
+
 
 
 
