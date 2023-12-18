@@ -15,6 +15,11 @@ struct AddAlarmView: View {
     @State private var showingAddItemView = false
     @Environment(\.colorScheme) var colorScheme
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
+    
+    @FetchRequest(
+            entity: Items.entity(),
+            sortDescriptors: []
+        ) var fetchedItems: FetchedResults<Items>
 
     var body: some View {
         VStack {
@@ -54,8 +59,18 @@ struct AddAlarmView: View {
     }
 
     private func itemsToBringSection() -> some View {
-        SectionHeaderView(title: "챙겨야 할 것들")
+        VStack(alignment: .leading, spacing: 10) {
+            SectionHeaderView(title: "챙겨야 할 것들")
+            ForEach(fetchedItems, id: \.self) { item in
+                Text(item.name ?? "알 수 없음")
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
+            }
+        }
     }
+
 
     private func addItemButton() -> some View {
         Button(action: {
@@ -85,6 +100,8 @@ struct AddAlarmView: View {
             .cornerRadius(10)
         }
     }
+    
+
 
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
