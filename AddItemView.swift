@@ -41,6 +41,14 @@ struct AddItemView: View {
     @State private var importance: Float = 1
     @State private var containedItems: [String] = []
     var editingItem: TemporaryItem?
+    
+    var isAddButtonDisabled: Bool {
+            itemName.isEmpty || containedItems.contains { $0.isEmpty }
+        }
+    
+    var addButtonBackgroundColor: Color {
+        isAddButtonDisabled ? Color.gray : Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255)
+    }
 
     init(alarmCreationData: AlarmCreationData, editingItem: TemporaryItem?) {
         _alarmCreationData = StateObject(wrappedValue: alarmCreationData)
@@ -150,22 +158,26 @@ struct AddItemView: View {
         }
     
     private func addButton() -> some View {
-        Button(action: {
-            // containedItems를 포함하여 TemporaryItem 생성
-            let newItem = TemporaryItem(name: itemName, isContainer: canContainOtherItems, importance: importance, containedItems: containedItems)
-            alarmCreationData.items.append(newItem)
-            print("물건 추가됨: \(newItem)")
-            presentationMode.wrappedValue.dismiss()
-        }) {
-            Text("추가")
-            .foregroundColor(.white)
-            .frame(maxWidth: 320)
-            .padding()
-            .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-            .cornerRadius(10)
-        }
-    }
-
+           Button(action: {
+               // 물건 이름이나 담기는 물건의 이름이 비어 있지 않은 경우에만 물건 추가
+               if !isAddButtonDisabled {
+                   let newItem = TemporaryItem(name: itemName, isContainer: canContainOtherItems, importance: importance, containedItems: containedItems)
+                   alarmCreationData.items.append(newItem)
+                   print("물건 추가됨: \(newItem)")
+                   presentationMode.wrappedValue.dismiss()
+               }
+           }) {
+               Text("추가")
+                   .disabled(isAddButtonDisabled)
+                   .foregroundColor(.white)
+                   .frame(maxWidth: 320)
+                   .padding()
+                   .background(addButtonBackgroundColor)
+                   .cornerRadius(10)
+                   .animation(.easeInOut, value: isAddButtonDisabled)
+           }
+           .disabled(isAddButtonDisabled)
+       }
 
     
 
