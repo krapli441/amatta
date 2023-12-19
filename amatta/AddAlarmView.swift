@@ -17,6 +17,7 @@ struct AddAlarmView: View {
     @State private var showingNewItemView = false
     @StateObject private var alarmCreationData = AlarmCreationData()
     @State private var editingItem: TemporaryItem?
+    @Environment(\.managedObjectContext) private var managedObjectContext
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
 
     var body: some View {
@@ -134,7 +135,7 @@ struct AddAlarmView: View {
     }
 
     private func addButton() -> some View {
-        Button(action: { }) {
+        Button(action: saveAlarm) {
             Text("추가")
             .foregroundColor(.white)
             .frame(maxWidth: 320)
@@ -144,7 +145,36 @@ struct AddAlarmView: View {
         }
     }
     
+    private func saveAlarm() {
+        let newAlarm = Alarm(context: managedObjectContext)
+        newAlarm.name = alarmName
+        newAlarm.time = selectedTime
+        newAlarm.monday = selectedWeekdays[0] // 월요일
+        newAlarm.tuesday = selectedWeekdays[1] // 화요일
+        newAlarm.wednesday = selectedWeekdays[2] // 수요일
+        newAlarm.thursday = selectedWeekdays[3] // 목요일
+        newAlarm.friday = selectedWeekdays[4] // 금요일
+        newAlarm.saturday = selectedWeekdays[5] // 토요일
+        newAlarm.sunday = selectedWeekdays[6] // 일요일
 
+
+        // 챙겨야 할 물건 목록을 추가합니다.
+        for temporaryItem in alarmCreationData.items {
+            let newItem = Items(context: managedObjectContext)
+            newItem.name = temporaryItem.name
+            newItem.isContainer = temporaryItem.isContainer
+            newItem.importance = temporaryItem.importance
+            // newItem과 newAlarm 간의 관계를 설정합니다.
+            newAlarm.addToItems(newItem)
+        }
+
+        do {
+            try managedObjectContext.save()
+            print("알람 저장 성공: \(newAlarm)")
+        } catch {
+            print("알람 저장 실패: \(error.localizedDescription)")
+        }
+    }
 
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
