@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+    @StateObject private var alarmCreationData = AlarmCreationData()
     @State private var showingAdd = false
     var body: some View {
         NavigationView {
@@ -43,7 +44,7 @@ struct ContentView: View {
 
                 Spacer()
 
-            NavigationLink(destination: AddAlarmView()) {
+            NavigationLink(destination: AddAlarmView().environmentObject(alarmCreationData)) {
                                 HStack {
                                     Image(systemName: "plus")
                                     Text("새로운 알림 추가")

@@ -12,7 +12,7 @@ import SwiftUI
 struct EditItemView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode
-    @StateObject var alarmCreationData: AlarmCreationData
+    @EnvironmentObject var alarmCreationData: AlarmCreationData
     @State private var showingDeleteAlert = false
     @State private var itemName: String = ""
     @State private var canContainOtherItems: Bool = false
@@ -20,16 +20,6 @@ struct EditItemView: View {
     @State private var containedItems: [String] = []
     var editingItem: TemporaryItem?
 
-    init(alarmCreationData: AlarmCreationData, editingItem: TemporaryItem?) {
-        _alarmCreationData = StateObject(wrappedValue: alarmCreationData)
-        self.editingItem = editingItem
-        if let editingItem = editingItem {
-            _itemName = State(initialValue: editingItem.name)
-            _canContainOtherItems = State(initialValue: editingItem.isContainer)
-            _importance = State(initialValue: editingItem.importance)
-            _containedItems = State(initialValue: editingItem.containedItems)
-        }
-    }
 
     var isUpdateButtonDisabled: Bool {
            itemName.isEmpty || containedItems.contains { $0.isEmpty }
@@ -201,14 +191,9 @@ struct EditItemView: View {
 }
 
 
-
-
-
-
-
 struct EditItemView_Previews: PreviewProvider {
     static var previews: some View {
-        EditItemView(alarmCreationData: AlarmCreationData(), editingItem: nil)
+        EditItemView(editingItem: nil)
+            .environmentObject(AlarmCreationData())
     }
 }
-

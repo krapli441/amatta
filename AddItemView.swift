@@ -34,7 +34,7 @@ struct TemporaryItem: Identifiable {
 struct AddItemView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode
-    @StateObject var alarmCreationData: AlarmCreationData
+    @EnvironmentObject var alarmCreationData: AlarmCreationData
 
     @State private var itemName: String = ""
     @State private var canContainOtherItems: Bool = false
@@ -50,16 +50,6 @@ struct AddItemView: View {
         isAddButtonDisabled ? Color.gray : Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255)
     }
 
-    init(alarmCreationData: AlarmCreationData, editingItem: TemporaryItem?) {
-        _alarmCreationData = StateObject(wrappedValue: alarmCreationData)
-        self.editingItem = editingItem
-        if let editingItem = editingItem {
-            _itemName = State(initialValue: editingItem.name)
-            _canContainOtherItems = State(initialValue: editingItem.isContainer)
-            _importance = State(initialValue: editingItem.importance)
-            _containedItems = State(initialValue: editingItem.containedItems)
-        }
-    }
 
     var body: some View {
         VStack {
@@ -206,7 +196,9 @@ struct ChoiceButtonStyle: ButtonStyle {
 
 struct AddItemView_Previews: PreviewProvider {
     static var previews: some View {
-        AddItemView(alarmCreationData: AlarmCreationData(), editingItem: nil)
+        AddItemView(editingItem: nil)
+            .environmentObject(AlarmCreationData())  // AlarmCreationData를 EnvironmentObject로 전달
     }
 }
+
 

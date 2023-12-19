@@ -14,6 +14,7 @@ struct AddAlarmView: View {
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
     @State private var showingNewItemView = false
+//    @EnvironmentObject var alarmCreationData: AlarmCreationData
     @StateObject private var alarmCreationData = AlarmCreationData()
     @State private var editingItem: TemporaryItem?
 
