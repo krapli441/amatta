@@ -87,12 +87,15 @@ struct ItemsToBringSection: View {
 struct ItemButton: View {
     let item: TemporaryItem
     @Binding var editingItem: TemporaryItem?
-
+    @EnvironmentObject var alarmCreationData: AlarmCreationData
     var body: some View {
         Button(action: { self.editingItem = item }) {
             ItemRow(item: item)
         }
-        .sheet(item: $editingItem) { EditItemView(alarmCreationData: AlarmCreationData(), editingItem: $0) }
+        .sheet(item: $editingItem) { item in
+                        EditItemView(editingItem: item)
+                            .environmentObject(alarmCreationData)  // AlarmCreationData를 EnvironmentObject로 전달
+                    }
     }
 }
 
@@ -129,15 +132,16 @@ extension TemporaryItem {
 
 struct AddItemButton: View {
     @Binding var showingNewItemView: Bool
-
+    @EnvironmentObject var alarmCreationData: AlarmCreationData
     var body: some View {
         Button(action: { showingNewItemView = true }) {
             Label("여기를 눌러 물건 추가", systemImage: "plus")
                 .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
         }
         .sheet(isPresented: $showingNewItemView) {
-            AddItemView(alarmCreationData: AlarmCreationData(), editingItem: nil)
-        }
+                        AddItemView(editingItem: nil)
+                            .environmentObject(alarmCreationData)  // AlarmCreationData를 EnvironmentObject로 전달
+                    }
         .frame(maxWidth: 320)
         .commonInputStyle()
     }
