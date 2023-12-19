@@ -9,13 +9,13 @@ import Foundation
 import SwiftUI
 
 struct AddAlarmView: View {
+    @Environment(\.colorScheme) var colorScheme
     @State private var alarmName: String = ""
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
     @State private var showingAddItemView = false
     @State private var showingNewItemView = false
     @StateObject private var alarmCreationData = AlarmCreationData()
-    @Environment(\.colorScheme) var colorScheme
     @State private var editingItem: TemporaryItem?  // 선택된 아이템을 저장하는 상태 변수
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
 
@@ -96,6 +96,10 @@ struct AddAlarmView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(Color.gray, lineWidth: 1)
                     )
+                }
+                .sheet(item: $editingItem) { editingItem in
+                 EditItemView(alarmCreationData: self.alarmCreationData,
+                              editingItem: editingItem)
                 }
                 .onAppear {
                     print("렌더링됨: \(item)")
