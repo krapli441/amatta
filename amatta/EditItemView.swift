@@ -90,8 +90,10 @@ struct EditItemView: View {
                     // 여기에 나머지 뷰 구성 요소 추가
                 }
             }
-            addButton()
-            // 추가적인 버튼이나 기능을 여기에 추가
+            HStack {
+                        deleteButton()
+                        updateButton()
+                    }
         }
         .onTapGesture { hideKeyboard() }
         .animation(.easeInOut, value: canContainOtherItems)
@@ -124,28 +126,38 @@ struct EditItemView: View {
             }
         }
     
-    private func addButton() -> some View {
-        Button(action: {
-            // containedItems를 포함하여 TemporaryItem 생성
-            let newItem = TemporaryItem(name: itemName, isContainer: canContainOtherItems, importance: importance, containedItems: containedItems)
-            alarmCreationData.items.append(newItem)
-            print("물건 추가됨: \(newItem)")
-            presentationMode.wrappedValue.dismiss()
-        }) {
-            Text("추가")
-            .foregroundColor(.white)
-            .frame(maxWidth: 320)
-            .padding()
-            .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-            .cornerRadius(10)
-        }
-    }
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
     
 }
 
+
+private func deleteButton() -> some View {
+    Button(action: {
+        // 삭제 로직 구현
+    }) {
+        Text("삭제")
+            .foregroundColor(.white)
+            .frame(width: 140)
+            .padding()
+            .background(Color.red)
+            .cornerRadius(10)
+    }
+}
+
+private func updateButton() -> some View {
+    Button(action: {
+        // 변경 로직 구현
+    }) {
+        Text("변경")
+            .foregroundColor(.white)
+            .frame(width: 140)
+            .padding()
+            .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255)) // 초록색 배경
+            .cornerRadius(10)
+    }
+}
 
 
 
