@@ -31,6 +31,14 @@ struct EditItemView: View {
         }
     }
 
+    var isUpdateButtonDisabled: Bool {
+           itemName.isEmpty || containedItems.contains { $0.isEmpty }
+       }
+
+       var updateButtonBackgroundColor: Color {
+           isUpdateButtonDisabled ? Color.gray : Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255)
+       }
+    
     var body: some View {
         VStack {
             EditItemHeaderView() // 물건 추가 헤더
@@ -129,9 +137,11 @@ struct EditItemView: View {
                 .foregroundColor(.white)
                  .frame(width: 140)
                  .padding()
-                 .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255)) // 초록색 배경
+                 .background(updateButtonBackgroundColor)
                  .cornerRadius(10)
         }
+        .disabled(isUpdateButtonDisabled)
+                .animation(.easeInOut, value: isUpdateButtonDisabled)
     }
 
     private func addItemButton() -> some View {
