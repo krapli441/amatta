@@ -71,7 +71,7 @@ struct AddItemView: View {
                     SectionHeaderView(title: "물건 이름")
                     CustomTextField(placeholder: "이름을 입력해주세요", text: $itemName)
                         .frame(maxWidth: 320)
-                        .commonInputStyle(colorScheme: colorScheme)
+                        .commonInputStyle()
 
                     // 무언가 담을 수 있나요? 섹션
                     SectionHeaderView(title: "무언가 담을 수 있나요?")
@@ -115,7 +115,7 @@ struct AddItemView: View {
                     SectionHeaderView(title: "얼마나 중요한 물건인가요?")
                     Slider(value: $importance, in: 1...10, step: 1)
                     .frame(maxWidth: 320)
-                    .commonInputStyle(colorScheme: colorScheme)
+                    .commonInputStyle()
                     .accentColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                     Text("중요도가 높은 물건은 알림에 자주 나타납니다.")
                         .font(.footnote)
@@ -153,7 +153,7 @@ struct AddItemView: View {
                         .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                 }
                 .frame(maxWidth: 320)
-                .commonInputStyle(colorScheme: colorScheme)
+                .commonInputStyle()
             }
         }
     
