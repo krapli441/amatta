@@ -24,6 +24,8 @@
 		63203E0A2B2AC64700855113 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203E092B2AC64700855113 /* SectionHeaderView.swift */; };
 		63203E0C2B2AC65500855113 /* AlarmHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203E0B2B2AC65500855113 /* AlarmHeaderView.swift */; };
 		637C303F2B2BEF050006812D /* AlarmData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 637C303D2B2BEF050006812D /* AlarmData.xcdatamodeld */; };
+		6386CB802B31379E004E89D3 /* EditItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6386CB7F2B31379E004E89D3 /* EditItemView.swift */; };
+		6386CB822B31381C004E89D3 /* EditItemHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6386CB812B31381C004E89D3 /* EditItemHeaderView.swift */; };
 		63AAADE32B2C1BAE00714F0E /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AAADE22B2C1BAE00714F0E /* AddItemView.swift */; };
 		63AAADE52B2C1CB100714F0E /* ItemHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AAADE42B2C1CB100714F0E /* ItemHeaderView.swift */; };
 		63AAADEA2B2C4A5900714F0E /* Alarm+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AAADE62B2C4A5900714F0E /* Alarm+CoreDataClass.swift */; };
@@ -72,6 +74,8 @@
 		63203E092B2AC64700855113 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		63203E0B2B2AC65500855113 /* AlarmHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmHeaderView.swift; sourceTree = "<group>"; };
 		637C303E2B2BEF050006812D /* AlarmData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AlarmData.xcdatamodel; sourceTree = "<group>"; };
+		6386CB7F2B31379E004E89D3 /* EditItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemView.swift; sourceTree = "<group>"; };
+		6386CB812B31381C004E89D3 /* EditItemHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemHeaderView.swift; sourceTree = "<group>"; };
 		63AAADE22B2C1BAE00714F0E /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AddItemView.swift; path = ../AddItemView.swift; sourceTree = "<group>"; };
 		63AAADE42B2C1CB100714F0E /* ItemHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemHeaderView.swift; sourceTree = "<group>"; };
 		63AAADE62B2C4A5900714F0E /* Alarm+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alarm+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -144,6 +148,8 @@
 				63203DF52B29951300855113 /* Launch Screen.storyboard */,
 				63203DF72B29A1A400855113 /* AddAlarmView.swift */,
 				63AAADE22B2C1BAE00714F0E /* AddItemView.swift */,
+				6386CB812B31381C004E89D3 /* EditItemHeaderView.swift */,
+				6386CB7F2B31379E004E89D3 /* EditItemView.swift */,
 				63203E052B2AC62E00855113 /* DayButton.swift */,
 				63203E072B2AC63B00855113 /* CustomDatePicker.swift */,
 				63203E092B2AC64700855113 /* SectionHeaderView.swift */,
@@ -313,10 +319,12 @@
 			files = (
 				63203DFC2B2AA68400855113 /* AppDelegate.swift in Sources */,
 				63203DCB2B296D6300855113 /* ContentView.swift in Sources */,
+				6386CB822B31381C004E89D3 /* EditItemHeaderView.swift in Sources */,
 				63AAADED2B2C4A5900714F0E /* Items+CoreDataProperties.swift in Sources */,
 				63AAADE52B2C1CB100714F0E /* ItemHeaderView.swift in Sources */,
 				63203DF82B29A1A400855113 /* AddAlarmView.swift in Sources */,
 				63203E0A2B2AC64700855113 /* SectionHeaderView.swift in Sources */,
+				6386CB802B31379E004E89D3 /* EditItemView.swift in Sources */,
 				63AAADEB2B2C4A5900714F0E /* Alarm+CoreDataProperties.swift in Sources */,
 				63AAADEA2B2C4A5900714F0E /* Alarm+CoreDataClass.swift in Sources */,
 				63203DC92B296D6300855113 /* amattaApp.swift in Sources */,
