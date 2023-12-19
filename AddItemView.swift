@@ -15,12 +15,21 @@ class AlarmCreationData: ObservableObject {
 
 // 임시 아이템 데이터 구조
 struct TemporaryItem: Identifiable {
-    let id = UUID()
+    var id: UUID
     var name: String
     var isContainer: Bool
     var importance: Float
-    var containedItems: [String] = []
+    var containedItems: [String]
+
+    init(id: UUID = UUID(), name: String, isContainer: Bool, importance: Float, containedItems: [String]) {
+        self.id = id
+        self.name = name
+        self.isContainer = isContainer
+        self.importance = importance
+        self.containedItems = containedItems
+    }
 }
+
 
 struct AddItemView: View {
     @Environment(\.colorScheme) var colorScheme

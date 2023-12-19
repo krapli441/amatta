@@ -108,6 +108,31 @@ struct EditItemView: View {
         }
     }
     
+    private func updateButton() -> some View {
+        Button(action: {
+            if let editingItemID = editingItem?.id {
+                if let index = alarmCreationData.items.firstIndex(where: { $0.id == editingItemID }) {
+                    let updatedItem = TemporaryItem(
+                        id: editingItemID, // 기존 아이템의 ID 사용
+                        name: itemName,
+                        isContainer: canContainOtherItems,
+                        importance: importance,
+                        containedItems: containedItems
+                    )
+                    alarmCreationData.items[index] = updatedItem
+                    print("물건 변경됨: \(updatedItem)")
+                }
+            }
+            presentationMode.wrappedValue.dismiss()
+        }) {
+            Text("변경")
+                .foregroundColor(.white)
+                 .frame(width: 140)
+                 .padding()
+                 .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255)) // 초록색 배경
+                 .cornerRadius(10)
+        }
+    }
 
     private func addItemButton() -> some View {
         Button(action: {
@@ -146,18 +171,7 @@ private func deleteButton() -> some View {
     }
 }
 
-private func updateButton() -> some View {
-    Button(action: {
-        // 변경 로직 구현
-    }) {
-        Text("변경")
-            .foregroundColor(.white)
-            .frame(width: 140)
-            .padding()
-            .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255)) // 초록색 배경
-            .cornerRadius(10)
-    }
-}
+
 
 
 
