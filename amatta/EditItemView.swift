@@ -13,7 +13,7 @@ struct EditItemView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode
     @StateObject var alarmCreationData: AlarmCreationData
-
+    @State private var showingDeleteAlert = false
     @State private var itemName: String = ""
     @State private var canContainOtherItems: Bool = false
     @State private var importance: Float = 1
@@ -151,6 +151,39 @@ struct EditItemView: View {
             }
         }
     
+    
+    private func deleteButton() -> some View {
+        Button(action: {
+            showingDeleteAlert = true
+        }) {
+            Text("삭제")
+                .foregroundColor(.white)
+                .frame(width: 140)
+                .padding()
+                .background(Color.red)
+                .cornerRadius(10)
+        }
+        .alert(isPresented: $showingDeleteAlert) {
+                    Alert(
+                        title: Text("물건을 삭제하시겠어요?"),
+                        primaryButton: .destructive(Text("삭제")) {
+                            deleteItem()
+                        },
+                        secondaryButton: .cancel()
+                    )
+                }
+    }
+    
+    private func deleteItem() {
+            if let editingItemID = editingItem?.id {
+                if let index = alarmCreationData.items.firstIndex(where: { $0.id == editingItemID }) {
+                    alarmCreationData.items.remove(at: index)
+                    print("물건 삭제됨")
+                }
+            }
+            presentationMode.wrappedValue.dismiss()
+        }
+    
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
@@ -158,18 +191,6 @@ struct EditItemView: View {
 }
 
 
-private func deleteButton() -> some View {
-    Button(action: {
-        // 삭제 로직 구현
-    }) {
-        Text("삭제")
-            .foregroundColor(.white)
-            .frame(width: 140)
-            .padding()
-            .background(Color.red)
-            .cornerRadius(10)
-    }
-}
 
 
 
