@@ -109,7 +109,10 @@ struct AddItemView: View {
                     .frame(maxWidth: 320)
                     .commonInputStyle(colorScheme: colorScheme)
                     .accentColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                    // 여기에 나머지 뷰 구성 요소 추가
+                    Text("중요도가 높은 물건은 알림에 자주 나타납니다.")
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: 320, alignment: .leading)
                 }
             }
             addButton()
