@@ -16,14 +16,8 @@ struct AddAlarmView: View {
     @State private var showingAddItemView = false
     @State private var showingNewItemView = false
     @StateObject private var alarmCreationData = AlarmCreationData()
-    @State private var editingItem: TemporaryItem?  // 선택된 아이템을 저장하는 상태 변수
+    @State private var editingItem: TemporaryItem?
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
-
-    
-    @FetchRequest(
-            entity: Items.entity(),
-            sortDescriptors: []
-        ) var fetchedItems: FetchedResults<Items>
 
     var body: some View {
         VStack {
@@ -126,8 +120,8 @@ struct AddAlarmView: View {
             showingNewItemView = true
         }) {
             HStack {
-                Image(systemName: "plus") // 아이콘 추가
-                    .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255)) // 아이콘 색상 설정
+                Image(systemName: "plus")
+                    .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                 Text("여기를 눌러 물건 추가")
                     .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
             }
@@ -140,7 +134,7 @@ struct AddAlarmView: View {
     }
 
     private func addButton() -> some View {
-        Button(action: { /* 추가될 기능 */ }) {
+        Button(action: { }) {
             Text("추가")
             .foregroundColor(.white)
             .frame(maxWidth: 320)
