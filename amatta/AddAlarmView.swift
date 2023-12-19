@@ -76,7 +76,7 @@ struct AddAlarmView: View {
                         VStack(alignment: .leading) {
                             Text(item.name)
                                 .font(.headline)
-                                .foregroundColor(.black)  // 물건 이름의 글씨 색상을 검정색으로 변경
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
 
                             if !item.containedItems.isEmpty {
                                 Text(formatContainedItems(item.containedItems))
