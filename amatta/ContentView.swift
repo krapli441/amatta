@@ -51,11 +51,11 @@ struct ContentView: View {
                         } else {
                             ForEach(alarms, id: \.self) { alarm in
                                 AlarmRow(alarm: alarm)
-                                    .frame(maxWidth: 360) // 각 AlarmRow의 너비를 360으로 설정
+                                    .frame(maxWidth: 360)
                             }
                         }
                     }
-                    .frame(maxWidth: .infinity, alignment: .center) // VStack을 중앙 정렬
+                    .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.top, 10)
                 }
                 .padding(.horizontal)
@@ -110,20 +110,32 @@ struct AlarmRow: View {
                     .font(.subheadline)
             }
 
-
             // 알림 상세 정보
             if isExpanded {
                 ForEach(alarm.itemsArray, id: \.self) { item in
-                    Text(item.name ?? "")
-                        .font(.subheadline)
-                        .foregroundColor(item.isContainer ? .gray : .primary)
-                        .padding(.leading, 20)
+                    VStack(alignment: .leading) {
+                        Text(item.name ?? "")
+                            .font(.subheadline)
+                            .foregroundColor(item.isContainer ? .gray : .primary)
+
+                        if item.isContainer {
+                            ForEach(item.childrenArray, id: \.self) { child in
+                                Text(child.name ?? "")
+                                    .font(.footnote)
+                                    .foregroundColor(.gray)
+                                    .padding(.leading, 10)
+                            }
+                        }
+                    }
                 }
-                Text("\(alarm.weekdays)")
-                    .font(.subheadline)
-                    .padding(.leading, 20)
+
                 HStack {
                     Spacer()
+                    Text("\(alarm.weekdays)")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .padding(.trailing, 10)
+
                     Button("삭제") {
                         // 삭제 로직
                     }
@@ -137,9 +149,9 @@ struct AlarmRow: View {
         .background(Color.white)
         .cornerRadius(10)
         .overlay(
-        RoundedRectangle(cornerRadius: 10)
-        .stroke(Color.gray, lineWidth: 1)
-                )
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color.gray, lineWidth: 1)
+        )
         .onTapGesture {
             withAnimation {
                 isExpanded.toggle()
@@ -172,6 +184,15 @@ extension Alarm {
 
     var itemsArray: [Items] {
         let set = items as? Set<Items> ?? []
+        return set.sorted {
+            $0.name ?? "" < $1.name ?? ""
+        }
+    }
+}
+
+extension Items {
+    var childrenArray: [Items] {
+        let set = children as? Set<Items> ?? []
         return set.sorted {
             $0.name ?? "" < $1.name ?? ""
         }
