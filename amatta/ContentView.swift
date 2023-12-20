@@ -60,12 +60,23 @@ struct ContentView: View {
                             }
             .padding(.horizontal)
             }
+        .onAppear(perform: requestNotificationPermission)
             }
 
+        
     }
 }
 
-
+private func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            // 권한 요청 결과 처리
+            if granted {
+                print("알림 권한 허용됨")
+            } else {
+                print("알림 권한 거부됨")
+            }
+        }
+    }
 
 
 // 프리뷰
