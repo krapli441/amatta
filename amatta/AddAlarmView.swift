@@ -156,6 +156,7 @@ struct AddAlarmView: View {
         
         let newAlarm = Alarm(context: managedObjectContext)
         newAlarm.name = alarmName
+        newAlarm.alarmIdentifier = UUID().uuidString
         newAlarm.time = calendar.date(from: timeComponents)
         newAlarm.monday = selectedWeekdays[0] // 월요일
         newAlarm.tuesday = selectedWeekdays[1] // 화요일
@@ -175,11 +176,12 @@ struct AddAlarmView: View {
             newAlarm.addToItems(newItem)
         }
         
-        NotificationManager.shared.scheduleNotification(for: newAlarm)
+
 
         do {
             try managedObjectContext.save()
             print("알람 저장 성공: \(newAlarm)")
+            NotificationManager.shared.scheduleNotification(for: newAlarm)
         } catch {
             print("알람 저장 실패: \(error.localizedDescription)")
         }
