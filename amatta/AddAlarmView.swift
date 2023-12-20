@@ -174,6 +174,8 @@ struct AddAlarmView: View {
             newItem.importance = temporaryItem.importance
             newAlarm.addToItems(newItem)
         }
+        
+        NotificationManager.shared.scheduleNotification(for: newAlarm)
 
         do {
             try managedObjectContext.save()
