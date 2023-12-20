@@ -85,14 +85,20 @@ struct AlarmRow: View {
     let alarm: Alarm
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(alarm.name ?? "알림")
-                .font(.headline)
-            Text(alarm.formattedTime)
-                .font(.subheadline)
-            // 추가적인 정보 표시 가능
+            HStack {
+                // 알림 이름
+                Text(alarm.name ?? "알림")
+                    .font(.headline)
+                    .frame(alignment: .leading)
+
+                Spacer()
+
+                // 알림 시간
+                Text(alarm.formattedTime)
+                    .font(.subheadline)
+                    .frame(alignment: .trailing)
+            }
         }
-    }
 }
 
 extension Alarm {
