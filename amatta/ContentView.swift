@@ -83,23 +83,44 @@ struct ContentView: View {
 
 struct AlarmRow: View {
     let alarm: Alarm
+    @State private var isExpanded: Bool = false
 
     var body: some View {
+        VStack(alignment: .leading) {
             HStack {
-                // 알림 이름
                 Text(alarm.name ?? "알림")
-                    .font(.headline)
+                    .font(.title2) // 텍스트 크기 변경
                     .frame(alignment: .leading)
 
                 Spacer()
 
-                // 알림 시간
                 Text(alarm.formattedTime)
                     .font(.subheadline)
                     .frame(alignment: .trailing)
             }
+            .onTapGesture {
+                withAnimation {
+                    isExpanded.toggle()
+                }
+            }
+
+            if isExpanded {
+                // 자세한 정보를 여기에 추가
+                Text("월, 화, 수, 목, 금")
+                Text("가방 - 맥북, 노트, 충전기")
+                Text("지갑")
+                Text("헤드폰")
+                Text("스마트폰")
+                // 편집 및 삭제 버튼
+                HStack {
+                    Button("편집") { /* 편집 로직 */ }
+                    Button("삭제") { /* 삭제 로직 */ }
+                }
+            }
         }
+    }
 }
+
 
 extension Alarm {
     var formattedTime: String {
