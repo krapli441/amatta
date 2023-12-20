@@ -56,6 +56,7 @@ struct ContentView: View {
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center) // VStack을 중앙 정렬
+                    .padding(.top, 10)
                 }
                 .padding(.horizontal)
 
@@ -108,11 +109,7 @@ struct AlarmRow: View {
                 Text(alarm.formattedTime)
                     .font(.subheadline)
             }
-            .onTapGesture {
-                withAnimation {
-                    isExpanded.toggle()
-                }
-            }
+
 
             // 알림 상세 정보
             if isExpanded {
@@ -140,9 +137,14 @@ struct AlarmRow: View {
         .background(Color.white)
         .cornerRadius(10)
         .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.gray, lineWidth: 1)
+        RoundedRectangle(cornerRadius: 10)
+        .stroke(Color.gray, lineWidth: 1)
                 )
+        .onTapGesture {
+            withAnimation {
+                isExpanded.toggle()
+            }
+        }
     }
 }
 
