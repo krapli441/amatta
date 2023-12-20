@@ -43,18 +43,21 @@ struct ContentView: View {
                 Spacer()
 
                 ScrollView {
-                                    if alarms.isEmpty {
-                                        Text("아직 생성된 알림이 없습니다.")
-                                            .font(.system(size: 16))
-                                            .foregroundColor(.gray)
-                                    } else {
-                                        ForEach(alarms, id: \.self) { alarm in
-                                            AlarmRow(alarm: alarm)
-                                            .frame(maxWidth: 360)
-                                        }
-                                    }
-                                }
-                                .padding(.horizontal)
+                    VStack(spacing: 10) {
+                        if alarms.isEmpty {
+                            Text("아직 생성된 알림이 없습니다.")
+                                .font(.system(size: 16))
+                                .foregroundColor(.gray)
+                        } else {
+                            ForEach(alarms, id: \.self) { alarm in
+                                AlarmRow(alarm: alarm)
+                                    .frame(maxWidth: 360) // 각 AlarmRow의 너비를 360으로 설정
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center) // VStack을 중앙 정렬
+                }
+                .padding(.horizontal)
 
                 Spacer()
 
