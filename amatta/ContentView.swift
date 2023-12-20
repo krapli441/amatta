@@ -50,6 +50,7 @@ struct ContentView: View {
                                     } else {
                                         ForEach(alarms, id: \.self) { alarm in
                                             AlarmRow(alarm: alarm)
+                                            .frame(maxWidth: 360)
                                         }
                                     }
                                 }
@@ -63,7 +64,7 @@ struct ContentView: View {
                         Text("새로운 알림 추가")
                     }
                     .padding()
-                    .frame(maxWidth: .infinity)
+                    .frame(maxWidth: 360)
                     .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                     .foregroundColor(.white)
                     .cornerRadius(10)
@@ -73,6 +74,7 @@ struct ContentView: View {
                     AddAlarmView()
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .center)
             .onAppear(perform: requestNotificationPermission)
         }
     }
@@ -134,7 +136,10 @@ struct AlarmRow: View {
         .padding()
         .background(Color.white)
         .cornerRadius(10)
-        .shadow(radius: 5)
+        .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
     }
 }
 
