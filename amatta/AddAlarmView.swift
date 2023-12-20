@@ -164,13 +164,14 @@ struct AddAlarmView: View {
         newAlarm.name = alarmName
         newAlarm.alarmIdentifier = UUID().uuidString
         newAlarm.time = calendar.date(from: timeComponents)
-        newAlarm.monday = selectedWeekdays[0] // 월요일
-        newAlarm.tuesday = selectedWeekdays[1] // 화요일
-        newAlarm.wednesday = selectedWeekdays[2] // 수요일
-        newAlarm.thursday = selectedWeekdays[3] // 목요일
-        newAlarm.friday = selectedWeekdays[4] // 금요일
-        newAlarm.saturday = selectedWeekdays[5] // 토요일
-        newAlarm.sunday = selectedWeekdays[6] // 일요일
+        newAlarm.sunday = selectedWeekdays[0] // 일요일
+        newAlarm.monday = selectedWeekdays[1] // 월요일
+        newAlarm.tuesday = selectedWeekdays[2] // 화요일
+        newAlarm.wednesday = selectedWeekdays[3] // 수요일
+        newAlarm.thursday = selectedWeekdays[4] // 목요일
+        newAlarm.friday = selectedWeekdays[5] // 금요일
+        newAlarm.saturday = selectedWeekdays[6] // 토요일
+
 
         for temporaryItem in alarmCreationData.items {
             let newItem = Items(context: managedObjectContext)
