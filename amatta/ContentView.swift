@@ -42,17 +42,18 @@ struct ContentView: View {
 
                 Spacer()
 
-                if alarms.isEmpty {
-                    Text("아직 생성된 알림이 없습니다.")
-                        .font(.system(size: 16))
-                        .foregroundColor(.gray)
-                } else {
-                    List {
-                        ForEach(alarms, id: \.self) { alarm in
-                            AlarmRow(alarm: alarm)
-                        }
-                    }
-                }
+                ScrollView {
+                                    if alarms.isEmpty {
+                                        Text("아직 생성된 알림이 없습니다.")
+                                            .font(.system(size: 16))
+                                            .foregroundColor(.gray)
+                                    } else {
+                                        ForEach(alarms, id: \.self) { alarm in
+                                            AlarmRow(alarm: alarm)
+                                        }
+                                    }
+                                }
+                                .padding(.horizontal)
 
                 Spacer()
 
@@ -90,21 +91,50 @@ struct ContentView: View {
 
 struct AlarmRow: View {
     let alarm: Alarm
+    @State private var isExpanded: Bool = false
 
     var body: some View {
-        HStack {
-            // 알림 이름
-            Text(alarm.name ?? "알림")
-                .font(.title2)
-                .frame(alignment: .leading)
+        VStack(alignment: .leading, spacing: 10) {
+            // 알림 기본 정보
+            HStack {
+                Text(alarm.name ?? "알림")
+                    .font(.title2)
+                Spacer()
+                Text(alarm.formattedTime)
+                    .font(.subheadline)
+            }
+            .onTapGesture {
+                withAnimation {
+                    isExpanded.toggle()
+                }
+            }
 
-            Spacer()
-
-            // 알림 시간
-            Text(alarm.formattedTime)
-                .font(.subheadline)
-                .frame(alignment: .trailing)
+            // 알림 상세 정보
+            if isExpanded {
+                ForEach(alarm.itemsArray, id: \.self) { item in
+                    Text(item.name ?? "")
+                        .font(.subheadline)
+                        .foregroundColor(item.isContainer ? .gray : .primary)
+                        .padding(.leading, 20)
+                }
+                Text("\(alarm.weekdays)")
+                    .font(.subheadline)
+                    .padding(.leading, 20)
+                HStack {
+                    Spacer()
+                    Button("삭제") {
+                        // 삭제 로직
+                    }
+                    Button("편집") {
+                        // 편집 로직
+                    }
+                }
+            }
         }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(10)
+        .shadow(radius: 5)
     }
 }
 
@@ -116,6 +146,25 @@ extension Alarm {
         formatter.dateStyle = .none
         formatter.timeStyle = .short
         return formatter.string(from: time)
+    }
+    
+    var weekdays: String {
+        var days = [String]()
+        if monday { days.append("월") }
+        if tuesday { days.append("화") }
+        if wednesday { days.append("수") }
+        if thursday { days.append("목") }
+        if friday { days.append("금") }
+        if saturday { days.append("토") }
+        if sunday { days.append("일") }
+        return days.joined(separator: ", ")
+    }
+
+    var itemsArray: [Items] {
+        let set = items as? Set<Items> ?? []
+        return set.sorted {
+            $0.name ?? "" < $1.name ?? ""
+        }
     }
 }
 
