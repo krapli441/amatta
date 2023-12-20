@@ -104,7 +104,6 @@ struct AddAlarmView: View {
     }
 
 
-
     private func formatContainedItems(_ items: [String]) -> String {
         let maxDisplayCount = 2
         if items.count > maxDisplayCount {
@@ -173,7 +172,6 @@ struct AddAlarmView: View {
             newItem.name = temporaryItem.name
             newItem.isContainer = temporaryItem.isContainer
             newItem.importance = temporaryItem.importance
-            // newItem과 newAlarm 간의 관계를 설정합니다.
             newAlarm.addToItems(newItem)
         }
 
