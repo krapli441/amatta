@@ -17,7 +17,13 @@ struct AddAlarmView: View {
     @State private var showingNewItemView = false
     @StateObject private var alarmCreationData = AlarmCreationData()
     @State private var editingItem: TemporaryItem?
+    @State private var showingToast = false
+    @State private var toastMessage = ""
+    
     @Environment(\.managedObjectContext) private var managedObjectContext
+    @Environment(\.presentationMode) var presentationMode
+    
+    
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
 
     var body: some View {
@@ -166,8 +172,6 @@ struct AddAlarmView: View {
         newAlarm.saturday = selectedWeekdays[5] // 토요일
         newAlarm.sunday = selectedWeekdays[6] // 일요일
 
-
-        // 챙겨야 할 물건 목록을 추가합니다.
         for temporaryItem in alarmCreationData.items {
             let newItem = Items(context: managedObjectContext)
             newItem.name = temporaryItem.name
@@ -176,12 +180,13 @@ struct AddAlarmView: View {
             newAlarm.addToItems(newItem)
         }
         
-
-
         do {
             try managedObjectContext.save()
             print("알람 저장 성공: \(newAlarm)")
             NotificationManager.shared.scheduleNotification(for: newAlarm)
+            toastMessage = "알림이 성공적으로 생성되었습니다."
+            showingToast = true
+            presentationMode.wrappedValue.dismiss()
         } catch {
             print("알람 저장 실패: \(error.localizedDescription)")
         }
