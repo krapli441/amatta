@@ -10,6 +10,12 @@ import SwiftData
 
 struct ContentView: View {
     @State private var showingAdd = false
+    @FetchRequest(
+           entity: Alarm.entity(),
+           sortDescriptors: [NSSortDescriptor(keyPath: \Alarm.time, ascending: true)]
+       ) var alarms: FetchedResults<Alarm>
+    
+    
     var body: some View {
         NavigationView {
         VStack {
@@ -36,10 +42,17 @@ struct ContentView: View {
 
                 Spacer()
 
-                // 중앙 텍스트
-                Text("아직 생성된 알림이 없습니다.")
-                    .font(.system(size:16))
-                    .foregroundColor(.gray)
+            if alarms.isEmpty {
+                                Text("아직 생성된 알림이 없습니다.")
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.gray)
+                            } else {
+                                List {
+                                    ForEach(alarms, id: \.self) { alarm in
+                                        AlarmRow(alarm: alarm)
+                                    }
+                                }
+                            }
 
                 Spacer()
 
@@ -66,6 +79,33 @@ struct ContentView: View {
         
     }
 }
+
+
+struct AlarmRow: View {
+    let alarm: Alarm
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(alarm.name ?? "알림")
+                .font(.headline)
+            Text(alarm.formattedTime)
+                .font(.subheadline)
+            // 추가적인 정보 표시 가능
+        }
+    }
+}
+
+extension Alarm {
+    var formattedTime: String {
+        // 날짜 형식에 맞게 알림 시간을 문자열로 변환
+        guard let time = self.time else { return "시간 없음" }
+        let formatter = DateFormatter()
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        return formatter.string(from: time)
+    }
+}
+
 
 private func requestNotificationPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
