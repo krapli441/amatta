@@ -7,23 +7,23 @@
 
 import SwiftUI
 import SwiftData
+import CoreData
 
 struct ContentView: View {
     @State private var showingAdd = false
     @FetchRequest(
-           entity: Alarm.entity(),
-           sortDescriptors: [NSSortDescriptor(keyPath: \Alarm.time, ascending: true)]
-       ) var alarms: FetchedResults<Alarm>
-    
-    
+        entity: Alarm.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \Alarm.time, ascending: true)]
+    ) var alarms: FetchedResults<Alarm>
+
     var body: some View {
         NavigationView {
-        VStack {
-            // 상단 바
+            VStack {
+                // 상단 바
                 HStack {
                     Text("알림")
                         .font(.largeTitle)
-                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .fontWeight(.bold)
                         .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                         .padding([.leading, .trailing], 40)
                         .padding(.top, 20)
@@ -42,63 +42,70 @@ struct ContentView: View {
 
                 Spacer()
 
-            if alarms.isEmpty {
-                                Text("아직 생성된 알림이 없습니다.")
-                                    .font(.system(size: 16))
-                                    .foregroundColor(.gray)
-                            } else {
-                                List {
-                                    ForEach(alarms, id: \.self) { alarm in
-                                        AlarmRow(alarm: alarm)
-                                    }
-                                }
-                            }
+                if alarms.isEmpty {
+                    Text("아직 생성된 알림이 없습니다.")
+                        .font(.system(size: 16))
+                        .foregroundColor(.gray)
+                } else {
+                    List {
+                        ForEach(alarms, id: \.self) { alarm in
+                            AlarmRow(alarm: alarm)
+                        }
+                    }
+                }
 
                 Spacer()
 
-            NavigationLink(destination: AddAlarmView()) {
-                                HStack {
-                                    Image(systemName: "plus")
-                                    Text("새로운 알림 추가")
-                                }
+                NavigationLink(destination: AddAlarmView()) {
+                    HStack {
+                        Image(systemName: "plus")
+                        Text("새로운 알림 추가")
+                    }
                     .padding()
                     .frame(maxWidth: .infinity)
+                    .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .padding()
                 }
-                .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                .foregroundColor(.white)
-                .cornerRadius(10)
-                .padding()
                 .sheet(isPresented: $showingAdd) {
-                                AddAlarmView()
-                            }
-            .padding(.horizontal)
+                    AddAlarmView()
+                }
             }
-        .onAppear(perform: requestNotificationPermission)
-            }
+            .onAppear(perform: requestNotificationPermission)
+        }
+    }
 
-        
+    private func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            // 권한 요청 결과 처리
+            if granted {
+                print("알림 권한 허용됨")
+            } else {
+                print("알림 권한 거부됨")
+            }
+        }
     }
 }
-
 
 struct AlarmRow: View {
     let alarm: Alarm
 
     var body: some View {
-            HStack {
-                // 알림 이름
-                Text(alarm.name ?? "알림")
-                    .font(.headline)
-                    .frame(alignment: .leading)
+        HStack {
+            // 알림 이름
+            Text(alarm.name ?? "알림")
+                .font(.title2)
+                .frame(alignment: .leading)
 
-                Spacer()
+            Spacer()
 
-                // 알림 시간
-                Text(alarm.formattedTime)
-                    .font(.subheadline)
-                    .frame(alignment: .trailing)
-            }
+            // 알림 시간
+            Text(alarm.formattedTime)
+                .font(.subheadline)
+                .frame(alignment: .trailing)
         }
+    }
 }
 
 extension Alarm {
@@ -111,19 +118,6 @@ extension Alarm {
         return formatter.string(from: time)
     }
 }
-
-
-private func requestNotificationPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-            // 권한 요청 결과 처리
-            if granted {
-                print("알림 권한 허용됨")
-            } else {
-                print("알림 권한 거부됨")
-            }
-        }
-    }
-
 
 // 프리뷰
 struct ContentView_Previews: PreviewProvider {
