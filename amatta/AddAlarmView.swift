@@ -184,8 +184,8 @@ struct AddAlarmView: View {
             try managedObjectContext.save()
             print("알람 저장 성공: \(newAlarm)")
             NotificationManager.shared.scheduleNotification(for: newAlarm)
-            toastMessage = "알림이 성공적으로 생성되었습니다."
-            showingToast = true
+//            toastMessage = "알림이 성공적으로 생성되었습니다."
+//            showingToast = true
             presentationMode.wrappedValue.dismiss()
         } catch {
             print("알람 저장 실패: \(error.localizedDescription)")
