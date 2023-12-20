@@ -146,9 +146,18 @@ struct AddAlarmView: View {
     }
     
     private func saveAlarm() {
+        
+        let calendar = Calendar.current
+        let currentDateComponents = calendar.dateComponents([.year, .month, .day], from: Date())
+        var timeComponents = calendar.dateComponents([.hour, .minute], from: selectedTime)
+        timeComponents.year = currentDateComponents.year
+        timeComponents.month = currentDateComponents.month
+        timeComponents.day = currentDateComponents.day
+        timeComponents.second = 0
+        
         let newAlarm = Alarm(context: managedObjectContext)
         newAlarm.name = alarmName
-        newAlarm.time = selectedTime
+        newAlarm.time = calendar.date(from: timeComponents)
         newAlarm.monday = selectedWeekdays[0] // 월요일
         newAlarm.tuesday = selectedWeekdays[1] // 화요일
         newAlarm.wednesday = selectedWeekdays[2] // 수요일
