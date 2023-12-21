@@ -116,7 +116,7 @@ struct AlarmRow: View {
             // 알림 상세 정보
             if isExpanded {
                 ForEach(alarm.itemsArray, id: \.self) { item in
-                    VStack(alignment: .leading) {
+                    HStack {
                         Text(item.name ?? "")
                             .font(.subheadline)
                             .foregroundColor(.primary)
@@ -126,7 +126,7 @@ struct AlarmRow: View {
                                 Text(child.name ?? "")
                                     .font(.footnote)
                                     .foregroundColor(.gray)
-                                    .padding(.leading, 10)
+                                    .padding(.leading, 1)
                             }
                         }
                     }
