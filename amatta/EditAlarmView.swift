@@ -19,6 +19,7 @@ struct EditAlarmView: View {
     @State private var editingItem: TemporaryItem?
     @State private var showingToast = false
     @State private var toastMessage = ""
+    var alarm: Alarm
     
     @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.presentationMode) var presentationMode

@@ -101,6 +101,7 @@ struct AlarmRow: View {
     let alarm: Alarm
     @State private var isExpanded: Bool = false
     @State private var showingDeleteAlert = false
+    @State private var isShowingEditView = false
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) var managedObjectContext
 
@@ -166,17 +167,20 @@ struct AlarmRow: View {
 
                         Divider()
                         
-                        Button(action: {
-                            // 편집 로직
-                        }) {
-                            HStack {
-                                Spacer()
-                                Text("편집")
-                                Spacer()
+                        NavigationLink(destination: EditAlarmView(alarm: alarm), isActive: $isShowingEditView) {
+                            Button(action: {
+                                self.isShowingEditView = true
+                            }) {
+                                HStack {
+                                    Spacer()
+                                    Text("변경")
+                                    Spacer()
+                                }
                             }
                         }
                         .frame(width: 155, height: 40, alignment: .center)
                         .background(Color.clear)
+
                         .alert(isPresented: $showingDeleteAlert) {
                                                     Alert(
                                                         title: Text("알림 삭제"),
