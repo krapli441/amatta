@@ -98,6 +98,7 @@ struct ContentView: View {
 struct AlarmRow: View {
     let alarm: Alarm
     @State private var isExpanded: Bool = false
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -105,9 +106,11 @@ struct AlarmRow: View {
             HStack {
                 Text(alarm.name ?? "알림")
                     .font(.title2)
+                    .foregroundColor(.primary)
                 Spacer()
                 Text(alarm.formattedTime)
                     .font(.subheadline)
+                    .foregroundColor(.primary)
             }
 
             // 알림 상세 정보
@@ -116,8 +119,8 @@ struct AlarmRow: View {
                     VStack(alignment: .leading) {
                         Text(item.name ?? "")
                             .font(.subheadline)
-                            .foregroundColor(item.isContainer ? .gray : .primary)
-
+                            .foregroundColor(.primary)
+                        
                         if item.isContainer {
                             ForEach(item.childrenArray, id: \.self) { child in
                                 Text(child.name ?? "")
@@ -146,7 +149,7 @@ struct AlarmRow: View {
             }
         }
         .padding()
-        .background(Color.white)
+        .background(colorScheme == .dark ? Color(white: 0.2) : Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255))
         .cornerRadius(10)
         .overlay(
             RoundedRectangle(cornerRadius: 10)
