@@ -153,7 +153,7 @@ struct AlarmRow: View {
                             Spacer()
                         }
                     }
-                    .frame(width: 160, alignment: .center)
+                    .frame(width: 155, alignment: .center)
                     .background(Color.clear) // 투명 배경 추가
                     Divider()
                     Button(action: {
@@ -165,7 +165,7 @@ struct AlarmRow: View {
                             Spacer()
                         }
                     }
-                    .frame(width: 160, alignment: .center)
+                    .frame(width: 155, alignment: .center)
                     .background(Color.clear) // 투명 배경 추가
                 }
             }
