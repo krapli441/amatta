@@ -206,29 +206,30 @@ struct AlarmRow: View {
     }
     
     private func deleteAlarm() {
-        // CoreData에서 알림 삭제
-        managedObjectContext.delete(alarm)
-        do {
-            try managedObjectContext.save()
-            print("알람 CoreData에서 삭제 성공")
-        } catch {
-            print("알람 CoreData에서 삭제 실패: \(error.localizedDescription)")
-        }
-
         // 현재 활성화된 모든 알림 스케줄링 목록을 가져와서 확인 후 삭제
         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
             let identifiersToDelete = requests.filter { request in
                 request.identifier.contains(alarm.alarmIdentifier ?? "")
-            }.map { request in
-                request.identifier
-            }
+            }.map { $0.identifier }
+            print("식별자 목록: \(identifiersToDelete)")
 
+            // 알림 스케줄러에서 해당 식별자의 알림 삭제
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiersToDelete)
             print("알림 스케줄러에서 다음 알람 삭제: \(identifiersToDelete)")
+
+            // CoreData에서 알림 삭제
+            self.managedObjectContext.delete(self.alarm)
+            do {
+                try self.managedObjectContext.save()
+                print("알람 CoreData에서 삭제 성공")
+            } catch {
+                print("알람 CoreData에서 삭제 실패: \(error.localizedDescription)")
+            }
         }
     }
 
 
+    
 }
 
 
