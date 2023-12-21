@@ -82,6 +82,8 @@ struct ContentView: View {
             .onAppear(perform: requestNotificationPermission)
         }
     }
+    
+    
 
     private func requestNotificationPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
@@ -132,20 +134,25 @@ struct AlarmRow: View {
                     }
                 }
 
-                // 요일 텍스트
-                Text("\(alarm.weekdays)")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
+                // 요일 텍스트 오른쪽 정렬
+                HStack {
+                    Spacer()
+                    Text("\(alarm.weekdays)")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
 
-                // 삭제 및 편집 버튼
+                // 삭제 및 편집 버튼 공간 균등 분배
                 HStack {
                     Spacer()
                     Button("삭제") {
                         // 삭제 로직
                     }
+                    Spacer()
                     Button("편집") {
                         // 편집 로직
                     }
+                    Spacer()
                 }
             }
         }
@@ -163,6 +170,8 @@ struct AlarmRow: View {
         }
     }
 }
+
+
 
 
 extension Alarm {
