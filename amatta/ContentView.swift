@@ -132,13 +132,14 @@ struct AlarmRow: View {
                     }
                 }
 
+                // 요일 텍스트
+                Text("\(alarm.weekdays)")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+
+                // 삭제 및 편집 버튼
                 HStack {
                     Spacer()
-                    Text("\(alarm.weekdays)")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                        .padding(.trailing, 10)
-
                     Button("삭제") {
                         // 삭제 로직
                     }
@@ -162,6 +163,7 @@ struct AlarmRow: View {
         }
     }
 }
+
 
 extension Alarm {
     var formattedTime: String {
