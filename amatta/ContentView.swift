@@ -100,11 +100,11 @@ struct ContentView: View {
 struct AlarmRow: View {
     let alarm: Alarm
     @State private var isExpanded: Bool = false
+    @State private var showingDeleteAlert = false
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            // 알림 기본 정보
             HStack {
                 Text(alarm.name ?? "알림")
                     .font(.title2)
@@ -155,12 +155,12 @@ struct AlarmRow: View {
                             HStack {
                                 Spacer()
                                 Text("삭제")
-                                    .foregroundColor(.red) // 삭제 버튼 텍스트를 빨간색으로 변경
+                                    .foregroundColor(.red)
                                 Spacer()
                             }
                         }
-                        .frame(width: 155, height: 40, alignment: .center) // 버튼의 높이 지정
-                        .background(Color.clear) // 투명 배경 추가
+                        .frame(width: 155, height: 40, alignment: .center)
+                        .background(Color.clear)
 
                         Divider()
                         
@@ -173,8 +173,18 @@ struct AlarmRow: View {
                                 Spacer()
                             }
                         }
-                        .frame(width: 155, height: 40, alignment: .center) // 버튼의 높이 지정
-                        .background(Color.clear) // 투명 배경 추가
+                        .frame(width: 155, height: 40, alignment: .center)
+                        .background(Color.clear)
+                        .alert(isPresented: $showingDeleteAlert) {
+                                                    Alert(
+                                                        title: Text("알림 삭제"),
+                                                        message: Text("정말로 알림을 삭제하시겠어요?"),
+                                                        primaryButton: .destructive(Text("삭제")) {
+                                                            // CoreData 및 알림 스케줄러에서 알림 삭제 로직
+                                                        },
+                                                        secondaryButton: .cancel()
+                                                    )
+                                                }
                     }
                 }
 
@@ -194,8 +204,6 @@ struct AlarmRow: View {
         }
     }
 }
-
-
 
 
 extension Alarm {
