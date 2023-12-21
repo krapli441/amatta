@@ -148,7 +148,7 @@ struct AlarmRow: View {
                         // 삭제 로직
                     }
                     .frame(width: 160, alignment: .center)
-                    
+                    Divider()
                     Button("편집") {
                         // 편집 로직
                     }
