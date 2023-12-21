@@ -215,20 +215,19 @@ struct AlarmRow: View {
             print("알람 CoreData에서 삭제 실패: \(error.localizedDescription)")
         }
 
-        // 알림 식별자가 nil이 아닌 경우에만 알림 스케줄러에서 알림 취소
-        if let alarmIdentifier = alarm.alarmIdentifier {
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [alarmIdentifier])
-            print("알림 스케줄러에서 알람 삭제: \(alarmIdentifier)")
-        }
-
-        // 현재 활성화된 알림 스케줄링 목록 로깅
+        // 현재 활성화된 모든 알림 스케줄링 목록을 가져와서 확인 후 삭제
         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-            print("현재 활성화된 알림 목록:")
-            requests.forEach { request in
-                print(request.identifier)
+            let identifiersToDelete = requests.filter { request in
+                request.identifier.contains(alarm.alarmIdentifier ?? "")
+            }.map { request in
+                request.identifier
             }
+
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiersToDelete)
+            print("알림 스케줄러에서 다음 알람 삭제: \(identifiersToDelete)")
         }
     }
+
 
 }
 

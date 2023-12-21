@@ -14,7 +14,6 @@
 		63203DDD2B296D6400855113 /* amattaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203DDC2B296D6400855113 /* amattaTests.swift */; };
 		63203DE72B296D6400855113 /* amattaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203DE62B296D6400855113 /* amattaUITests.swift */; };
 		63203DE92B296D6400855113 /* amattaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203DE82B296D6400855113 /* amattaUITestsLaunchTests.swift */; };
-		63203DF62B29951300855113 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63203DF52B29951300855113 /* Launch Screen.storyboard */; };
 		63203DF82B29A1A400855113 /* AddAlarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203DF72B29A1A400855113 /* AddAlarmView.swift */; };
 		63203DFC2B2AA68400855113 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203DFB2B2AA68400855113 /* AppDelegate.swift */; };
 		63203DFF2B2AAB2B00855113 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63203E012B2AAB2B00855113 /* Localizable.strings */; };
@@ -23,6 +22,7 @@
 		63203E082B2AC63B00855113 /* CustomDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203E072B2AC63B00855113 /* CustomDatePicker.swift */; };
 		63203E0A2B2AC64700855113 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203E092B2AC64700855113 /* SectionHeaderView.swift */; };
 		63203E0C2B2AC65500855113 /* AlarmHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63203E0B2B2AC65500855113 /* AlarmHeaderView.swift */; };
+		635D199F2B34207400BA2787 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 635D199E2B34207400BA2787 /* Launch Screen.storyboard */; };
 		637C303F2B2BEF050006812D /* AlarmData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 637C303D2B2BEF050006812D /* AlarmData.xcdatamodeld */; };
 		6386CB802B31379E004E89D3 /* EditItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6386CB7F2B31379E004E89D3 /* EditItemView.swift */; };
 		6386CB822B31381C004E89D3 /* EditItemHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6386CB812B31381C004E89D3 /* EditItemHeaderView.swift */; };
@@ -65,7 +65,6 @@
 		63203DE22B296D6400855113 /* amattaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = amattaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63203DE62B296D6400855113 /* amattaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = amattaUITests.swift; sourceTree = "<group>"; };
 		63203DE82B296D6400855113 /* amattaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = amattaUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		63203DF52B29951300855113 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		63203DF72B29A1A400855113 /* AddAlarmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlarmView.swift; sourceTree = "<group>"; };
 		63203DFB2B2AA68400855113 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63203E002B2AAB2B00855113 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -75,6 +74,7 @@
 		63203E072B2AC63B00855113 /* CustomDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePicker.swift; sourceTree = "<group>"; };
 		63203E092B2AC64700855113 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		63203E0B2B2AC65500855113 /* AlarmHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmHeaderView.swift; sourceTree = "<group>"; };
+		635D199E2B34207400BA2787 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		637C303E2B2BEF050006812D /* AlarmData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AlarmData.xcdatamodel; sourceTree = "<group>"; };
 		6386CB7F2B31379E004E89D3 /* EditItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemView.swift; sourceTree = "<group>"; };
 		6386CB812B31381C004E89D3 /* EditItemHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemHeaderView.swift; sourceTree = "<group>"; };
@@ -149,10 +149,10 @@
 				63203DCE2B296D6400855113 /* Assets.xcassets */,
 				63203DD02B296D6400855113 /* amatta.entitlements */,
 				63203DD12B296D6400855113 /* Preview Content */,
-				63203DF52B29951300855113 /* Launch Screen.storyboard */,
 				63203DF72B29A1A400855113 /* AddAlarmView.swift */,
 				6386CB8F2B32ABB7004E89D3 /* ToastMessageView.swift */,
 				63AAADE22B2C1BAE00714F0E /* AddItemView.swift */,
+				635D199E2B34207400BA2787 /* Launch Screen.storyboard */,
 				6386CB812B31381C004E89D3 /* EditItemHeaderView.swift */,
 				6386CB7F2B31379E004E89D3 /* EditItemView.swift */,
 				6386CB8D2B329F82004E89D3 /* NotificationManager.swift */,
@@ -295,9 +295,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63203DF62B29951300855113 /* Launch Screen.storyboard in Resources */,
 				63203DFF2B2AAB2B00855113 /* Localizable.strings in Resources */,
 				63203DD32B296D6400855113 /* Preview Assets.xcassets in Resources */,
+				635D199F2B34207400BA2787 /* Launch Screen.storyboard in Resources */,
 				63203DCF2B296D6400855113 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
