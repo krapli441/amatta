@@ -143,31 +143,37 @@ struct AlarmRow: View {
                 }
 
                 // 삭제 및 편집 버튼 가운데 정렬 및 너비 설정
-                HStack {
-                    Button(action: {
-                        // 삭제 로직
-                    }) {
-                        HStack {
-                            Spacer()
-                            Text("삭제")
-                            Spacer()
+                VStack(spacing: 0) {
+                    Divider() // 상단 구분선
+
+                    HStack {
+                        Button(action: {
+                            // 삭제 로직
+                        }) {
+                            HStack {
+                                Spacer()
+                                Text("삭제")
+                                Spacer()
+                            }
                         }
-                    }
-                    .frame(width: 155, alignment: .center)
-                    .background(Color.clear) // 투명 배경 추가
-                    Divider()
-                    Button(action: {
-                        // 편집 로직
-                    }) {
-                        HStack {
-                            Spacer()
-                            Text("편집")
-                            Spacer()
+                        .frame(width: 155, alignment: .center)
+                        .background(Color.clear) // 투명 배경 추가
+
+                        Divider()
+                        Button(action: {
+                            // 편집 로직
+                        }) {
+                            HStack {
+                                Spacer()
+                                Text("편집")
+                                Spacer()
+                            }
                         }
+                        .frame(width: 155, alignment: .center)
+                        .background(Color.clear) // 투명 배경 추가
                     }
-                    .frame(width: 155, alignment: .center)
-                    .background(Color.clear) // 투명 배경 추가
                 }
+
             }
         }
         .padding()
