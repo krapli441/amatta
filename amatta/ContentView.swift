@@ -143,17 +143,40 @@ struct AlarmRow: View {
                 }
 
                 // 삭제 및 편집 버튼 가운데 정렬 및 너비 설정
+                // 삭제 및 편집 버튼 가운데 정렬 및 너비 설정
                 HStack {
-                    Button("삭제") {
-                        // 삭제 로직
+                    VStack {
+                        Divider().background(Color.gray).padding(.top, 5) // 구분선을 버튼 위에 추가하고, 상단에 여백을 줌
+                        Button(action: {
+                            // 삭제 로직
+                        }) {
+                            HStack {
+                                Spacer()
+                                Text("삭제")
+                                Spacer()
+                            }
+                        }
+                        .frame(width: 160, height: 30, alignment: .center) // 높이 추가
                     }
-                    .frame(width: 160, alignment: .center)
-                    
-                    Button("편집") {
-                        // 편집 로직
+
+                    Divider().background(Color.gray) // 버튼 사이의 구분선
+
+                    VStack {
+                        Divider().background(Color.gray).padding(.top, 5) // 구분선을 버튼 위에 추가하고, 상단에 여백을 줌
+                        Button(action: {
+                            // 편집 로직
+                        }) {
+                            HStack {
+                                Spacer()
+                                Text("편집")
+                                Spacer()
+                            }
+                        }
+                        .frame(width: 160, height: 30, alignment: .center) // 높이 추가
                     }
-                    .frame(width: 160, alignment: .center)
                 }
+
+
             }
         }
         .padding()
