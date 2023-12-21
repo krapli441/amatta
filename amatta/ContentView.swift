@@ -114,6 +114,7 @@ struct AlarmRow: View {
                     .font(.subheadline)
                     .foregroundColor(.primary)
             }
+            .padding()
 
             // 알림 상세 정보
             if isExpanded {
@@ -133,16 +134,16 @@ struct AlarmRow: View {
                         }
                     }
                 }
+                .padding([.leading, .trailing])
 
-                // 요일 텍스트 오른쪽 정렬
                 HStack {
                     Spacer()
                     Text("\(alarm.weekdays)")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
+                .padding([.leading, .trailing])
 
-                // 삭제 및 편집 버튼 가운데 정렬 및 너비 설정
                 VStack(spacing: 0) {
                     Divider() // 상단 구분선
 
@@ -153,13 +154,15 @@ struct AlarmRow: View {
                             HStack {
                                 Spacer()
                                 Text("삭제")
+                                    .foregroundColor(.red) // 삭제 버튼 텍스트를 빨간색으로 변경
                                 Spacer()
                             }
                         }
-                        .frame(width: 155, alignment: .center)
+                        .frame(width: 155, height: 40, alignment: .center) // 버튼의 높이 지정
                         .background(Color.clear) // 투명 배경 추가
 
                         Divider()
+                        
                         Button(action: {
                             // 편집 로직
                         }) {
@@ -169,14 +172,14 @@ struct AlarmRow: View {
                                 Spacer()
                             }
                         }
-                        .frame(width: 155, alignment: .center)
+                        .frame(width: 155, height: 40, alignment: .center) // 버튼의 높이 지정
                         .background(Color.clear) // 투명 배경 추가
                     }
                 }
 
+
             }
         }
-        .padding()
         .background(colorScheme == .dark ? Color(white: 0.2) : Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255))
         .cornerRadius(10)
         .overlay(
