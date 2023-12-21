@@ -183,6 +183,7 @@ struct AddAlarmView: View {
                 for childName in temporaryItem.containedItems {
                     let childItem = Items(context: managedObjectContext)
                     childItem.name = childName
+                    childItem.isContainer = false // 자식 아이템은 컨테이너가 아님
                     newItem.addToChildren(childItem)
                 }
             }
@@ -190,16 +191,15 @@ struct AddAlarmView: View {
             newAlarm.addToItems(newItem)
         }
 
+
         
         do {
             try managedObjectContext.save()
             print("알람 저장 성공: \(newAlarm)")
             NotificationManager.shared.scheduleNotification(for: newAlarm)
-//            toastMessage = "알림이 성공적으로 생성되었습니다."
-//            showingToast = true
             presentationMode.wrappedValue.dismiss()
-        } catch {
-            print("알람 저장 실패: \(error.localizedDescription)")
+        } catch let error as NSError {
+            print("알람 저장 실패: \(error), \(error.userInfo)")
         }
     }
 
