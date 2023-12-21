@@ -108,6 +108,7 @@ struct AlarmRow: View {
             HStack {
                 Text(alarm.name ?? "알림")
                     .font(.title2)
+                    .fontWeight(.bold)
                     .foregroundColor(.primary)
                 Spacer()
                 Text(alarm.formattedTime)
