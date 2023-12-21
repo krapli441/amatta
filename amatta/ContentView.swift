@@ -144,15 +144,29 @@ struct AlarmRow: View {
 
                 // 삭제 및 편집 버튼 가운데 정렬 및 너비 설정
                 HStack {
-                    Button("삭제") {
+                    Button(action: {
                         // 삭제 로직
+                    }) {
+                        HStack {
+                            Spacer()
+                            Text("삭제")
+                            Spacer()
+                        }
                     }
                     .frame(width: 160, alignment: .center)
+                    .background(Color.clear) // 투명 배경 추가
                     Divider()
-                    Button("편집") {
+                    Button(action: {
                         // 편집 로직
+                    }) {
+                        HStack {
+                            Spacer()
+                            Text("편집")
+                            Spacer()
+                        }
                     }
                     .frame(width: 160, alignment: .center)
+                    .background(Color.clear) // 투명 배경 추가
                 }
             }
         }
