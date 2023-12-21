@@ -142,18 +142,19 @@ struct AlarmRow: View {
                         .foregroundColor(.gray)
                 }
 
-                // 삭제 및 편집 버튼 공간 균등 분배
+                // 삭제 및 편집 버튼 가운데 정렬 및 너비 설정
                 HStack {
-                    Spacer()
                     Button("삭제") {
                         // 삭제 로직
                     }
-                    Spacer()
+                    .frame(width: 180, alignment: .center)
+                    
                     Button("편집") {
                         // 편집 로직
                     }
-                    Spacer()
+                    .frame(width: 180, alignment: .center)
                 }
+                .frame(maxWidth: 360, alignment: .center)
             }
         }
         .padding()
