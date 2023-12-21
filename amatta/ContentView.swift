@@ -147,14 +147,13 @@ struct AlarmRow: View {
                     Button("삭제") {
                         // 삭제 로직
                     }
-                    .frame(width: 180, alignment: .center)
+                    .frame(width: 160, alignment: .center)
                     
                     Button("편집") {
                         // 편집 로직
                     }
-                    .frame(width: 180, alignment: .center)
+                    .frame(width: 160, alignment: .center)
                 }
-                .frame(maxWidth: 360, alignment: .center)
             }
         }
         .padding()
