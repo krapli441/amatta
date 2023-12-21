@@ -102,6 +102,7 @@ struct AlarmRow: View {
     @State private var isExpanded: Bool = false
     @State private var showingDeleteAlert = false
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.managedObjectContext) var managedObjectContext
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -151,6 +152,7 @@ struct AlarmRow: View {
                     HStack {
                         Button(action: {
                             // 삭제 로직
+                            self.showingDeleteAlert = true
                         }) {
                             HStack {
                                 Spacer()
@@ -181,14 +183,13 @@ struct AlarmRow: View {
                                                         message: Text("정말로 알림을 삭제하시겠어요?"),
                                                         primaryButton: .destructive(Text("삭제")) {
                                                             // CoreData 및 알림 스케줄러에서 알림 삭제 로직
+                                                            deleteAlarm()
                                                         },
                                                         secondaryButton: .cancel()
                                                     )
                                                 }
                     }
                 }
-
-
             }
         }
         .background(colorScheme == .dark ? Color(white: 0.2) : Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255))
@@ -203,6 +204,23 @@ struct AlarmRow: View {
             }
         }
     }
+    
+    private func deleteAlarm() {
+        // CoreData에서 알림 삭제
+        managedObjectContext.delete(alarm)
+        do {
+            try managedObjectContext.save()
+        } catch {
+            print("알람 삭제 실패: \(error.localizedDescription)")
+        }
+
+        // 알림 식별자가 nil이 아닌 경우에만 알림 스케줄러에서 알림 취소
+        if let alarmIdentifier = alarm.alarmIdentifier {
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [alarmIdentifier])
+        }
+    }
+
+    
 }
 
 
