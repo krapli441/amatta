@@ -18,12 +18,13 @@ struct AlarmEditModifyItemView: View {
     @State private var canContainOtherItems: Bool = false
     @State private var importance: Float = 1
     @State private var containedItems: [String] = []
-    var editingItem: TemporaryItem?
+    var editingItem: Items?
 
     init(alarmCreationData: AlarmCreationData, editingItem: Items?) {
             _alarmCreationData = StateObject(wrappedValue: alarmCreationData)
+            self.editingItem = editingItem
+
             if let editingItem = editingItem {
-                // Items 객체를 TemporaryItem으로 변환하는 로직
                 _itemName = State(initialValue: editingItem.name ?? "")
                 _canContainOtherItems = State(initialValue: editingItem.isContainer)
                 _importance = State(initialValue: editingItem.importance)
@@ -118,19 +119,20 @@ struct AlarmEditModifyItemView: View {
     
     private func updateButton() -> some View {
         Button(action: {
-            if let editingItemID = editingItem?.id {
-                if let index = alarmCreationData.items.firstIndex(where: { $0.id == editingItemID }) {
-                    let updatedItem = TemporaryItem(
-                        id: editingItemID, // 기존 아이템의 ID 사용
-                        name: itemName,
-                        isContainer: canContainOtherItems,
-                        importance: importance,
-                        containedItems: containedItems
-                    )
-                    alarmCreationData.items[index] = updatedItem
-                    print("물건 변경됨: \(updatedItem)")
-                }
-            }
+                    if let itemToEdit = editingItem, let context = itemToEdit.managedObjectContext {
+                        // Items 객체 직접 수정
+                        itemToEdit.name = self.itemName
+                        itemToEdit.isContainer = self.canContainOtherItems
+                        itemToEdit.importance = self.importance
+                        // 자식 아이템 업데이트 로직
+
+                        do {
+                            try context.save()
+                            print("물건 변경됨: \(itemToEdit)")
+                        } catch {
+                            print("물건 변경 실패: \(error)")
+                        }
+                    }
             presentationMode.wrappedValue.dismiss()
         }) {
             Text("변경")
@@ -177,22 +179,22 @@ struct AlarmEditModifyItemView: View {
                     Alert(
                         title: Text("물건을 삭제하시겠어요?"),
                         primaryButton: .destructive(Text("삭제")) {
-                            deleteItem()
+//                            deleteItem()
                         },
                         secondaryButton: .cancel()
                     )
                 }
     }
     
-    private func deleteItem() {
-            if let editingItemID = editingItem?.id {
-                if let index = alarmCreationData.items.firstIndex(where: { $0.id == editingItemID }) {
-                    alarmCreationData.items.remove(at: index)
-                    print("물건 삭제됨")
-                }
-            }
-            presentationMode.wrappedValue.dismiss()
-        }
+//    private func deleteItem() {
+//            if let editingItemID = editingItem?.id {
+//                if let index = alarmCreationData.items.firstIndex(where: { $0.id == editingItemID }) {
+//                    alarmCreationData.items.remove(at: index)
+//                    print("물건 삭제됨")
+//                }
+//            }
+//            presentationMode.wrappedValue.dismiss()
+//        }
     
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
