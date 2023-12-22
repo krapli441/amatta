@@ -1,8 +1,8 @@
 //
-//  AddItemView.swift
+//  AlarmEditModifyItemView.swift
 //  amatta
 //
-//  Created by 박준형 on 12/15/23.
+//  Created by 박준형 on 12/22/23.
 //
 
 import Foundation
@@ -118,19 +118,24 @@ struct AlarmEditModifyItemView: View {
     
     private func updateButton() -> some View {
         Button(action: {
-            if let editingItemID = editingItem?.id {
-                if let index = alarmCreationData.items.firstIndex(where: { $0.id == editingItemID }) {
-                    let updatedItem = TemporaryItem(
-                        id: editingItemID, // 기존 아이템의 ID 사용
-                        name: itemName,
-                        isContainer: canContainOtherItems,
-                        importance: importance,
-                        containedItems: containedItems
-                    )
-                    alarmCreationData.items[index] = updatedItem
-                    print("물건 변경됨: \(updatedItem)")
-                }
-            }
+               if let managedObjectContext = editingItem?.managedObjectContext {
+                   managedObjectContext.performAndWait {
+                       if let existingItem = managedObjectContext.object(with: editingItem?.objectID ?? NSManagedObjectID()) as? Items {
+                           existingItem.name = self.itemName
+                           existingItem.isContainer = self.canContainOtherItems
+                           existingItem.importance = self.importance
+                           // 자식 아이템 처리 로직...
+                           // 예를 들면 existingItem.childrenArray = self.containedItems...
+
+                           do {
+                               try managedObjectContext.save()
+                               print("물건 변경됨: \(existingItem)")
+                           } catch {
+                               print("물건 변경 실패: \(error)")
+                           }
+                       }
+                   }
+               }
             presentationMode.wrappedValue.dismiss()
         }) {
             Text("변경")
@@ -199,11 +204,6 @@ struct AlarmEditModifyItemView: View {
     }
     
 }
-
-
-
-
-
 
 
 struct AlarmEditModifyItemView_Previews: PreviewProvider {
