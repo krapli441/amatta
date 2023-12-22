@@ -123,47 +123,38 @@ struct EditAlarmView: View {
 
 
     private func itemsToBringSection() -> some View {
-        VStack(alignment: .center, spacing: 5) {  // VStack의 정렬을 .center로 변경
+        VStack(alignment: .center, spacing: 5) {
             SectionHeaderView(title: "챙겨야 할 것들")
-            ForEach(alarmCreationData.items) { item in
-                        Button(action: {
-                            self.editingItem = item  // 물건을 터치하면 editingItem을 설정
-                        }) {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(item.name)
-                                .font(.headline)
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
+            ForEach(items, id: \.self) { item in
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(item.name ?? "Unknown")
+                            .font(.headline)
+                            .foregroundColor(colorScheme == .dark ? .white : .black)
 
-                            if !item.containedItems.isEmpty {
-                                Text(formatContainedItems(item.containedItems))
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                            }
+                        if let children = item.children as? Set<Items>, !children.isEmpty {
+                            Text(children.map { $0.name ?? "" }.joined(separator: ", "))
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
                         }
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(.gray)
                     }
-                    .padding()
-                    .frame(maxWidth: 350, alignment: .leading)  // HStack의 최대 너비를 무한대로 설정하여 중앙 정렬
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .foregroundColor(.gray)
                 }
-                .sheet(item: $editingItem) { editingItem in
-                 EditItemView(alarmCreationData: self.alarmCreationData,
-                              editingItem: editingItem)
-                }
-                .onAppear {
-                    print("렌더링됨: \(item)")
-                }
+                .padding()
+                .frame(maxWidth: 350, alignment: .leading)
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
+                // 편집 모드나 추가 로직은 필요한 경우 구현
             }
         }
     }
+
 
 
     private func formatContainedItems(_ items: [String]) -> String {
