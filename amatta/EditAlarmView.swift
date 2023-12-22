@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 struct EditAlarmView: View {
+    var alarm: Alarm
     @Environment(\.colorScheme) var colorScheme
     @State private var alarmName: String = ""
     @State private var selectedTime = Date()
@@ -23,9 +24,23 @@ struct EditAlarmView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.presentationMode) var presentationMode
     
-    
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
 
+    init(alarm: Alarm) {
+            self.alarm = alarm
+            _alarmName = State(initialValue: alarm.name ?? "")
+            _selectedTime = State(initialValue: alarm.time ?? Date())
+            _selectedWeekdays = State(initialValue: [
+                alarm.sunday,
+                alarm.monday,
+                alarm.tuesday,
+                alarm.wednesday,
+                alarm.thursday,
+                alarm.friday,
+                alarm.saturday
+            ])
+        }
+    
     var body: some View {
         VStack {
             EditAlarmHeaderView()

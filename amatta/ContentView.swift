@@ -15,6 +15,8 @@ struct ContentView: View {
         entity: Alarm.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \Alarm.time, ascending: true)]
     ) var alarms: FetchedResults<Alarm>
+    @State private var selectedAlarmID: NSManagedObjectID?
+        @State private var isEditing = false
 
     var body: some View {
         NavigationView {
@@ -50,9 +52,11 @@ struct ContentView: View {
                                 .foregroundColor(.gray)
                         } else {
                             ForEach(alarms, id: \.self) { alarm in
-                                AlarmRow(alarm: alarm)
-                                    .frame(maxWidth: 360)
-                            }
+                                                AlarmRow(alarm: alarm, editAction: { alarmID in
+                                                    self.selectedAlarmID = alarmID
+                                                    self.isEditing = true
+                                                })
+                                            }
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -99,6 +103,7 @@ struct ContentView: View {
 
 struct AlarmRow: View {
     let alarm: Alarm
+    var editAction: (NSManagedObjectID) -> Void
     @State private var isExpanded: Bool = false
     @State private var showingDeleteAlert = false
     @Environment(\.colorScheme) var colorScheme
@@ -168,6 +173,7 @@ struct AlarmRow: View {
                         
                         Button(action: {
                             // 편집 로직
+                            self.editAction(self.alarm.objectID)
                         }) {
                             HStack {
                                 Spacer()
