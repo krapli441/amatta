@@ -9,7 +9,11 @@ import Foundation
 import SwiftUI
 
 struct EditAlarmView: View {
+    @Binding var alarm : Alarm // Alarm 객체 바인딩
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.managedObjectContext) private var managedObjectContext
+    @Environment(\.presentationMode) var presentationMode
+    
     @State private var alarmName: String = ""
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
@@ -17,13 +21,36 @@ struct EditAlarmView: View {
     @State private var showingNewItemView = false
     @StateObject private var alarmCreationData = AlarmCreationData()
     @State private var editingItem: TemporaryItem?
-    @State private var showingToast = false
-    @State private var toastMessage = ""
+
     
-    @Environment(\.managedObjectContext) private var managedObjectContext
-    @Environment(\.presentationMode) var presentationMode
-    
-    
+    init(alarm: Binding<Alarm>) {
+        _alarm = alarm
+        _alarmName = State(initialValue: alarm.wrappedValue.name ?? "")
+        _selectedTime = State(initialValue: alarm.wrappedValue.time ?? Date())
+        _selectedWeekdays = State(initialValue: [
+            alarm.wrappedValue.sunday,
+            alarm.wrappedValue.monday,
+            alarm.wrappedValue.tuesday,
+            alarm.wrappedValue.wednesday,
+            alarm.wrappedValue.thursday,
+            alarm.wrappedValue.friday,
+            alarm.wrappedValue.saturday
+        ])
+
+        let itemsArray = alarm.wrappedValue.itemsArray // CoreData의 Items를 [Items] 형태로 변환
+        let temporaryItems = itemsArray.map { item in
+            TemporaryItem(
+                id: UUID(),
+                name: item.name ?? "",
+                isContainer: item.isContainer,
+                importance: item.importance,
+                containedItems: item.childrenArray.map { $0.name ?? "" }
+            )
+        }
+
+        _alarmCreationData = StateObject(wrappedValue: AlarmCreationData(items: temporaryItems))
+    }
+
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
 
     var body: some View {
