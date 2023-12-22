@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import CoreData
 
 
 struct AlarmEditModifyItemView: View {
@@ -119,32 +120,50 @@ struct AlarmEditModifyItemView: View {
     
     private func updateButton() -> some View {
         Button(action: {
-                    if let itemToEdit = editingItem, let context = itemToEdit.managedObjectContext {
-                        // Items 객체 직접 수정
-                        itemToEdit.name = self.itemName
-                        itemToEdit.isContainer = self.canContainOtherItems
-                        itemToEdit.importance = self.importance
-                        // 자식 아이템 업데이트 로직
+            if let itemToEdit = editingItem, let context = itemToEdit.managedObjectContext {
+                // 기본 속성 업데이트
+                itemToEdit.name = self.itemName
+                itemToEdit.isContainer = self.canContainOtherItems
+                itemToEdit.importance = self.importance
 
-                        do {
-                            try context.save()
-                            print("물건 변경됨: \(itemToEdit)")
-                        } catch {
-                            print("물건 변경 실패: \(error)")
-                        }
-                    }
+                // 자식 아이템 업데이트 로직
+                updateChildItems(for: itemToEdit, with: containedItems, in: context)
+
+                do {
+                    try context.save()
+                    print("물건 변경됨: \(itemToEdit)")
+                } catch {
+                    print("물건 변경 실패: \(error)")
+                }
+            }
             presentationMode.wrappedValue.dismiss()
         }) {
             Text("변경")
                 .foregroundColor(.white)
-                 .frame(width: 140)
-                 .padding()
-                 .background(updateButtonBackgroundColor)
-                 .cornerRadius(10)
+                .frame(width: 140)
+                .padding()
+                .background(updateButtonBackgroundColor)
+                .cornerRadius(10)
         }
         .disabled(isUpdateButtonDisabled)
-                .animation(.easeInOut, value: isUpdateButtonDisabled)
+        .animation(.easeInOut, value: isUpdateButtonDisabled)
     }
+
+    private func updateChildItems(for item: Items, with names: [String], in context: NSManagedObjectContext) {
+        // 기존 자식 아이템들 삭제
+        if let existingChildren = item.children as? Set<Items> {
+            existingChildren.forEach { context.delete($0) }
+        }
+
+        // 새로운 자식 아이템들 추가
+        names.forEach { name in
+            let newChild = Items(context: context)
+            newChild.name = name
+            newChild.isContainer = false // 자식 아이템은 컨테이너가 아님
+            item.addToChildren(newChild)
+        }
+    }
+
 
     private func addItemButton() -> some View {
         Button(action: {
@@ -201,11 +220,6 @@ struct AlarmEditModifyItemView: View {
     }
     
 }
-
-
-
-
-
 
 
 struct AlarmEditModifyItemView_Previews: PreviewProvider {
