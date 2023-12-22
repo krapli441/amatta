@@ -20,6 +20,7 @@ struct EditAlarmView: View {
     @State private var showingAddItemView = false
     @State private var showingNewItemView = false
     @StateObject private var alarmCreationData = AlarmCreationData()
+    @State private var items: [Items] = []
     @State private var editingItem: TemporaryItem?
     @State private var showingToast = false
     @State private var toastMessage = ""
@@ -78,8 +79,12 @@ struct EditAlarmView: View {
     private func loadAlarmData() {
         guard let alarmID = alarmID,
               let alarm = managedObjectContext.object(with: alarmID) as? Alarm else {
+            print("Alarm not found")
             return
         }
+        if let alarmItems = alarm.items as? Set<Items> {
+                    self.items = Array(alarmItems)
+                }
 
         alarmName = alarm.name ?? ""
         selectedTime = alarm.time ?? Date()
@@ -92,7 +97,29 @@ struct EditAlarmView: View {
             alarm.friday,
             alarm.saturday
         ]
+ 
+
+        // 콘솔에 정보 출력
+        print("Alarm Name: \(alarmName)")
+        print("Selected Time: \(selectedTime)")
+        print("Selected Weekdays: \(selectedWeekdays)")
+
+        // Items 관련 정보 출력
+        if let items = alarm.items as? Set<Items> {
+            for item in items {
+                print("Item Name: \(item.name ?? "Unknown")")
+                print("Is Container: \(item.isContainer)")
+                print("Importance: \(item.importance)")
+                // 연관된 자식 아이템들에 대한 정보
+                if let children = item.children as? Set<Items> {
+                    for child in children {
+                        print("Child Item Name: \(child.name ?? "Unknown")")
+                    }
+                }
+            }
+        }
     }
+
 
 
     private func itemsToBringSection() -> some View {
