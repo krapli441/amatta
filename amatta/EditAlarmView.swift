@@ -126,6 +126,7 @@ struct EditAlarmView: View {
         VStack(alignment: .center, spacing: 5) {
             SectionHeaderView(title: "챙겨야 할 것들")
             ForEach(items, id: \.self) { item in
+                
                 HStack {
                     VStack(alignment: .leading) {
                         Text(item.name ?? "Unknown")
