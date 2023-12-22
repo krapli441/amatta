@@ -7,10 +7,16 @@
 
 import Foundation
 import SwiftUI
+import CoreData
 
 struct EditAlarmView: View {
-    var alarm: Alarm
+    let alarmID: NSManagedObjectID
+    @Environment(\.managedObjectContext) private var managedObjectContext
+    
+    // 컬러 모드
     @Environment(\.colorScheme) var colorScheme
+    
+    // 알림 편집 state
     @State private var alarmName: String = ""
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
@@ -20,26 +26,8 @@ struct EditAlarmView: View {
     @State private var editingItem: TemporaryItem?
     @State private var showingToast = false
     @State private var toastMessage = ""
-    
-    @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.presentationMode) var presentationMode
-    
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
-
-    init(alarm: Alarm) {
-            self.alarm = alarm
-            _alarmName = State(initialValue: alarm.name ?? "")
-            _selectedTime = State(initialValue: alarm.time ?? Date())
-            _selectedWeekdays = State(initialValue: [
-                alarm.sunday,
-                alarm.monday,
-                alarm.tuesday,
-                alarm.wednesday,
-                alarm.thursday,
-                alarm.friday,
-                alarm.saturday
-            ])
-        }
     
     var body: some View {
         VStack {
@@ -59,6 +47,9 @@ struct EditAlarmView: View {
             addButton()
         }
         .onTapGesture { hideKeyboard() }
+        .onAppear {
+                   loadAlarmData()
+               }
     }
 
     @ViewBuilder
@@ -80,6 +71,26 @@ struct EditAlarmView: View {
         .frame(maxWidth: 320, maxHeight: 15)
         .commonInputStyle(colorScheme: colorScheme)
     }
+    
+    private func loadAlarmData() {
+        guard let alarm = managedObjectContext.object(with: alarmID) as? Alarm else { return }
+
+        // 이름, 시간 로드
+        alarmName = alarm.name ?? ""
+        selectedTime = alarm.time ?? Date()
+
+        // 요일 정보 로드
+        selectedWeekdays = [
+            alarm.sunday,
+            alarm.monday,
+            alarm.tuesday,
+            alarm.wednesday,
+            alarm.thursday,
+            alarm.friday,
+            alarm.saturday
+        ]
+    }
+
 
     private func itemsToBringSection() -> some View {
         VStack(alignment: .center, spacing: 5) {  // VStack의 정렬을 .center로 변경
