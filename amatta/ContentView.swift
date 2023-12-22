@@ -16,7 +16,7 @@ struct ContentView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Alarm.time, ascending: true)]
     ) var alarms: FetchedResults<Alarm>
     @State private var selectedAlarmID: NSManagedObjectID?
-        @State private var isEditing = false
+    @State private var isEditing = false
 
     var body: some View {
         NavigationView {
@@ -212,7 +212,6 @@ struct AlarmRow: View {
     }
     
     private func deleteAlarm() {
-        // 현재 활성화된 모든 알림 스케줄링 목록을 가져와서 확인 후 삭제
         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
             let identifiersToDelete = requests.filter { request in
                 request.identifier.contains(alarm.alarmIdentifier ?? "")
