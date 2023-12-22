@@ -56,6 +56,7 @@ struct ContentView: View {
                                                     self.selectedAlarmID = alarmID
                                                     self.isEditing = true
                                                 })
+                                                .frame(maxWidth: 360)
                                             }
                         }
                     }

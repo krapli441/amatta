@@ -50,6 +50,9 @@ struct EditAlarmView: View {
             addButton()
         }
         .onTapGesture { hideKeyboard() }
+        .onAppear {
+                loadAlarmData()
+            }
     }
 
     @ViewBuilder
@@ -71,6 +74,26 @@ struct EditAlarmView: View {
         .frame(maxWidth: 320, maxHeight: 15)
         .commonInputStyle(colorScheme: colorScheme)
     }
+    
+    private func loadAlarmData() {
+        guard let alarmID = alarmID,
+              let alarm = managedObjectContext.object(with: alarmID) as? Alarm else {
+            return
+        }
+
+        alarmName = alarm.name ?? ""
+        selectedTime = alarm.time ?? Date()
+        selectedWeekdays = [
+            alarm.sunday,
+            alarm.monday,
+            alarm.tuesday,
+            alarm.wednesday,
+            alarm.thursday,
+            alarm.friday,
+            alarm.saturday
+        ]
+    }
+
 
     private func itemsToBringSection() -> some View {
         VStack(alignment: .center, spacing: 5) {  // VStack의 정렬을 .center로 변경
