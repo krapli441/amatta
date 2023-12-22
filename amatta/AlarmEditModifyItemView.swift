@@ -20,10 +20,12 @@ struct AlarmEditModifyItemView: View {
     @State private var importance: Float = 1
     @State private var containedItems: [String] = []
     var editingItem: Items?
+    var onItemUpdated: () -> Void
 
-    init(alarmCreationData: AlarmCreationData, editingItem: Items?) {
+    init(alarmCreationData: AlarmCreationData, editingItem: Items?, onItemUpdated: @escaping () -> Void) {
             _alarmCreationData = StateObject(wrappedValue: alarmCreationData)
             self.editingItem = editingItem
+            self.onItemUpdated = onItemUpdated
 
             if let editingItem = editingItem {
                 _itemName = State(initialValue: editingItem.name ?? "")
@@ -120,15 +122,17 @@ struct AlarmEditModifyItemView: View {
     
     private func updateButton() -> some View {
         Button(action: {
+            // 선택된 아이템과 관련된 Managed Object Context를 가져옵니다.
             if let itemToEdit = editingItem, let context = itemToEdit.managedObjectContext {
-                // 기본 속성 업데이트
+                // CoreData의 아이템에 대한 세부 정보를 업데이트합니다.
                 itemToEdit.name = self.itemName
                 itemToEdit.isContainer = self.canContainOtherItems
                 itemToEdit.importance = self.importance
-
-                // 자식 아이템 업데이트 로직
+                
+                // 자식 아이템 업데이트 로직을 호출합니다.
                 updateChildItems(for: itemToEdit, with: containedItems, in: context)
 
+                // 변경 사항을 저장합니다.
                 do {
                     try context.save()
                     print("물건 변경됨: \(itemToEdit)")
@@ -136,8 +140,10 @@ struct AlarmEditModifyItemView: View {
                     print("물건 변경 실패: \(error)")
                 }
             }
+            // 현재 뷰를 닫습니다.
             presentationMode.wrappedValue.dismiss()
         }) {
+            // 버튼 UI 설정
             Text("변경")
                 .foregroundColor(.white)
                 .frame(width: 140)
@@ -224,7 +230,12 @@ struct AlarmEditModifyItemView: View {
 
 struct AlarmEditModifyItemView_Previews: PreviewProvider {
     static var previews: some View {
-        AlarmEditModifyItemView(alarmCreationData: AlarmCreationData(), editingItem: nil)
+        AlarmEditModifyItemView(
+            alarmCreationData: AlarmCreationData(),
+            editingItem: nil,
+            onItemUpdated: {} // 빈 클로저 제공
+        )
     }
 }
+
 
