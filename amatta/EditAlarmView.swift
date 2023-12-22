@@ -7,9 +7,12 @@
 
 import Foundation
 import SwiftUI
+import CoreData
 
 struct EditAlarmView: View {
-    var alarm: Alarm
+    let alarmID: NSManagedObjectID?
+    @Environment(\.managedObjectContext) private var managedObjectContext
+    
     @Environment(\.colorScheme) var colorScheme
     @State private var alarmName: String = ""
     @State private var selectedTime = Date()
@@ -20,25 +23,13 @@ struct EditAlarmView: View {
     @State private var editingItem: TemporaryItem?
     @State private var showingToast = false
     @State private var toastMessage = ""
-    
-    @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.presentationMode) var presentationMode
-    
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
 
-    init(alarm: Alarm) {
-            self.alarm = alarm
-            _alarmName = State(initialValue: alarm.name ?? "")
-            _selectedTime = State(initialValue: alarm.time ?? Date())
-            _selectedWeekdays = State(initialValue: [
-                alarm.sunday,
-                alarm.monday,
-                alarm.tuesday,
-                alarm.wednesday,
-                alarm.thursday,
-                alarm.friday,
-                alarm.saturday
-            ])
+    
+    init(alarmID: NSManagedObjectID? = nil) {
+            self.alarmID = alarmID
+            // 초기화 로직...
         }
     
     var body: some View {
@@ -229,4 +220,5 @@ struct EditAlarmView_Previews: PreviewProvider {
         EditAlarmView()
     }
 }
+
 

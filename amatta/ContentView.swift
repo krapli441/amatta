@@ -78,6 +78,11 @@ struct ContentView: View {
                     .cornerRadius(10)
                     .padding()
                 }
+                // EditAlarmView로의 네비게이션 링크
+                NavigationLink(destination: EditAlarmView(alarmID: selectedAlarmID), isActive: $isEditing) {
+                EmptyView()
+                }
+                
                 .sheet(isPresented: $showingAdd) {
                     AddAlarmView()
                 }
