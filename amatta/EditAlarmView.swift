@@ -123,6 +123,8 @@ struct EditAlarmView: View {
         }
     }
 
+
+
     private func itemsToBringSection() -> some View {
         VStack(alignment: .center, spacing: 5) {
             SectionHeaderView(title: "챙겨야 할 것들")
@@ -265,3 +267,5 @@ struct EditAlarmView_Previews: PreviewProvider {
         EditAlarmView()
     }
 }
+
+
