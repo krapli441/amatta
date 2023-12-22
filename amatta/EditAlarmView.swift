@@ -26,7 +26,7 @@ struct EditAlarmView: View {
     @State private var toastMessage = ""
     @Environment(\.presentationMode) var presentationMode
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
-
+    @State private var selectedEditItem: Items?
     
     init(alarmID: NSManagedObjectID? = nil) {
             self.alarmID = alarmID
@@ -50,11 +50,16 @@ struct EditAlarmView: View {
             }
             addButton()
         }
+        .sheet(item: $selectedEditItem) { item in
+                AlarmEditModifyItemView(alarmCreationData: self.alarmCreationData, editingItem: item)
+            }
         .onTapGesture { hideKeyboard() }
         .onAppear {
                 loadAlarmData()
             }
     }
+    
+    
 
     @ViewBuilder
     private func inputSection<Content: View>(title: String, content: Content) -> some View {
@@ -127,6 +132,7 @@ struct EditAlarmView: View {
             SectionHeaderView(title: "챙겨야 할 것들")
             ForEach(items, id: \.self) { item in
                 Button(action: {
+                    self.selectedEditItem = item
                     // 여기에 특정 item을 편집하는 로직을 추가
                     // 예: EditItemView로의 이동
                 }) {
