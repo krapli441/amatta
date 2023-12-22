@@ -59,8 +59,6 @@ struct EditAlarmView: View {
             }
     }
     
-    
-
     @ViewBuilder
     private func inputSection<Content: View>(title: String, content: Content) -> some View {
         SectionHeaderView(title: title)
@@ -125,16 +123,12 @@ struct EditAlarmView: View {
         }
     }
 
-
-
     private func itemsToBringSection() -> some View {
         VStack(alignment: .center, spacing: 5) {
             SectionHeaderView(title: "챙겨야 할 것들")
             ForEach(items, id: \.self) { item in
                 Button(action: {
                     self.selectedEditItem = item
-                    // 여기에 특정 item을 편집하는 로직을 추가
-                    // 예: EditItemView로의 이동
                 }) {
                     HStack {
                         VStack(alignment: .leading) {
@@ -271,5 +265,3 @@ struct EditAlarmView_Previews: PreviewProvider {
         EditAlarmView()
     }
 }
-
-
