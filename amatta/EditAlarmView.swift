@@ -12,7 +12,6 @@ import CoreData
 struct EditAlarmView: View {
     let alarmID: NSManagedObjectID?
     @Environment(\.managedObjectContext) private var managedObjectContext
-    
     @Environment(\.colorScheme) var colorScheme
     @State private var alarmName: String = ""
     @State private var selectedTime = Date()
