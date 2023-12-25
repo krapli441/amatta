@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import CoreData
 
 // 임시 데이터를 저장할 클래스
 class AlarmCreationData: ObservableObject {
@@ -15,13 +16,13 @@ class AlarmCreationData: ObservableObject {
 
 // 임시 아이템 데이터 구조
 struct TemporaryItem: Identifiable {
-    var id: UUID
+    var id: NSManagedObjectID
     var name: String
     var isContainer: Bool
     var importance: Float
     var containedItems: [String]
 
-    init(id: UUID = UUID(), name: String, isContainer: Bool, importance: Float, containedItems: [String]) {
+    init(id: NSManagedObjectID, name: String, isContainer: Bool, importance: Float, containedItems: [String]) {
         self.id = id
         self.name = name
         self.isContainer = isContainer
@@ -29,6 +30,7 @@ struct TemporaryItem: Identifiable {
         self.containedItems = containedItems
     }
 }
+
 
 
 struct AddItemView: View {

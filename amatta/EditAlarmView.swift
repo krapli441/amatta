@@ -23,6 +23,7 @@ struct EditAlarmView: View {
     @State private var editingItem: TemporaryItem?
     @State private var showingToast = false
     @State private var toastMessage = ""
+    @State private var selectedEditItem: Items?
     @Environment(\.presentationMode) var presentationMode
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
 
@@ -42,16 +43,23 @@ struct EditAlarmView: View {
                     daySelectionSection()
                     itemsToBringSection()
                     addItemButton()
-                        .sheet(item: $editingItem) { item in
-                            AlarmEditModifyItemView(
-                                alarmCreationData: self.alarmCreationData,
-                                editingItem: item,
-                                onItemUpdated: { updatedItem in
-                                    // 여기에서 updatedItem을 처리하는 로직을 구현합니다.
-                                     self.editingItem = updatedItem
+                        .sheet(item: $selectedEditItem) { selectedItem in
+                                    // selectedItem을 TemporaryItem으로 변환
+                                    let tempItem = TemporaryItem(
+                                        id: selectedItem.id ?? UUID(), // Items의 id를 사용
+                                        name: selectedItem.name ?? "",
+                                        isContainer: selectedItem.isContainer,
+                                        importance: selectedItem.importance,
+                                        containedItems: selectedItem.childrenArray.map { $0.name ?? "" }
+                                    )
+                                    AlarmEditModifyItemView(
+                                        alarmCreationData: self.alarmCreationData,
+                                        editingItem: tempItem,
+                                        onItemUpdated: { updatedItem in
+                                            // 여기에 변경된 물건을 처리하는 로직 추가
+                                        }
+                                    )
                                 }
-                            )
-                        }
                 }
             }
             addButton()
@@ -133,8 +141,7 @@ struct EditAlarmView: View {
             SectionHeaderView(title: "챙겨야 할 것들")
             ForEach(items, id: \.self) { item in
                 Button(action: {
-                    // 여기에 특정 item을 편집하는 로직을 추가
-                    // 예: EditItemView로의 이동
+                    self.selectedEditItem = item
                 }) {
                     HStack {
                         VStack(alignment: .leading) {
