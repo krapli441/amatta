@@ -19,10 +19,12 @@ struct AlarmEditModifyItemView: View {
     @State private var importance: Float = 1
     @State private var containedItems: [String] = []
     var editingItem: TemporaryItem?
+    var onItemUpdated: (TemporaryItem) -> Void
 
-    init(alarmCreationData: AlarmCreationData, editingItem: TemporaryItem?) {
+    init(alarmCreationData: AlarmCreationData, editingItem: TemporaryItem?, onItemUpdated: @escaping (TemporaryItem) -> Void) {
         _alarmCreationData = StateObject(wrappedValue: alarmCreationData)
         self.editingItem = editingItem
+        self.onItemUpdated = onItemUpdated
         if let editingItem = editingItem {
             _itemName = State(initialValue: editingItem.name)
             _canContainOtherItems = State(initialValue: editingItem.isContainer)

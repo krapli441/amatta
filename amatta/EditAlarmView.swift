@@ -43,8 +43,15 @@ struct EditAlarmView: View {
                     itemsToBringSection()
                     addItemButton()
                         .sheet(item: $editingItem) { item in
-                                AddItemView(alarmCreationData: self.alarmCreationData, editingItem: item)  // 물건 편집 모드
-                            }
+                            AlarmEditModifyItemView(
+                                alarmCreationData: self.alarmCreationData,
+                                editingItem: item,
+                                onItemUpdated: { updatedItem in
+                                    // 여기에서 updatedItem을 처리하는 로직을 구현합니다.
+                                     self.editingItem = updatedItem
+                                }
+                            )
+                        }
                 }
             }
             addButton()
