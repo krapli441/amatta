@@ -21,7 +21,7 @@ struct EditAlarmView: View {
     @State private var showingNewItemView = false
     @StateObject private var alarmCreationData = AlarmCreationData()
     @State private var items: [Items] = []
-    @State private var editingItem: TemporaryItem?
+    @State private var selectedEditItem: TemporaryItem?
     @State private var showingToast = false
     @State private var toastMessage = ""
     @Environment(\.presentationMode) var presentationMode
@@ -43,9 +43,17 @@ struct EditAlarmView: View {
                     daySelectionSection()
                     itemsToBringSection()
                     addItemButton()
-                        .sheet(item: $editingItem) { item in
-                                AddItemView(alarmCreationData: self.alarmCreationData, editingItem: item)  // 물건 편집 모드
-                            }
+                    .sheet(item: $selectedEditItem) { tempItem in
+                                        AlarmEditModifyItemView(
+                                            alarmCreationData: self.alarmCreationData,
+                                            editingItem: tempItem,
+                                            onItemUpdated: { updatedItem in
+                                                // 여기에 변경된 물건을 처리하는 로직 추가
+                                                // 예: EditAlarmView의 items 배열 업데이트
+                                                // 수정된 TemporaryItem을 CoreData의 Items 객체로 변환하여 items 배열 업데이트
+                                            }
+                                        )
+                                    }
                 }
             }
             addButton()
@@ -127,9 +135,16 @@ struct EditAlarmView: View {
             SectionHeaderView(title: "챙겨야 할 것들")
             ForEach(items, id: \.self) { item in
                 Button(action: {
-                    // 여기에 특정 item을 편집하는 로직을 추가
-                    // 예: EditItemView로의 이동
-                }) {
+                                   // CoreData의 Items 객체를 TemporaryItem으로 변환
+                                   let tempItem = TemporaryItem(
+                                       id: UUID(), // 새 UUID 생성 또는 기존 ID 사용
+                                       name: item.name ?? "",
+                                       isContainer: item.isContainer,
+                                       importance: item.importance,
+                                       containedItems: item.childrenArray.map { $0.name ?? "" }
+                                   )
+                                   self.selectedEditItem = tempItem
+                               }){
                     HStack {
                         VStack(alignment: .leading) {
                             Text(item.name ?? "Unknown")

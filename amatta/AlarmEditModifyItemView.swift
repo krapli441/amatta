@@ -19,10 +19,13 @@ struct AlarmEditModifyItemView: View {
     @State private var importance: Float = 1
     @State private var containedItems: [String] = []
     var editingItem: TemporaryItem?
+    var onItemUpdated: (TemporaryItem) -> Void
 
-    init(alarmCreationData: AlarmCreationData, editingItem: TemporaryItem?) {
+    init(alarmCreationData: AlarmCreationData, editingItem: TemporaryItem?, onItemUpdated: @escaping (TemporaryItem) -> Void) {
         _alarmCreationData = StateObject(wrappedValue: alarmCreationData)
         self.editingItem = editingItem
+        self.onItemUpdated = onItemUpdated // 여기에 추가
+
         if let editingItem = editingItem {
             _itemName = State(initialValue: editingItem.name)
             _canContainOtherItems = State(initialValue: editingItem.isContainer)
@@ -30,6 +33,7 @@ struct AlarmEditModifyItemView: View {
             _containedItems = State(initialValue: editingItem.containedItems)
         }
     }
+
 
     var isUpdateButtonDisabled: Bool {
            itemName.isEmpty || containedItems.contains { $0.isEmpty }
@@ -208,7 +212,12 @@ struct AlarmEditModifyItemView: View {
 
 struct AlarmEditModifyItemView_Previews: PreviewProvider {
     static var previews: some View {
-        AlarmEditModifyItemView(alarmCreationData: AlarmCreationData(), editingItem: nil)
+        AlarmEditModifyItemView(
+            alarmCreationData: AlarmCreationData(),
+            editingItem: nil,
+            onItemUpdated: { _ in } // 빈 클로저 제공
+        )
     }
 }
+
 
