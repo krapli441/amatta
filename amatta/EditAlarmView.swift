@@ -51,14 +51,15 @@ struct EditAlarmView: View {
             addButton()
         }
         .sheet(item: $selectedEditItem) { selectedItem in
-                    AlarmEditModifyItemView(
-                        alarmCreationData: self.alarmCreationData,
-                        editingItem: selectedItem,
-                        onItemUpdated: {
-                            self.loadAlarmData() // 아이템이 업데이트됐을 때 데이터 재로드
-                        }
-                    )
+            AlarmEditModifyItemView(
+                alarmCreationData: self.alarmCreationData,
+                editingItem: selectedItem,
+                onItemUpdated: { updatedItem in
+                     self.loadAlarmData() // 필요한 경우 이 부분도 포함될 수 있음
                 }
+            )
+        }
+
         .onTapGesture { hideKeyboard() }
         .onAppear {
                 loadAlarmData()
