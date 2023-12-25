@@ -46,13 +46,26 @@ struct EditAlarmView: View {
                                 alarmCreationData: self.alarmCreationData,
                                 editingItem: tempItem,
                                 onItemUpdated: { updatedItem in
-                                    if let coreDataID = updatedItem.coreDataID,
-                                       let index = self.items.firstIndex(where: { $0.objectID == coreDataID }) {
-                                        self.items[index].name = updatedItem.name
-                                        self.items[index].isContainer = updatedItem.isContainer
-                                        self.items[index].importance = updatedItem.importance
-                                        // 아이템 배열 갱신
-                                        self.items = Array(self.items)
+                                    print("onItemUpdated 호출됨: \(updatedItem)")
+                                    if let coreDataID = updatedItem.coreDataID {
+                                        print("coreDataID: \(coreDataID)")
+                                        print("updatedItem.coreDataID: \(String(describing: updatedItem.coreDataID))")
+                                        if let index = self.items.firstIndex(where: { $0.objectID == coreDataID }) {
+                                            print("기존 아이템 발견, 인덱스: \(index)")
+                                            // 아이템 배열 갱신 전 상태 출력
+                                            print("아이템 업데이트 전 items 배열: \(self.items)")
+                                            self.items[index].name = updatedItem.name
+                                            self.items[index].isContainer = updatedItem.isContainer
+                                            self.items[index].importance = updatedItem.importance
+                                            // 아이템 배열 갱신
+                                            self.items = Array(self.items)
+                                            // 아이템 배열 갱신 후 상태 출력
+                                            print("아이템 업데이트 후 items 배열: \(self.items)")
+                                        } else {
+                                            print("해당 coreDataID와 일치하는 아이템을 찾을 수 없음")
+                                        }
+                                    } else {
+                                        print("updatedItem에 coreDataID가 없음")
                                     }
                                 }
                             )
