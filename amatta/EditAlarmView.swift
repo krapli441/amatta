@@ -48,10 +48,15 @@ struct EditAlarmView: View {
                                             alarmCreationData: self.alarmCreationData,
                                             editingItem: tempItem,
                                             onItemUpdated: { updatedItem in
-                                                // 여기에 변경된 물건을 처리하는 로직 추가
-                                                // 예: EditAlarmView의 items 배열 업데이트
-                                                // 수정된 TemporaryItem을 CoreData의 Items 객체로 변환하여 items 배열 업데이트
-                                            }
+                                                        // 'items' 배열에서 해당 아이템을 찾아 업데이트
+                                                        if let index = self.items.firstIndex(where: { $0.id == updatedItem.id }) {
+                                                            self.items[index] = updatedItem.toCoreDataItem(context: managedObjectContext)
+                                                        } else {
+                                                            // 찾을 수 없다면 새 아이템으로 추가
+                                                            let newItem = updatedItem.toCoreDataItem(context: managedObjectContext)
+                                                            self.items.append(newItem)
+                                                        }
+                                                    }
                                         )
                                     }
                 }
