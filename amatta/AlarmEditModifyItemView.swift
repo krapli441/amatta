@@ -18,13 +18,14 @@ struct AlarmEditModifyItemView: View {
     @State private var canContainOtherItems: Bool = false
     @State private var importance: Float = 1
     @State private var containedItems: [String] = []
-    var editingItem: TemporaryItem?
-    var onItemUpdated: (TemporaryItem) -> Void
+    var editingItem: EditTemporaryItem?
+    var onItemUpdated: (EditTemporaryItem) -> Void
 
-    init(alarmCreationData: AlarmCreationData, editingItem: TemporaryItem?, onItemUpdated: @escaping (TemporaryItem) -> Void) {
+
+    init(alarmCreationData: AlarmCreationData, editingItem: EditTemporaryItem?, onItemUpdated: @escaping (EditTemporaryItem) -> Void) {
         _alarmCreationData = StateObject(wrappedValue: alarmCreationData)
         self.editingItem = editingItem
-        self.onItemUpdated = onItemUpdated // 여기에 추가
+        self.onItemUpdated = onItemUpdated
 
         if let editingItem = editingItem {
             _itemName = State(initialValue: editingItem.name)
@@ -33,6 +34,7 @@ struct AlarmEditModifyItemView: View {
             _containedItems = State(initialValue: editingItem.containedItems)
         }
     }
+
 
 
     var isUpdateButtonDisabled: Bool {
@@ -119,32 +121,34 @@ struct AlarmEditModifyItemView: View {
             containedItems.remove(at: index)
         }
     }
-    
+
     private func updateButton() -> some View {
         Button(action: {
-            let updatedItem = TemporaryItem(
+            let updatedItem = EditTemporaryItem(
                 id: editingItem?.id ?? UUID(),
+                coreDataID: editingItem?.coreDataID,
                 name: itemName,
                 isContainer: canContainOtherItems,
                 importance: importance,
                 containedItems: containedItems
             )
-            print("Updated Item: \(updatedItem)")
-            // 변경된 아이템을 EditAlarmView로 전달합니다.
-            onItemUpdated(updatedItem)
 
+            onItemUpdated(updatedItem)
+            print("변경된 내용 : \(updatedItem)")
             presentationMode.wrappedValue.dismiss()
         }) {
             Text("변경")
                 .foregroundColor(.white)
-                 .frame(width: 140)
-                 .padding()
-                 .background(updateButtonBackgroundColor)
-                 .cornerRadius(10)
+                .frame(width: 140)
+                .padding()
+                .background(updateButtonBackgroundColor)
+                .cornerRadius(10)
         }
         .disabled(isUpdateButtonDisabled)
-                .animation(.easeInOut, value: isUpdateButtonDisabled)
+        .animation(.easeInOut, value: isUpdateButtonDisabled)
     }
+
+
 
     private func addItemButton() -> some View {
         Button(action: {

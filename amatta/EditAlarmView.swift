@@ -21,7 +21,7 @@ struct EditAlarmView: View {
     @State private var showingNewItemView = false
     @StateObject private var alarmCreationData = AlarmCreationData()
     @State private var items: [Items] = []
-    @State private var selectedEditItem: TemporaryItem?
+    @State private var selectedEditItem: EditTemporaryItem?
     @State private var showingToast = false
     @State private var toastMessage = ""
     @Environment(\.presentationMode) var presentationMode
@@ -48,9 +48,15 @@ struct EditAlarmView: View {
                                 alarmCreationData: self.alarmCreationData,
                                 editingItem: tempItem,
                                 onItemUpdated: { updatedItem in
-                                            // 콘솔에 업데이트된 아이템 출력
-                                            print("Updated Item: \(updatedItem)")
-                                        }
+                                                // 'items' 배열에서 해당 EditTemporaryItem의 coreDataID로 Items 객체를 찾아 업데이트
+                                                if let coreDataID = updatedItem.coreDataID, let index = self.items.firstIndex(where: { $0.objectID == coreDataID }) {
+                                                    // 해당 아이템을 찾아서 업데이트
+                                                    self.items[index].name = updatedItem.name
+                                                    self.items[index].isContainer = updatedItem.isContainer
+                                                    self.items[index].importance = updatedItem.importance
+                                                    // 자식 아이템 처리 로직이 필요하다면 추가
+                                                }
+                                            }
                             )
                         }
 
@@ -137,12 +143,12 @@ struct EditAlarmView: View {
             ForEach(items, id: \.self) { item in
                 Button(action: {
                                    // CoreData의 Items 객체를 TemporaryItem으로 변환
-                                   let tempItem = TemporaryItem(
-                                       id: UUID(), // 새 UUID 생성 또는 기존 ID 사용
-                                       name: item.name ?? "",
-                                       isContainer: item.isContainer,
-                                       importance: item.importance,
-                                       containedItems: item.childrenArray.map { $0.name ?? "" }
+                    let tempItem = EditTemporaryItem(
+                            coreDataID: item.objectID, // CoreData의 ID 사용
+                            name: item.name ?? "",
+                            isContainer: item.isContainer,
+                            importance: item.importance,
+                            containedItems: item.childrenArray.map { $0.name ?? "" }
                                    )
                                    self.selectedEditItem = tempItem
                                }){
