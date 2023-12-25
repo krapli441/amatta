@@ -47,16 +47,35 @@ struct EditAlarmView: View {
                             AlarmEditModifyItemView(
                                 alarmCreationData: self.alarmCreationData,
                                 editingItem: tempItem,
-                                onItemUpdated: { updatedItem in
-                                                // 'items' 배열에서 해당 EditTemporaryItem의 coreDataID로 Items 객체를 찾아 업데이트
-                                                if let coreDataID = updatedItem.coreDataID, let index = self.items.firstIndex(where: { $0.objectID == coreDataID }) {
-                                                    // 해당 아이템을 찾아서 업데이트
-                                                    self.items[index].name = updatedItem.name
-                                                    self.items[index].isContainer = updatedItem.isContainer
-                                                    self.items[index].importance = updatedItem.importance
-                                                    // 자식 아이템 처리 로직이 필요하다면 추가
-                                                }
-                                            }
+                                onItemUpdated : { updatedItem in
+                                    print("onItemUpdated 호출됨: \(updatedItem)")
+
+                                    if let coreDataID = updatedItem.coreDataID {
+                                        print("coreDataID: \(coreDataID)")
+                                        
+                                        if let index = self.items.firstIndex(where: { $0.objectID == coreDataID }) {
+                                            print("기존 아이템 발견, 인덱스: \(index)")
+                                            self.items[index].name = updatedItem.name
+                                            self.items[index].isContainer = updatedItem.isContainer
+                                            self.items[index].importance = updatedItem.importance
+                                            // 자식 아이템 처리 로직 추가 가능...
+                                            print("아이템 업데이트 완료: \(self.items[index])")
+                                        } else {
+                                            print("새 아이템 추가 필요")
+                                            let newItem = Items(context: self.managedObjectContext)
+                                            newItem.name = updatedItem.name
+                                            newItem.isContainer = updatedItem.isContainer
+                                            newItem.importance = updatedItem.importance
+                                            // 자식 아이템 처리 로직 추가 가능...
+                                            self.items.append(newItem)
+                                            print("새 아이템 추가됨: \(newItem)")
+                                        }
+                                    } else {
+                                        print("coreDataID 없음, 아이템 업데이트 불가")
+                                    }
+                                }
+
+
                             )
                         }
 
@@ -67,7 +86,7 @@ struct EditAlarmView: View {
         .onTapGesture { hideKeyboard() }
         .onAppear {
                 loadAlarmData()
-            print("알림 정보에서 가져온 물건들 : \(items)")
+            print("초기 물건 목록: \(items)")
             }
     }
 
@@ -135,16 +154,13 @@ struct EditAlarmView: View {
         }
     }
 
-
-
     private func itemsToBringSection() -> some View {
         VStack(alignment: .center, spacing: 5) {
             SectionHeaderView(title: "챙겨야 할 것들")
             ForEach(items, id: \.self) { item in
                 Button(action: {
-                                   // CoreData의 Items 객체를 TemporaryItem으로 변환
                     let tempItem = EditTemporaryItem(
-                            coreDataID: item.objectID, // CoreData의 ID 사용
+                            coreDataID: item.objectID,
                             name: item.name ?? "",
                             isContainer: item.isContainer,
                             importance: item.importance,
@@ -176,7 +192,6 @@ struct EditAlarmView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(Color.gray, lineWidth: 1)
                     )
-                    // 편집 모드나 추가 로직은 필요한 경우 구현
                 }
             }
         }
