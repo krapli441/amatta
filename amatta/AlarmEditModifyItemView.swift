@@ -2,12 +2,11 @@
 //  AddItemView.swift
 //  amatta
 //
-//  Created by 박준형 on 12/15/23.
+//  Created by 박준형 on 12/25/23.
 //
 
 import Foundation
 import SwiftUI
-import CoreData
 
 
 struct AlarmEditModifyItemView: View {
@@ -19,21 +18,24 @@ struct AlarmEditModifyItemView: View {
     @State private var canContainOtherItems: Bool = false
     @State private var importance: Float = 1
     @State private var containedItems: [String] = []
-    var editingItem: Items?
-    var onItemUpdated: () -> Void
+    var editingItem: EditTemporaryItem?
+    var onItemUpdated: (EditTemporaryItem) -> Void
 
-    init(alarmCreationData: AlarmCreationData, editingItem: Items?, onItemUpdated: @escaping () -> Void) {
-            _alarmCreationData = StateObject(wrappedValue: alarmCreationData)
-            self.editingItem = editingItem
-            self.onItemUpdated = onItemUpdated
 
-            if let editingItem = editingItem {
-                _itemName = State(initialValue: editingItem.name ?? "")
-                _canContainOtherItems = State(initialValue: editingItem.isContainer)
-                _importance = State(initialValue: editingItem.importance)
-                _containedItems = State(initialValue: editingItem.childrenArray.map { $0.name ?? "" })
-            }
+    init(alarmCreationData: AlarmCreationData, editingItem: EditTemporaryItem?, onItemUpdated: @escaping (EditTemporaryItem) -> Void) {
+        _alarmCreationData = StateObject(wrappedValue: alarmCreationData)
+        self.editingItem = editingItem
+        self.onItemUpdated = onItemUpdated
+
+        if let editingItem = editingItem {
+            _itemName = State(initialValue: editingItem.name)
+            _canContainOtherItems = State(initialValue: editingItem.isContainer)
+            _importance = State(initialValue: editingItem.importance)
+            _containedItems = State(initialValue: editingItem.containedItems)
         }
+    }
+
+
 
     var isUpdateButtonDisabled: Bool {
            itemName.isEmpty || containedItems.contains { $0.isEmpty }
@@ -119,31 +121,22 @@ struct AlarmEditModifyItemView: View {
             containedItems.remove(at: index)
         }
     }
-    
+
     private func updateButton() -> some View {
         Button(action: {
-            // 선택된 아이템과 관련된 Managed Object Context를 가져옵니다.
-            if let itemToEdit = editingItem, let context = itemToEdit.managedObjectContext {
-                // CoreData의 아이템에 대한 세부 정보를 업데이트합니다.
-                itemToEdit.name = self.itemName
-                itemToEdit.isContainer = self.canContainOtherItems
-                itemToEdit.importance = self.importance
-                
-                // 자식 아이템 업데이트 로직을 호출합니다.
-                updateChildItems(for: itemToEdit, with: containedItems, in: context)
+            let updatedItem = EditTemporaryItem(
+                id: editingItem?.id ?? UUID(),
+                coreDataID: editingItem?.coreDataID,
+                name: itemName,
+                isContainer: canContainOtherItems,
+                importance: importance,
+                containedItems: containedItems
+            )
 
-                // 변경 사항을 저장합니다.
-                do {
-                    try context.save()
-                    print("물건 변경됨: \(itemToEdit)")
-                } catch {
-                    print("물건 변경 실패: \(error)")
-                }
-            }
-            // 현재 뷰를 닫습니다.
+            onItemUpdated(updatedItem)
+            print("변경된 내용 : \(updatedItem)")
             presentationMode.wrappedValue.dismiss()
         }) {
-            // 버튼 UI 설정
             Text("변경")
                 .foregroundColor(.white)
                 .frame(width: 140)
@@ -155,20 +148,6 @@ struct AlarmEditModifyItemView: View {
         .animation(.easeInOut, value: isUpdateButtonDisabled)
     }
 
-    private func updateChildItems(for item: Items, with names: [String], in context: NSManagedObjectContext) {
-        // 기존 자식 아이템들 삭제
-        if let existingChildren = item.children as? Set<Items> {
-            existingChildren.forEach { context.delete($0) }
-        }
-
-        // 새로운 자식 아이템들 추가
-        names.forEach { name in
-            let newChild = Items(context: context)
-            newChild.name = name
-            newChild.isContainer = false // 자식 아이템은 컨테이너가 아님
-            item.addToChildren(newChild)
-        }
-    }
 
 
     private func addItemButton() -> some View {
@@ -204,22 +183,22 @@ struct AlarmEditModifyItemView: View {
                     Alert(
                         title: Text("물건을 삭제하시겠어요?"),
                         primaryButton: .destructive(Text("삭제")) {
-//                            deleteItem()
+                            deleteItem()
                         },
                         secondaryButton: .cancel()
                     )
                 }
     }
     
-//    private func deleteItem() {
-//            if let editingItemID = editingItem?.id {
-//                if let index = alarmCreationData.items.firstIndex(where: { $0.id == editingItemID }) {
-//                    alarmCreationData.items.remove(at: index)
-//                    print("물건 삭제됨")
-//                }
-//            }
-//            presentationMode.wrappedValue.dismiss()
-//        }
+    private func deleteItem() {
+            if let editingItemID = editingItem?.id {
+                if let index = alarmCreationData.items.firstIndex(where: { $0.id == editingItemID }) {
+                    alarmCreationData.items.remove(at: index)
+                    print("물건 삭제됨")
+                }
+            }
+            presentationMode.wrappedValue.dismiss()
+        }
     
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -228,12 +207,17 @@ struct AlarmEditModifyItemView: View {
 }
 
 
+
+
+
+
+
 struct AlarmEditModifyItemView_Previews: PreviewProvider {
     static var previews: some View {
         AlarmEditModifyItemView(
             alarmCreationData: AlarmCreationData(),
             editingItem: nil,
-            onItemUpdated: {} // 빈 클로저 제공
+            onItemUpdated: { _ in } // 빈 클로저 제공
         )
     }
 }

@@ -21,7 +21,7 @@ struct EditAlarmView: View {
     @State private var showingNewItemView = false
     @StateObject private var alarmCreationData = AlarmCreationData()
     @State private var items: [Items] = []
-    @State private var editingItem: TemporaryItem?
+    @State private var selectedEditItem: EditTemporaryItem?
     @State private var showingToast = false
     @State private var toastMessage = ""
     @Environment(\.presentationMode) var presentationMode
@@ -43,9 +43,42 @@ struct EditAlarmView: View {
                     daySelectionSection()
                     itemsToBringSection()
                     addItemButton()
-                        .sheet(item: $editingItem) { item in
-                                AddItemView(alarmCreationData: self.alarmCreationData, editingItem: item)  // 물건 편집 모드
-                            }
+                        .sheet(item: $selectedEditItem) { tempItem in
+                            AlarmEditModifyItemView(
+                                alarmCreationData: self.alarmCreationData,
+                                editingItem: tempItem,
+                                onItemUpdated : { updatedItem in
+                                    print("onItemUpdated 호출됨: \(updatedItem)")
+
+                                    if let coreDataID = updatedItem.coreDataID {
+                                        print("coreDataID: \(coreDataID)")
+                                        
+                                        if let index = self.items.firstIndex(where: { $0.objectID == coreDataID }) {
+                                            print("기존 아이템 발견, 인덱스: \(index)")
+                                            self.items[index].name = updatedItem.name
+                                            self.items[index].isContainer = updatedItem.isContainer
+                                            self.items[index].importance = updatedItem.importance
+                                            // 자식 아이템 처리 로직 추가 가능...
+                                            print("아이템 업데이트 완료: \(self.items[index])")
+                                        } else {
+                                            print("새 아이템 추가 필요")
+                                            let newItem = Items(context: self.managedObjectContext)
+                                            newItem.name = updatedItem.name
+                                            newItem.isContainer = updatedItem.isContainer
+                                            newItem.importance = updatedItem.importance
+                                            // 자식 아이템 처리 로직 추가 가능...
+                                            self.items.append(newItem)
+                                            print("새 아이템 추가됨: \(newItem)")
+                                        }
+                                    } else {
+                                        print("coreDataID 없음, 아이템 업데이트 불가")
+                                    }
+                                }
+
+
+                            )
+                        }
+
                 }
             }
             addButton()
@@ -62,6 +95,7 @@ struct EditAlarmView: View {
         .onTapGesture { hideKeyboard() }
         .onAppear {
                 loadAlarmData()
+            print("초기 물건 목록: \(items)")
             }
     }
     
@@ -129,15 +163,20 @@ struct EditAlarmView: View {
         }
     }
 
-
-
     private func itemsToBringSection() -> some View {
         VStack(alignment: .center, spacing: 5) {
             SectionHeaderView(title: "챙겨야 할 것들")
             ForEach(items, id: \.self) { item in
                 Button(action: {
-                    self.selectedEditItem = item
-                }) {
+                    let tempItem = EditTemporaryItem(
+                            coreDataID: item.objectID,
+                            name: item.name ?? "",
+                            isContainer: item.isContainer,
+                            importance: item.importance,
+                            containedItems: item.childrenArray.map { $0.name ?? "" }
+                                   )
+                                   self.selectedEditItem = tempItem
+                               }){
                     HStack {
                         VStack(alignment: .leading) {
                             Text(item.name ?? "Unknown")
@@ -162,7 +201,6 @@ struct EditAlarmView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(Color.gray, lineWidth: 1)
                     )
-                    // 편집 모드나 추가 로직은 필요한 경우 구현
                 }
             }
         }
