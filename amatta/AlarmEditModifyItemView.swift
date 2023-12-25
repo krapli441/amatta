@@ -122,19 +122,17 @@ struct AlarmEditModifyItemView: View {
     
     private func updateButton() -> some View {
         Button(action: {
-            if let editingItemID = editingItem?.id {
-                if let index = alarmCreationData.items.firstIndex(where: { $0.id == editingItemID }) {
-                    let updatedItem = TemporaryItem(
-                        id: editingItemID, // 기존 아이템의 ID 사용
-                        name: itemName,
-                        isContainer: canContainOtherItems,
-                        importance: importance,
-                        containedItems: containedItems
-                    )
-                    alarmCreationData.items[index] = updatedItem
-                    print("물건 변경됨: \(updatedItem)")
-                }
-            }
+            let updatedItem = TemporaryItem(
+                id: editingItem?.id ?? UUID(),
+                name: itemName,
+                isContainer: canContainOtherItems,
+                importance: importance,
+                containedItems: containedItems
+            )
+
+            // 변경된 아이템을 EditAlarmView로 전달합니다.
+            onItemUpdated(updatedItem)
+
             presentationMode.wrappedValue.dismiss()
         }) {
             Text("변경")
