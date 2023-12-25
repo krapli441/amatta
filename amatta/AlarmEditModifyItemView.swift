@@ -129,7 +129,7 @@ struct AlarmEditModifyItemView: View {
                 importance: importance,
                 containedItems: containedItems
             )
-
+            print("Updated Item: \(updatedItem)")
             // 변경된 아이템을 EditAlarmView로 전달합니다.
             onItemUpdated(updatedItem)
 
