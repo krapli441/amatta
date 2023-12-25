@@ -46,18 +46,34 @@ struct EditAlarmView: View {
                                 alarmCreationData: self.alarmCreationData,
                                 editingItem: tempItem,
                                 onItemUpdated: { updatedItem in
-                                    if let coreDataID = updatedItem.coreDataID,
-                                       let index = self.items.firstIndex(where: { $0.objectID == coreDataID }) {
+                                    print("onItemUpdated 시작: \(updatedItem)")
+
+                                    // 'items' 배열에서 해당 EditTemporaryItem의 coreDataID로 Items 객체를 찾아 업데이트
+                                    if let coreDataID = updatedItem.coreDataID, let index = self.items.firstIndex(where: { $0.objectID == coreDataID }) {
+                                        print("기존 아이템 발견, 인덱스: \(index)")
+                                        // 해당 아이템을 찾아서 업데이트
                                         self.items[index].name = updatedItem.name
                                         self.items[index].isContainer = updatedItem.isContainer
                                         self.items[index].importance = updatedItem.importance
-                                        // 아이템 배열 갱신
                                         self.items = Array(self.items)
+                                        // 자식 아이템 처리 로직이 필요하다면 추가
+                                        loadAlarmData()
+                                    } else {
+                                        print("새 아이템 추가")
+                                        // 찾을 수 없다면 새 아이템으로 추가
+                                        let newItem = Items(context: self.managedObjectContext)
+                                        newItem.name = updatedItem.name
+                                        newItem.isContainer = updatedItem.isContainer
+                                        newItem.importance = updatedItem.importance
+                                        // 자식 아이템 처리 로직이 필요하다면 추가
+                                        self.items.append(newItem)
                                     }
+                                    
+                                    print("아이템 업데이트 후 items 배열: \(self.items)")
+                                    print("onItemUpdated 끝")
                                 }
                             )
                         }
-
 
 
                 }
@@ -138,19 +154,19 @@ struct EditAlarmView: View {
     private func itemsToBringSection() -> some View {
         VStack(alignment: .center, spacing: 5) {
             SectionHeaderView(title: "챙겨야 할 것들")
-            ForEach(items, id: \.self) { item in
-                Button(action: {
-                    // CoreData의 최신 Items 객체 상태를 반영하여 EditTemporaryItem 생성
-                    let updatedItem = items.first(where: { $0.objectID == item.objectID })
-                    let tempItem = EditTemporaryItem(
-                        coreDataID: updatedItem?.objectID,
-                        name: updatedItem?.name ?? "",
-                        isContainer: updatedItem?.isContainer ?? false,
-                        importance: updatedItem?.importance ?? 0,
-                        containedItems: updatedItem?.childrenArray.map { $0.name ?? "" } ?? []
-                    )
-                    self.selectedEditItem = tempItem
-                }) {
+            ForEach(items, id: \.objectID) { item in
+                        Button(action: {
+                            // CoreData의 최신 Items 객체 상태를 반영하여 EditTemporaryItem 생성
+                            let updatedItem = items.first(where: { $0.objectID == item.objectID })
+                            let tempItem = EditTemporaryItem(
+                                coreDataID: updatedItem?.objectID,
+                                name: updatedItem?.name ?? "",
+                                isContainer: updatedItem?.isContainer ?? false,
+                                importance: updatedItem?.importance ?? 0,
+                                containedItems: updatedItem?.childrenArray.map { $0.name ?? "" } ?? []
+                            )
+                            self.selectedEditItem = tempItem
+                        }){
                     HStack {
                         VStack(alignment: .leading) {
                             Text(item.name ?? "Unknown")
