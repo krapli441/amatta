@@ -22,8 +22,6 @@ struct EditAlarmView: View {
     @StateObject private var alarmCreationData = AlarmCreationData()
     @State private var items: [Items] = []
     @State private var selectedEditItem: EditTemporaryItem?
-    @State private var showingToast = false
-    @State private var toastMessage = ""
     @Environment(\.presentationMode) var presentationMode
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
 
@@ -48,33 +46,18 @@ struct EditAlarmView: View {
                                 alarmCreationData: self.alarmCreationData,
                                 editingItem: tempItem,
                                 onItemUpdated: { updatedItem in
-                                    print("onItemUpdated 시작: \(updatedItem)")
-
-                                    // 'items' 배열에서 해당 EditTemporaryItem의 coreDataID로 Items 객체를 찾아 업데이트
-                                    if let coreDataID = updatedItem.coreDataID, let index = self.items.firstIndex(where: { $0.objectID == coreDataID }) {
-                                        print("기존 아이템 발견, 인덱스: \(index)")
-                                        // 해당 아이템을 찾아서 업데이트
+                                    if let coreDataID = updatedItem.coreDataID,
+                                       let index = self.items.firstIndex(where: { $0.objectID == coreDataID }) {
                                         self.items[index].name = updatedItem.name
                                         self.items[index].isContainer = updatedItem.isContainer
                                         self.items[index].importance = updatedItem.importance
-                                        // 자식 아이템 처리 로직이 필요하다면 추가
-                                    } else {
-                                        print("새 아이템 추가")
-                                        // 찾을 수 없다면 새 아이템으로 추가
-                                        let newItem = Items(context: self.managedObjectContext)
-                                        newItem.name = updatedItem.name
-                                        newItem.isContainer = updatedItem.isContainer
-                                        newItem.importance = updatedItem.importance
-                                        // 자식 아이템 처리 로직이 필요하다면 추가
-                                        self.items.append(newItem)
-                                        self.objectWillChange.send()
+                                        // 아이템 배열 갱신
+                                        self.items = Array(self.items)
                                     }
-
-                                    print("아이템 업데이트 후 items 배열: \(self.items)")
-                                    print("onItemUpdated 끝")
                                 }
                             )
                         }
+
 
 
                 }
@@ -84,7 +67,7 @@ struct EditAlarmView: View {
         .onTapGesture { hideKeyboard() }
         .onAppear {
                 loadAlarmData()
-            print("초기 물건 목록: \(items)")
+            print("아이템 업데이트 전 items 배열: \(items)")
             }
     }
 
