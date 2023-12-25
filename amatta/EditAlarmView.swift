@@ -8,6 +8,13 @@
 import Foundation
 import SwiftUI
 import CoreData
+import Combine
+
+class EditAlarmViewModel: ObservableObject {
+    @Published var items: [Items] = []
+    var objectWillChange = PassthroughSubject<Void, Never>()
+    // 다른 필요한 프로퍼티들을 추가할 수 있습니다.
+}
 
 struct EditAlarmView: View {
     let alarmID: NSManagedObjectID?
@@ -19,11 +26,10 @@ struct EditAlarmView: View {
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
     @State private var showingAddItemView = false
     @State private var showingNewItemView = false
+    @ObservedObject private var viewModel = EditAlarmViewModel() // Use the view model
     @StateObject private var alarmCreationData = AlarmCreationData()
-    @State private var items: [Items] = []
+        @State private var items: [Items] = [] // items 배열 정의
     @State private var selectedEditItem: EditTemporaryItem?
-    @State private var showingToast = false
-    @State private var toastMessage = ""
     @Environment(\.presentationMode) var presentationMode
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
 
@@ -84,7 +90,6 @@ struct EditAlarmView: View {
         .onTapGesture { hideKeyboard() }
         .onAppear {
                 loadAlarmData()
-            print("초기 물건 목록: \(items)")
             }
     }
 
@@ -109,56 +114,40 @@ struct EditAlarmView: View {
     }
     
     private func loadAlarmData() {
-        guard let alarmID = alarmID,
-              let alarm = managedObjectContext.object(with: alarmID) as? Alarm else {
-            print("Alarm not found")
+        guard let alarmID = alarmID else {
+            // alarmID가 없으면 로드할 알람 데이터가 없습니다.
             return
         }
-        if let alarmItems = alarm.items as? Set<Items> {
-                    self.items = Array(alarmItems)
-                }
 
-        alarmName = alarm.name ?? ""
-        selectedTime = alarm.time ?? Date()
-        selectedWeekdays = [
-            alarm.sunday,
-            alarm.monday,
-            alarm.tuesday,
-            alarm.wednesday,
-            alarm.thursday,
-            alarm.friday,
-            alarm.saturday
-        ]
- 
+        do {
+            // 알람 ID를 사용하여 Core Data에서 알람 데이터를 가져옵니다.
+            let alarm = try managedObjectContext.existingObject(with: alarmID) as? Alarm
 
-        // 콘솔에 정보 출력
-        print("Alarm Name: \(alarmName)")
-        print("Selected Time: \(selectedTime)")
-        print("Selected Weekdays: \(selectedWeekdays)")
+            if let alarm = alarm {
+                // 알람 데이터가 있다면 해당 데이터로부터 필요한 정보를 추출합니다.
+                alarmName = alarm.name ?? ""
+                selectedTime = alarm.time ?? Date()
+                // 다른 데이터 필드들도 필요에 따라 추출할 수 있습니다.
 
-        // Items 관련 정보 출력
-        if let items = alarm.items as? Set<Items> {
-            for item in items {
-                print("Item Name: \(item.name ?? "Unknown")")
-                print("Is Container: \(item.isContainer)")
-                print("Importance: \(item.importance)")
-                // 연관된 자식 아이템들에 대한 정보
-                if let children = item.children as? Set<Items> {
-                    for child in children {
-                        print("Child Item Name: \(child.name ?? "Unknown")")
-                    }
+                // 물건 데이터를 가져오기 위한 예시 (EditAlarmViewModel을 통해 가져올 수 있도록 수정 필요)
+                if let items = alarm.items?.allObjects as? [Items] {
+                    viewModel.items = items
                 }
             }
+        } catch {
+            // 데이터 로드 중에 오류가 발생한 경우 처리합니다.
+            print("Error loading alarm data: \(error)")
         }
     }
+
 
     private func itemsToBringSection() -> some View {
         VStack(alignment: .center, spacing: 5) {
             SectionHeaderView(title: "챙겨야 할 것들")
-            ForEach(items, id: \.self) { item in
+            ForEach(viewModel.items, id: \.self) { item in
                 Button(action: {
                     // CoreData의 최신 Items 객체 상태를 반영하여 EditTemporaryItem 생성
-                    let updatedItem = items.first(where: { $0.objectID == item.objectID })
+                    let updatedItem = viewModel.items.first(where: { $0.objectID == item.objectID })
                     let tempItem = EditTemporaryItem(
                         coreDataID: updatedItem?.objectID,
                         name: updatedItem?.name ?? "",
