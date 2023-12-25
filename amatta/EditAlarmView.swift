@@ -43,15 +43,31 @@ struct EditAlarmView: View {
                     daySelectionSection()
                     itemsToBringSection()
                     addItemButton()
-                    .sheet(item: $selectedEditItem) { tempItem in
-                                        AlarmEditModifyItemView(
-                                            alarmCreationData: self.alarmCreationData,
-                                            editingItem: tempItem,
-                                            onItemUpdated: { updatedItem in
-                                                
-                                            }
-                                        )
+                        .sheet(item: $selectedEditItem) { tempItem in
+                            AlarmEditModifyItemView(
+                                alarmCreationData: self.alarmCreationData,
+                                editingItem: tempItem,
+                                onItemUpdated: { updatedItem in
+                                    // 'items' 배열에서 해당 TemporaryItem의 정보로 Items 객체를 업데이트
+                                    if let index = self.items.firstIndex(where: { $0.id == updatedItem.id }) {
+                                        // 해당 아이템을 찾아서 업데이트
+                                        self.items[index].name = updatedItem.name
+                                        self.items[index].isContainer = updatedItem.isContainer
+                                        self.items[index].importance = updatedItem.importance
+                                        // 자식 아이템 처리 로직이 필요하다면 추가
+                                    } else {
+                                        // 찾을 수 없다면 새 아이템으로 추가
+                                        let newItem = Items(context: self.managedObjectContext)
+                                        newItem.name = updatedItem.name
+                                        newItem.isContainer = updatedItem.isContainer
+                                        newItem.importance = updatedItem.importance
+                                        // 자식 아이템 처리 로직이 필요하다면 추가
+                                        self.items.append(newItem)
                                     }
+                                }
+                            )
+                        }
+
                 }
             }
             addButton()
