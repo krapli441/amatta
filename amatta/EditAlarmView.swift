@@ -15,14 +15,15 @@ struct EditAlarmView: View {
     
     let alarmID: NSManagedObjectID?
     @Environment(\.managedObjectContext) private var managedObjectContext
+    @ObservedObject var alarmDataModel: AlarmDataModel
     @State private var alarm: Alarm?
     @State private var alarmName: String = ""
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
     
-    init(alarmID: NSManagedObjectID? = nil) {
-            self.alarmID = alarmID
-        }
+//    init(alarmID: NSManagedObjectID? = nil) {
+//            self.alarmID = alarmID
+//        }
     
     var body: some View {
         VStack {
@@ -63,6 +64,7 @@ struct EditAlarmView: View {
     private func updateButton() -> some View {
         Button(action: {
             updateAlarm()
+            alarmDataModel.fetchAlarms()
         }) {
             Text("변경")
                 .foregroundColor(.white)
@@ -222,6 +224,11 @@ struct EditAlarmView: View {
 
 struct EditAlarmView_Previews: PreviewProvider {
     static var previews: some View {
-        EditAlarmView()
+        // 더미 Context와 AlarmDataModel 생성
+        let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        let alarmDataModel = AlarmDataModel(context: context)
+
+        EditAlarmView(alarmID: nil, alarmDataModel: alarmDataModel)
     }
 }
+
