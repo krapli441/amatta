@@ -12,6 +12,12 @@ import CoreData
 struct ContentView: View {
     @State private var showingAdd = false
     @Environment(\.managedObjectContext) private var managedObjectContext
+    
+    @FetchRequest(
+            entity: Alarm.entity(),
+            sortDescriptors: [NSSortDescriptor(keyPath: \Alarm.time, ascending: true)]
+        ) var alarms: FetchedResults<Alarm>
+    
     @State private var selectedAlarmID: NSManagedObjectID?
     @State private var isEditing = false
     @StateObject var alarmDataModel = AlarmDataModel(context: PersistenceController.shared.container.viewContext)
