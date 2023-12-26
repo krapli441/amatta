@@ -10,12 +10,13 @@ import CoreData
 
 struct ContentView: View {
     @State private var showingAdd = false
-    @Environment(\.managedObjectContext) private var managedObjectContext
-
     @FetchRequest(
         entity: Alarm.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \Alarm.time, ascending: true)]
     ) var alarms: FetchedResults<Alarm>
+    @State private var selectedAlarmID: NSManagedObjectID?
+    @State private var isEditing = false
+    @Environment(\.managedObjectContext) var managedObjectContext
 
     var body: some View {
         NavigationView {
@@ -49,10 +50,11 @@ struct ContentView: View {
                                 .foregroundColor(.gray)
                         } else {
                             ForEach(alarms, id: \.self) { alarm in
-                                NavigationLink(destination: EditAlarmView(alarmID: alarm.objectID)) {
-                                    AlarmRow(alarm: alarm)
-                                }
-                                .frame(maxWidth: 360)
+                            AlarmRow(alarm: alarm, editAction: { alarmID in
+                                    self.selectedAlarmID = alarmID
+                                    self.isEditing = true
+                            })
+                            .frame(maxWidth: 360)
                             }
                         }
                     }
@@ -76,6 +78,11 @@ struct ContentView: View {
                     .cornerRadius(10)
                     .padding()
                 }
+                
+                NavigationLink(destination: EditAlarmView(alarmID: selectedAlarmID), isActive: $isEditing) {
+                                    EmptyView()
+                                }
+                
             }
             .frame(maxWidth: .infinity, alignment: .center)
             .onAppear(perform: requestNotificationPermission)
@@ -96,57 +103,49 @@ struct ContentView: View {
 
 struct AlarmRow: View {
     let alarm: Alarm
+    var editAction: (NSManagedObjectID) -> Void
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) var managedObjectContext
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text(alarm.name ?? "알림")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundColor(.primary)
-                Spacer()
-                Text(alarm.formattedTime)
-                    .font(.subheadline)
-                    .foregroundColor(.primary)
-            }
-            .padding()
-
-            // 알림 상세 정보 항상 표시
-            ForEach(alarm.itemsArray, id: \.self) { item in
+        Button(action: {
+            // editAction 클로저 호출
+            self.editAction(self.alarm.objectID)
+        }) {
+            VStack(alignment: .leading, spacing: 10) {
                 HStack {
-                    Text(item.name ?? "")
+                    Text(alarm.name ?? "알림")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Text(alarm.formattedTime)
                         .font(.subheadline)
                         .foregroundColor(.primary)
-                    
-                    if item.isContainer {
-                        ForEach(item.childrenArray, id: \.self) { child in
-                            Text(child.name ?? "")
-                                .font(.footnote)
-                                .foregroundColor(.gray)
-                                .padding(.leading, 1)
-                        }
-                    }
                 }
-            }
-            .padding([.leading, .trailing])
+                .padding()
 
-            HStack {
-                Spacer()
-                Text("\(alarm.weekdays)")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-            }
-            .padding([.leading, .trailing, .bottom])
+                // 알림 상세 정보
+                ForEach(alarm.itemsArray, id: \.self) { item in
+                    // ... 아이템 정보 ...
+                }
+                .padding([.leading, .trailing])
 
+                HStack {
+                    Spacer()
+                    Text("\(alarm.weekdays)")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
+                .padding([.leading, .trailing, .bottom])
+            }
+            .background(colorScheme == .dark ? Color(white: 0.2) : Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255))
+            .cornerRadius(10)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.gray, lineWidth: 1)
+            )
         }
-        .background(colorScheme == .dark ? Color(white: 0.2) : Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255))
-        .cornerRadius(10)
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.gray, lineWidth: 1)
-        )
     }
 }
 
