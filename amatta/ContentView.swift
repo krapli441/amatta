@@ -11,9 +11,11 @@ import CoreData
 
 struct ContentView: View {
     @State private var showingAdd = false
+    @Environment(\.managedObjectContext) private var managedObjectContext
     @FetchRequest(
         entity: Alarm.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Alarm.time, ascending: true)]
+        sortDescriptors: [NSSortDescriptor(keyPath: \Alarm.time, ascending: true)],
+        animation: .default
     ) var alarms: FetchedResults<Alarm>
     @State private var selectedAlarmID: NSManagedObjectID?
     @State private var isEditing = false
@@ -83,11 +85,16 @@ struct ContentView: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            .onAppear(perform: requestNotificationPermission)
+            .onAppear {
+                        requestNotificationPermission()
+                        refreshData() // CoreData의 데이터를 새로 고칩니다.
+                    }
         }
     }
     
-    
+    private func refreshData() {
+            self.managedObjectContext.refreshAllObjects()
+        }
 
     private func requestNotificationPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
