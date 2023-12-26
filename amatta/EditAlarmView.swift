@@ -12,41 +12,35 @@ import CoreData
 struct EditAlarmView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode
-    
     let alarmID: NSManagedObjectID?
     @Environment(\.managedObjectContext) private var managedObjectContext
-    @ObservedObject var alarmDataModel: AlarmDataModel
     @State private var alarm: Alarm?
     @State private var alarmName: String = ""
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
-    
-//    init(alarmID: NSManagedObjectID? = nil) {
-//            self.alarmID = alarmID
-//        }
+    let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
     
     var body: some View {
-        VStack {
-            EditAlarmHeaderView()
-            ScrollView {
-                VStack(spacing: 12) {
-                    inputSection(title: "알림 이름", content: CustomTextField(placeholder: "이름을 입력해주세요.", text: $alarmName))
-                    inputSection(title: "알림 시간", content: CustomDatePicker(selection: $selectedTime))
-                    daySelectionSection()
-                    itemsToBringSection()
+            VStack {
+                EditAlarmHeaderView()
+                ScrollView {
+                    VStack(spacing: 12) {
+                        inputSection(title: "알림 이름", content: CustomTextField(placeholder: "이름을 입력해주세요.", text: $alarmName))
+                        inputSection(title: "알림 시간", content: CustomDatePicker(selection: $selectedTime))
+                        daySelectionSection()
+                        itemsToBringSection()
+                    }
                 }
-            }
-        }
-        HStack {
+                HStack {
                     deleteButton()
                     updateButton()
                 }
-        .onAppear {
-                    loadAlarmData()
-                }
-        .onTapGesture { hideKeyboard() }
-    }
-    
+            }
+            .onAppear {
+                loadAlarmData()
+            }
+            .onTapGesture { hideKeyboard() }
+        }
     private func deleteButton() -> some View {
         Button(action: {
             // 삭제 버튼 액션
@@ -64,7 +58,7 @@ struct EditAlarmView: View {
     private func updateButton() -> some View {
         Button(action: {
             updateAlarm()
-            alarmDataModel.fetchAlarms()
+//            alarmDataModel.fetchAlarms()
         }) {
             Text("변경")
                 .foregroundColor(.white)
@@ -111,7 +105,7 @@ struct EditAlarmView: View {
             .commonInputStyle(colorScheme: colorScheme)
     }
     
-    let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
+
     @ViewBuilder
     private func daySelectionSection() -> some View {
         SectionHeaderView(title: "요일 선택")
@@ -226,7 +220,7 @@ struct EditAlarmView_Previews: PreviewProvider {
         let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         let alarmDataModel = AlarmDataModel(context: context)
 
-        EditAlarmView(alarmID: nil, alarmDataModel: alarmDataModel)
+        EditAlarmView(alarmID: nil)
     }
 }
 

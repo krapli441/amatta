@@ -6,21 +6,16 @@
 //
 
 import SwiftUI
-import SwiftData
 import CoreData
 
 struct ContentView: View {
     @State private var showingAdd = false
     @Environment(\.managedObjectContext) private var managedObjectContext
-    
+
     @FetchRequest(
-            entity: Alarm.entity(),
-            sortDescriptors: [NSSortDescriptor(keyPath: \Alarm.time, ascending: true)]
-        ) var alarms: FetchedResults<Alarm>
-    
-    @State private var selectedAlarmID: NSManagedObjectID?
-    @State private var isEditing = false
-    @StateObject var alarmDataModel = AlarmDataModel(context: PersistenceController.shared.container.viewContext)
+        entity: Alarm.entity(),
+        sortDescriptors: [NSSortDescriptor(keyPath: \Alarm.time, ascending: true)]
+    ) var alarms: FetchedResults<Alarm>
 
     var body: some View {
         NavigationView {
@@ -33,9 +28,7 @@ struct ContentView: View {
                         .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                         .padding([.leading, .trailing], 40)
                         .padding(.top, 20)
-
                     Spacer()
-
                     Button(action: {
                         // 톱니바퀴 버튼 기능
                     }) {
@@ -45,22 +38,22 @@ struct ContentView: View {
                             .padding(.top, 20)
                     }
                 }
-
                 Spacer()
 
+                // 알람 리스트
                 ScrollView {
                     VStack(spacing: 10) {
-                        if alarmDataModel.alarms.isEmpty {
+                        if alarms.isEmpty {
                             Text("아직 생성된 알림이 없습니다.")
                                 .font(.system(size: 16))
                                 .foregroundColor(.gray)
                         } else {
-                            ForEach(alarmDataModel.alarms, id: \.self) { alarm in
-                                                        NavigationLink(destination: EditAlarmView(alarmID: alarm.objectID, alarmDataModel: alarmDataModel)) {
-                                                            AlarmRow(alarm: alarm)
-                                                        }
-                                                        .frame(maxWidth: 360)
-                                            }
+                            ForEach(alarms, id: \.self) { alarm in
+                                NavigationLink(destination: EditAlarmView(alarmID: alarm.objectID)) {
+                                    AlarmRow(alarm: alarm)
+                                }
+                                .frame(maxWidth: 360)
+                            }
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -70,6 +63,7 @@ struct ContentView: View {
 
                 Spacer()
 
+                // 알람 추가 버튼
                 NavigationLink(destination: AddAlarmView()) {
                     HStack {
                         Image(systemName: "plus")
@@ -82,15 +76,9 @@ struct ContentView: View {
                     .cornerRadius(10)
                     .padding()
                 }
-                .sheet(isPresented: $showingAdd) {
-                    AddAlarmView()
-                }
             }
             .frame(maxWidth: .infinity, alignment: .center)
-            .onAppear {
-                        requestNotificationPermission()
-                        alarmDataModel.fetchAlarms()
-                    }
+            .onAppear(perform: requestNotificationPermission)
         }
     }
 
@@ -105,6 +93,9 @@ struct ContentView: View {
         }
     }
 }
+
+// 기타 필요한 View 및 Extension 정의는 동일하게 유지합니다.
+
 
 struct AlarmRow: View {
     let alarm: Alarm
