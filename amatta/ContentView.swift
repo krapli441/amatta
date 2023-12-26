@@ -19,6 +19,7 @@ struct ContentView: View {
     ) var alarms: FetchedResults<Alarm>
     @State private var selectedAlarmID: NSManagedObjectID?
     @State private var isEditing = false
+    @StateObject var alarmDataModel = AlarmDataModel(context: PersistenceController.shared.container.viewContext)
 
     var body: some View {
         NavigationView {
@@ -53,11 +54,11 @@ struct ContentView: View {
                                 .font(.system(size: 16))
                                 .foregroundColor(.gray)
                         } else {
-                            ForEach(alarms, id: \.self) { alarm in
-                                                            NavigationLink(destination: EditAlarmView(alarmID: alarm.objectID)) {
-                                                                AlarmRow(alarm: alarm)
-                                                            }
-                                                            .frame(maxWidth: 360)
+                            ForEach(alarmDataModel.alarms, id: \.self) { alarm in
+                                                        NavigationLink(destination: EditAlarmView(alarmID: alarm.objectID)) {
+                                                            AlarmRow(alarm: alarm)
+                                                        }
+                                                        .frame(maxWidth: 360)
                                             }
                         }
                     }

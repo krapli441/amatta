@@ -28,6 +28,7 @@
 		635D19A52B35686100BA2787 /* AlarmEditAddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635D19A42B35686100BA2787 /* AlarmEditAddItemView.swift */; };
 		635D19A72B35686C00BA2787 /* AlarmEditModifyItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635D19A62B35686C00BA2787 /* AlarmEditModifyItemView.swift */; };
 		637B46372B3AC6AA007FE227 /* AlarmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637B46362B3AC6AA007FE227 /* AlarmViewModel.swift */; };
+		637B46392B3AC78C007FE227 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637B46382B3AC78C007FE227 /* PersistenceController.swift */; };
 		637C303F2B2BEF050006812D /* AlarmData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 637C303D2B2BEF050006812D /* AlarmData.xcdatamodeld */; };
 		6386CB802B31379E004E89D3 /* EditItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6386CB7F2B31379E004E89D3 /* EditItemView.swift */; };
 		6386CB822B31381C004E89D3 /* EditItemHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6386CB812B31381C004E89D3 /* EditItemHeaderView.swift */; };
@@ -87,6 +88,7 @@
 		635D19A42B35686100BA2787 /* AlarmEditAddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmEditAddItemView.swift; sourceTree = "<group>"; };
 		635D19A62B35686C00BA2787 /* AlarmEditModifyItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmEditModifyItemView.swift; sourceTree = "<group>"; };
 		637B46362B3AC6AA007FE227 /* AlarmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewModel.swift; sourceTree = "<group>"; };
+		637B46382B3AC78C007FE227 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		637C303E2B2BEF050006812D /* AlarmData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AlarmData.xcdatamodel; sourceTree = "<group>"; };
 		6386CB7F2B31379E004E89D3 /* EditItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemView.swift; sourceTree = "<group>"; };
 		6386CB812B31381C004E89D3 /* EditItemHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemHeaderView.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				6386CB932B32B4C5004E89D3 /* Items+CoreDataClass.swift */,
 				6386CB942B32B4C5004E89D3 /* Items+CoreDataProperties.swift */,
 				635D19A62B35686C00BA2787 /* AlarmEditModifyItemView.swift */,
+				637B46382B3AC78C007FE227 /* PersistenceController.swift */,
 				635D19A42B35686100BA2787 /* AlarmEditAddItemView.swift */,
 				63203E032B2AC61700855113 /* CustomTextField.swift */,
 				63203E012B2AAB2B00855113 /* Localizable.strings */,
@@ -359,6 +362,7 @@
 				63B5102E2B39563500597E3B /* TemporaryItem.swift in Sources */,
 				637B46372B3AC6AA007FE227 /* AlarmViewModel.swift in Sources */,
 				6386CB902B32ABB7004E89D3 /* ToastMessageView.swift in Sources */,
+				637B46392B3AC78C007FE227 /* PersistenceController.swift in Sources */,
 				63203DC92B296D6300855113 /* amattaApp.swift in Sources */,
 				63B5102C2B39562700597E3B /* EditTemporaryItem.swift in Sources */,
 				63AAADE32B2C1BAE00714F0E /* AddItemView.swift in Sources */,
