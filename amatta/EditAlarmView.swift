@@ -38,6 +38,7 @@ struct EditAlarmView: View {
         .onAppear {
                     loadAlarmData()
                 }
+        .onTapGesture { hideKeyboard() }
     }
     
     @ViewBuilder
@@ -150,8 +151,10 @@ struct EditAlarmView: View {
                        }
                    }
                }
-        
      }
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
     
 }
 
