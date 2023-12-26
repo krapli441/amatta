@@ -116,25 +116,39 @@ struct EditAlarmView: View {
     }
     
     private func loadAlarmData() {
-            guard let alarmID = alarmID, let alarm = managedObjectContext.object(with: alarmID) as? Alarm else {
-                print("Alarm not found")
-                return
-            }
-
-            // 알람 정보 초기화
-            alarmName = alarm.name ?? ""
-            selectedTime = alarm.time ?? Date()
-            selectedWeekdays = [
-                alarm.sunday,
-                alarm.monday,
-                alarm.tuesday,
-                alarm.wednesday,
-                alarm.thursday,
-                alarm.friday,
-                alarm.saturday
-            ]
-            items = Array(alarm.items as? Set<Items> ?? [])
+        guard let alarmID = alarmID, let alarm = managedObjectContext.object(with: alarmID) as? Alarm else {
+            print("Alarm not found")
+            return
         }
+
+        // 알람 정보 초기화
+        alarmName = alarm.name ?? ""
+        selectedTime = alarm.time ?? Date()
+        selectedWeekdays = [
+            alarm.sunday,
+            alarm.monday,
+            alarm.tuesday,
+            alarm.wednesday,
+            alarm.thursday,
+            alarm.friday,
+            alarm.saturday
+        ]
+        items = Array(alarm.items as? Set<Items> ?? [])
+
+        // 디버깅 정보 출력
+        print("Loaded Alarm Data:")
+        print("Name: \(alarmName)")
+        print("Time: \(selectedTime)")
+        print("Weekdays: \(selectedWeekdays)")
+        print("Items Count: \(items.count)")
+        items.forEach { item in
+            print("Item: \(item.name ?? "Unknown"), Importance: \(item.importance), IsContainer: \(item.isContainer)")
+            item.childrenArray.forEach { child in
+                print("Child Item: \(child.name ?? "Unknown")")
+            }
+        }
+    }
+
 
     private func itemsToBringSection() -> some View {
         VStack(alignment: .center, spacing: 5) {

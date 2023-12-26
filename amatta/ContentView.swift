@@ -157,29 +157,6 @@ struct AlarmRow: View {
     }
 }
 
-    
-//    private func deleteAlarm() {
-//        UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-//            let identifiersToDelete = requests.filter { request in
-//                request.identifier.contains(alarm.alarmIdentifier ?? "")
-//            }.map { $0.identifier }
-//            print("식별자 목록: \(identifiersToDelete)")
-//
-//            // 알림 스케줄러에서 해당 식별자의 알림 삭제
-//            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiersToDelete)
-//            print("알림 스케줄러에서 다음 알람 삭제: \(identifiersToDelete)")
-//
-//            // CoreData에서 알림 삭제
-//            self.managedObjectContext.delete(self.alarm)
-//            do {
-//                try self.managedObjectContext.save()
-//                print("알람 CoreData에서 삭제 성공")
-//            } catch {
-//                print("알람 CoreData에서 삭제 실패: \(error.localizedDescription)")
-//            }
-//        }
-//    }
-
 extension Alarm {
     var formattedTime: String {
         // 날짜 형식에 맞게 알림 시간을 문자열로 변환
