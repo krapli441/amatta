@@ -41,7 +41,6 @@ struct EditAlarmView: View {
                     daySelectionSection()
                     itemsToBringSection()
                     addItemButton()
-                    // EditAlarmView
                     .sheet(item: $selectedEditItem) { tempItem in
                         AlarmEditModifyItemView(
                             alarmCreationData: self.alarmCreationData,
@@ -68,12 +67,18 @@ struct EditAlarmView: View {
                                         self.items[index].addToChildren(childItem)
                                     }
 
-                                    // 변경 사항 출력
-                                    print("변경 후 - 이름: \(self.items[index].name ?? ""), 담김 여부: \(self.items[index].isContainer), 중요도: \(self.items[index].importance)")
 
                                     var updatedItems = self.items
                                     updatedItems[index] = self.items[index]
                                     self.items = updatedItems
+                                    
+                                    print("onItemUpdated 후 items 상태:")
+                                        self.items.forEach { item in
+                                            print("Item: \(item.name ?? "Unknown"), Importance: \(item.importance), IsContainer: \(item.isContainer)")
+                                            if let children = item.children as? Set<Items>, !children.isEmpty {
+                                                print("Children: \(children.map { $0.name ?? "" }.joined(separator: ", "))")
+                                            }
+                                        }
                                 }
                             }
                         )
