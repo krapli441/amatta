@@ -183,8 +183,6 @@ struct EditAlarmView: View {
         }
     }
 
-
-
     private func formatContainedItems(_ items: [String]) -> String {
         let maxDisplayCount = 2
         if items.count > maxDisplayCount {
@@ -309,5 +307,3 @@ struct EditAlarmView_Previews: PreviewProvider {
         EditAlarmView()
     }
 }
-
-
