@@ -12,7 +12,7 @@ import CoreData
 struct EditAlarmView: View {
     let alarmID: NSManagedObjectID?
     @Environment(\.managedObjectContext) private var managedObjectContext
-    
+    @State private var alarm: Alarm?
     @Environment(\.colorScheme) var colorScheme
     @State private var alarmName: String = ""
     @State private var selectedTime = Date()
@@ -224,7 +224,6 @@ struct EditAlarmView: View {
     }
     
     private func saveAlarm() {
-        
         let calendar = Calendar.current
         let currentDateComponents = calendar.dateComponents([.year, .month, .day], from: Date())
         var timeComponents = calendar.dateComponents([.hour, .minute], from: selectedTime)
@@ -233,48 +232,53 @@ struct EditAlarmView: View {
         timeComponents.day = currentDateComponents.day
         timeComponents.second = 0
         
-        let newAlarm = Alarm(context: managedObjectContext)
-        newAlarm.name = alarmName
-        newAlarm.alarmIdentifier = UUID().uuidString
-        newAlarm.time = calendar.date(from: timeComponents)
-        newAlarm.sunday = selectedWeekdays[0] // 일요일
-        newAlarm.monday = selectedWeekdays[1] // 월요일
-        newAlarm.tuesday = selectedWeekdays[2] // 화요일
-        newAlarm.wednesday = selectedWeekdays[3] // 수요일
-        newAlarm.thursday = selectedWeekdays[4] // 목요일
-        newAlarm.friday = selectedWeekdays[5] // 금요일
-        newAlarm.saturday = selectedWeekdays[6] // 토요일
-
-
-        for temporaryItem in alarmCreationData.items {
-            let newItem = Items(context: managedObjectContext)
-            newItem.name = temporaryItem.name
-            newItem.isContainer = temporaryItem.isContainer
-            newItem.importance = temporaryItem.importance
-
-            if temporaryItem.isContainer {
-                for childName in temporaryItem.containedItems {
-                    let childItem = Items(context: managedObjectContext)
-                    childItem.name = childName
-                    childItem.isContainer = false // 자식 아이템은 컨테이너가 아님
-                    newItem.addToChildren(childItem)
-                }
+        if let alarmID = alarmID,
+           let alarm = managedObjectContext.object(with: alarmID) as? Alarm {
+            // 기존 알람을 찾았을 때, 해당 알람 정보를 업데이트
+            alarm.name = alarmName
+            alarm.time = calendar.date(from: timeComponents)
+            alarm.sunday = selectedWeekdays[0]
+            alarm.monday = selectedWeekdays[1]
+            alarm.tuesday = selectedWeekdays[2]
+            alarm.wednesday = selectedWeekdays[3]
+            alarm.thursday = selectedWeekdays[4]
+            alarm.friday = selectedWeekdays[5]
+            alarm.saturday = selectedWeekdays[6]
+            
+            // 기존 알람에 연관된 아이템을 업데이트
+            for item in alarm.items as? Set<Items> ?? [] {
+                managedObjectContext.delete(item) // 기존 아이템 삭제
             }
-
-            newAlarm.addToItems(newItem)
+            
+            for temporaryItem in alarmCreationData.items {
+                let newItem = Items(context: managedObjectContext)
+                newItem.name = temporaryItem.name
+                newItem.isContainer = temporaryItem.isContainer
+                newItem.importance = temporaryItem.importance
+                
+                if temporaryItem.isContainer {
+                    for childName in temporaryItem.containedItems {
+                        let childItem = Items(context: managedObjectContext)
+                        childItem.name = childName
+                        childItem.isContainer = false
+                        newItem.addToChildren(childItem)
+                    }
+                }
+                
+                alarm.addToItems(newItem) // 업데이트된 아이템 추가
+            }
         }
-
-
         
         do {
             try managedObjectContext.save()
-            print("알람 저장 성공: \(newAlarm)")
-            NotificationManager.shared.scheduleNotification(for: newAlarm)
+            print("알람 업데이트 성공: \(alarm)")
+            NotificationManager.shared.scheduleNotification(for: alarm)
             presentationMode.wrappedValue.dismiss()
         } catch let error as NSError {
-            print("알람 저장 실패: \(error), \(error.userInfo)")
+            print("알람 업데이트 실패: \(error), \(error.userInfo)")
         }
     }
+
 
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
