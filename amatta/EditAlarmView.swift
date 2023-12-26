@@ -11,6 +11,7 @@ import CoreData
 
 struct EditAlarmView: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.presentationMode) var presentationMode
     
     let alarmID: NSManagedObjectID?
     @Environment(\.managedObjectContext) private var managedObjectContext
@@ -61,7 +62,7 @@ struct EditAlarmView: View {
     // 업데이트(변경) 버튼
     private func updateButton() -> some View {
         Button(action: {
-            // 업데이트 버튼 액션
+            updateAlarm()
         }) {
             Text("변경")
                 .foregroundColor(.white)
@@ -70,6 +71,36 @@ struct EditAlarmView: View {
                 .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                 .cornerRadius(10)
         }
+    }
+    
+    // 알람 업데이트 로직
+    private func updateAlarm() {
+        guard let alarmID = alarmID,
+              let alarm = managedObjectContext.object(with: alarmID) as? Alarm else {
+            print("Alarm not found")
+            return
+        }
+
+        alarm.name = alarmName
+        alarm.time = selectedTime
+        alarm.sunday = selectedWeekdays[0]
+        alarm.monday = selectedWeekdays[1]
+        alarm.tuesday = selectedWeekdays[2]
+        alarm.wednesday = selectedWeekdays[3]
+        alarm.thursday = selectedWeekdays[4]
+        alarm.friday = selectedWeekdays[5]
+        alarm.saturday = selectedWeekdays[6]
+
+        // CoreData 저장
+        do {
+            try managedObjectContext.save()
+            print("알람 업데이트 성공")
+        } catch {
+            print("알람 업데이트 실패: \(error)")
+        }
+
+        // 이전 페이지로 돌아가기
+        presentationMode.wrappedValue.dismiss()
     }
     
     @ViewBuilder
