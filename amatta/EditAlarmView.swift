@@ -35,10 +35,41 @@ struct EditAlarmView: View {
                 }
             }
         }
+        HStack {
+                    deleteButton()
+                    updateButton()
+                }
         .onAppear {
                     loadAlarmData()
                 }
         .onTapGesture { hideKeyboard() }
+    }
+    
+    private func deleteButton() -> some View {
+        Button(action: {
+            // 삭제 버튼 액션
+        }) {
+            Text("삭제")
+                .foregroundColor(.white)
+                .frame(width: 140)
+                .padding()
+                .background(Color.red)
+                .cornerRadius(10)
+        }
+    }
+
+    // 업데이트(변경) 버튼
+    private func updateButton() -> some View {
+        Button(action: {
+            // 업데이트 버튼 액션
+        }) {
+            Text("변경")
+                .foregroundColor(.white)
+                .frame(width: 140)
+                .padding()
+                .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                .cornerRadius(10)
+        }
     }
     
     @ViewBuilder
