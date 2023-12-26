@@ -271,12 +271,17 @@ struct EditAlarmView: View {
         
         do {
             try managedObjectContext.save()
-            print("알람 업데이트 성공: \(alarm)")
-            NotificationManager.shared.scheduleNotification(for: alarm)
+            if let alarm = alarm { // 옵셔널 바인딩을 사용하여 alarm을 해제
+                print("알람 업데이트 성공: 이름 - \(alarm.name ?? "Unknown"), 시간 - \(alarm.time ?? Date())")
+                NotificationManager.shared.scheduleNotification(for: alarm)
+            } else {
+                print("알람 업데이트 성공: 알람이 없습니다.") // alarm이 nil인 경우에 대한 처리
+            }
             presentationMode.wrappedValue.dismiss()
         } catch let error as NSError {
             print("알람 업데이트 실패: \(error), \(error.userInfo)")
         }
+
     }
 
 
