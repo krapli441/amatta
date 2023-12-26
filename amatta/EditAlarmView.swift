@@ -86,7 +86,10 @@ struct EditAlarmView: View {
 
                 }
             }
-            addButton()
+            HStack {
+                deleteButton()
+                editButton()
+                    }
         }
         .onTapGesture { hideKeyboard() }
         .onAppear {
@@ -211,13 +214,24 @@ struct EditAlarmView: View {
         .commonInputStyle(colorScheme: colorScheme)
     }
 
-    private func addButton() -> some View {
+    private func editButton() -> some View {
         Button(action: saveAlarm) {
             Text("변경")
             .foregroundColor(.white)
-            .frame(maxWidth: 320)
+            .frame(width: 140)
             .padding()
             .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+            .cornerRadius(10)
+        }
+    }
+    
+    private func deleteButton() -> some View {
+        Button(action: saveAlarm) {
+            Text("삭제")
+            .foregroundColor(.white)
+            .frame(width: 140)
+            .padding()
+            .background(Color.red)
             .cornerRadius(10)
         }
     }
