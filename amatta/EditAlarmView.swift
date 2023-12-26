@@ -50,20 +50,33 @@ struct EditAlarmView: View {
                             editingItem: tempItem,
                             onItemUpdated: { updatedItem in
                                 if let coreDataID = updatedItem.coreDataID, let index = self.items.firstIndex(where: { $0.objectID == coreDataID }) {
+                                    // 변경 전 정보 출력
+                                    print("변경 전: \(self.items[index])")
+
                                     // 기존 아이템 업데이트
                                     self.items[index].name = updatedItem.name
                                     self.items[index].isContainer = updatedItem.isContainer
                                     self.items[index].importance = updatedItem.importance
 
-                                    // 자식 아이템 업데이트 (실제 CoreData 객체가 아닌 임시 데이터 반영)
-                                    // 임시 아이템 구조체에 자식 아이템 목록을 추가하거나 업데이트하는 로직이 필요합니다.
-                                    // 예를 들어, self.items[index].tempContainedItems = updatedItem.containedItems
+                                    // 기존 자식 아이템들 삭제
+                                    if let existingChildren = self.items[index].children as? Set<Items> {
+                                        existingChildren.forEach { self.managedObjectContext.delete($0) }
+                                    }
+
+                                    // 새로운 자식 아이템들 추가
+                                    updatedItem.containedItems.forEach { itemName in
+                                        let childItem = Items(context: self.managedObjectContext)
+                                        childItem.name = itemName
+                                        self.items[index].addToChildren(childItem)
+                                    }
+
+                                    // 변경 사항 출력
+                                    print("변경 후 - 이름: \(self.items[index].name ?? ""), 담김 여부: \(self.items[index].isContainer), 중요도: \(self.items[index].importance)")
 
                                     // 'items' 배열이 업데이트되면 뷰를 다시 그리도록 SwiftUI에 알립니다.
                                     self.items = self.items
                                 }
                             }
-
                         )
                     }
 
