@@ -10,6 +10,8 @@ import SwiftUI
 import CoreData
 
 struct EditAlarmView: View {
+    @Environment(\.colorScheme) var colorScheme
+    
     let alarmID: NSManagedObjectID?
     @Environment(\.managedObjectContext) private var managedObjectContext
     @State private var alarm: Alarm?
@@ -23,12 +25,39 @@ struct EditAlarmView: View {
     
     var body: some View {
         VStack {
-            // 이곳에 레이아웃 구성 요소 추가
-            Text("Edit Alarm View")
+            EditAlarmHeaderView()
+            ScrollView {
+                VStack(spacing: 12) {
+                    inputSection(title: "알림 이름", content: CustomTextField(placeholder: "이름을 입력해주세요.", text: $alarmName))
+                    inputSection(title: "알림 시간", content: CustomDatePicker(selection: $selectedTime))
+                    daySelectionSection()
+                }
+            }
         }
         .onAppear {
                     loadAlarmData()
                 }
+    }
+    
+    @ViewBuilder
+    private func inputSection<Content: View>(title: String, content: Content) -> some View {
+        SectionHeaderView(title: title)
+        content
+            .frame(maxWidth: 320)
+            .commonInputStyle(colorScheme: colorScheme)
+    }
+    
+    let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
+    @ViewBuilder
+    private func daySelectionSection() -> some View {
+        SectionHeaderView(title: "요일 선택")
+        HStack(spacing: -2) {
+            ForEach(0..<weekdays.count, id: \.self) { index in
+                DayButton(day: weekdays[index], isSelected: $selectedWeekdays[index])
+            }
+        }
+        .frame(maxWidth: 320, maxHeight: 15)
+        .commonInputStyle(colorScheme: colorScheme)
     }
     
     private func loadAlarmData() {
