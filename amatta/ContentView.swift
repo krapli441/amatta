@@ -52,10 +52,9 @@ struct ContentView: View {
                                 .foregroundColor(.gray)
                         } else {
                             ForEach(alarms, id: \.self) { alarm in
-                                                AlarmRow(alarm: alarm, editAction: { alarmID in
-                                                    self.selectedAlarmID = alarmID
-                                                    self.isEditing = true
-                                                })
+                                                        NavigationLink(destination: EditAlarmView(alarmID: alarm.objectID)) {
+                                                            AlarmRow(alarm: alarm)
+                                                        }
                                                 .frame(maxWidth: 360)
                                             }
                         }
@@ -79,11 +78,6 @@ struct ContentView: View {
                     .cornerRadius(10)
                     .padding()
                 }
-                // EditAlarmView로의 네비게이션 링크
-                NavigationLink(destination: EditAlarmView(alarmID: selectedAlarmID), isActive: $isEditing) {
-                EmptyView()
-                }
-                
                 .sheet(isPresented: $showingAdd) {
                     AddAlarmView()
                 }
@@ -109,7 +103,6 @@ struct ContentView: View {
 
 struct AlarmRow: View {
     let alarm: Alarm
-    var editAction: (NSManagedObjectID) -> Void
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) var managedObjectContext
 
