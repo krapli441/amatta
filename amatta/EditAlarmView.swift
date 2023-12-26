@@ -96,13 +96,11 @@ struct EditAlarmView: View {
         // CoreData 저장
         do {
             try managedObjectContext.save()
+            presentationMode.wrappedValue.dismiss()
             print("알람 업데이트 성공")
         } catch {
             print("알람 업데이트 실패: \(error)")
         }
-
-        // 이전 페이지로 돌아가기
-        presentationMode.wrappedValue.dismiss()
     }
     
     @ViewBuilder
