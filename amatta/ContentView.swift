@@ -52,10 +52,10 @@ struct ContentView: View {
                                 .foregroundColor(.gray)
                         } else {
                             ForEach(alarms, id: \.self) { alarm in
-                                                        NavigationLink(destination: EditAlarmView(alarmID: alarm.objectID)) {
-                                                            AlarmRow(alarm: alarm)
-                                                        }
-                                                .frame(maxWidth: 360)
+                                                            NavigationLink(destination: EditAlarmView()) {
+                                                                AlarmRow(alarm: alarm)
+                                                            }
+                                                            .frame(maxWidth: 360)
                                             }
                         }
                     }
