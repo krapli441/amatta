@@ -19,10 +19,12 @@ struct AlarmEditModifyItemView: View {
     @State private var importance: Float = 1
     @State private var containedItems: [String] = []
     var editingItem: EditTemporaryItem?
+    @Binding var selectedEditItem: EditTemporaryItem?
     var onItemUpdated: (EditTemporaryItem) -> Void
 
 
-    init(alarmCreationData: AlarmCreationData, editingItem: EditTemporaryItem?, onItemUpdated: @escaping (EditTemporaryItem) -> Void) {
+    init(alarmCreationData: AlarmCreationData, editingItem: EditTemporaryItem?, selectedEditItem: Binding<EditTemporaryItem?>, onItemUpdated: @escaping (EditTemporaryItem) -> Void)
+ {
         _alarmCreationData = StateObject(wrappedValue: alarmCreationData)
         self.editingItem = editingItem
         self.onItemUpdated = onItemUpdated
@@ -132,7 +134,7 @@ struct AlarmEditModifyItemView: View {
                 importance: importance,
                 containedItems: containedItems
             )
-
+            self.selectedEditItem = updatedItem // 수정된 부분
             onItemUpdated(updatedItem)
             print("변경된 내용 : \(updatedItem)")
             presentationMode.wrappedValue.dismiss()
@@ -147,6 +149,7 @@ struct AlarmEditModifyItemView: View {
         .disabled(isUpdateButtonDisabled)
         .animation(.easeInOut, value: isUpdateButtonDisabled)
     }
+
 
 
 
@@ -208,18 +211,16 @@ struct AlarmEditModifyItemView: View {
 
 
 
-
-
-
-
 struct AlarmEditModifyItemView_Previews: PreviewProvider {
     static var previews: some View {
         AlarmEditModifyItemView(
             alarmCreationData: AlarmCreationData(),
             editingItem: nil,
+            selectedEditItem: $selectedEditItem,
             onItemUpdated: { _ in } // 빈 클로저 제공
         )
     }
 }
+
 
 
