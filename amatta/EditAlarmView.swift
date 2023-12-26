@@ -49,26 +49,21 @@ struct EditAlarmView: View {
                             alarmCreationData: self.alarmCreationData,
                             editingItem: tempItem,
                             onItemUpdated: { updatedItem in
-                                // 'items' 배열에서 해당 EditTemporaryItem의 coreDataID로 Items 객체를 찾아 업데이트
                                 if let coreDataID = updatedItem.coreDataID, let index = self.items.firstIndex(where: { $0.objectID == coreDataID }) {
-                                    // 해당 아이템을 찾아서 업데이트
+                                    // 기존 아이템 업데이트
                                     self.items[index].name = updatedItem.name
                                     self.items[index].isContainer = updatedItem.isContainer
                                     self.items[index].importance = updatedItem.importance
-                                    // 자식 아이템 처리 로직도 추가
 
-                                    // 수정된 정보 확인을 위한 print 문 추가
-                                    print("coreDataID: \(coreDataID)")
-                                    print("Updated Name: \(updatedItem.name)")
-                                    print("Updated isContainer: \(updatedItem.isContainer)")
-                                    print("Updated importance: \(updatedItem.importance)")
+                                    // 자식 아이템 업데이트 (실제 CoreData 객체가 아닌 임시 데이터 반영)
+                                    // 임시 아이템 구조체에 자식 아이템 목록을 추가하거나 업데이트하는 로직이 필요합니다.
+                                    // 예를 들어, self.items[index].tempContainedItems = updatedItem.containedItems
+
+                                    // 'items' 배열이 업데이트되면 뷰를 다시 그리도록 SwiftUI에 알립니다.
+                                    self.items = self.items
                                 }
-                                // 'items' 배열이 업데이트되면 뷰를 다시 그리도록 SwiftUI에 알립니다.
-                                self.items = self.items
-
-                                // 수정된 items 배열 확인
-                                print("Updated Items: \(self.items)")
                             }
+
                         )
                     }
 
@@ -155,7 +150,7 @@ struct EditAlarmView: View {
             SectionHeaderView(title: "챙겨야 할 것들")
             ForEach(items, id: \.self) { item in
                 Button(action: {
-                                   // CoreData의 Items 객체를 TemporaryItem으로 변환
+                    // CoreData의 Items 객체를 TemporaryItem으로 변환
                     let tempItem = EditTemporaryItem(
                             coreDataID: item.objectID, // CoreData의 ID 사용
                             name: item.name ?? "",
