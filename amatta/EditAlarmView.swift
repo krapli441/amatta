@@ -31,6 +31,7 @@ struct EditAlarmView: View {
                     inputSection(title: "알림 이름", content: CustomTextField(placeholder: "이름을 입력해주세요.", text: $alarmName))
                     inputSection(title: "알림 시간", content: CustomDatePicker(selection: $selectedTime))
                     daySelectionSection()
+                    itemsToBringSection()
                 }
             }
         }
@@ -58,6 +59,56 @@ struct EditAlarmView: View {
         }
         .frame(maxWidth: 320, maxHeight: 15)
         .commonInputStyle(colorScheme: colorScheme)
+    }
+    
+    @ViewBuilder
+    private func itemsToBringSection() -> some View {
+        VStack(alignment: .center, spacing: 5) {
+            SectionHeaderView(title: "챙겨야 할 것들")
+            if let items = alarm?.items as? Set<Items>, !items.isEmpty {
+                ForEach(Array(items), id: \.self) { item in
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(item.name ?? "Unknown")
+                                .font(.headline)
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
+
+                            if let children = item.children as? Set<Items>, !children.isEmpty {
+                                Text(formatContainedItems(children.map { $0.name ?? "" }))
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.gray)
+                    }
+                    .padding()
+                    .frame(maxWidth: 350, alignment: .leading)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+                }
+            } else {
+                Text("물건이 없습니다.")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+            }
+        }
+    }
+
+    // 물건 목록을 포맷팅하는 함수
+    private func formatContainedItems(_ items: [String]) -> String {
+        let maxDisplayCount = 2
+        if items.count > maxDisplayCount {
+            let displayedItems = items.prefix(maxDisplayCount).joined(separator: ", ")
+            return "\(displayedItems) 외 \(items.count - maxDisplayCount)개"
+        } else {
+            return items.joined(separator: ", ")
+        }
     }
     
     private func loadAlarmData() {

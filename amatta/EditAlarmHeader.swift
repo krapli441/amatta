@@ -11,7 +11,7 @@ import SwiftUI
 struct EditAlarmHeaderView: View {
     var body: some View {
         HStack {
-            Text("알림 수정")
+            Text("알림 변경")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
