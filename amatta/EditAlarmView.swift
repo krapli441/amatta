@@ -10,93 +10,91 @@ import SwiftUI
 import CoreData
 
 struct EditAlarmView: View {
+    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.presentationMode) var presentationMode
     let alarmID: NSManagedObjectID?
     @Environment(\.managedObjectContext) private var managedObjectContext
-    
-    @Environment(\.colorScheme) var colorScheme
+    @State private var alarm: Alarm?
     @State private var alarmName: String = ""
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
-    @State private var showingAddItemView = false
-    @State private var showingNewItemView = false
-    @StateObject private var alarmCreationData = AlarmCreationData()
-    @State private var items: [Items] = []
-    @State private var selectedEditItem: EditTemporaryItem?
-    @State private var showingToast = false
-    @State private var toastMessage = ""
-    @Environment(\.presentationMode) var presentationMode
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
-    @State private var selectedEditItem: Items?
-    
-    init(alarmID: NSManagedObjectID? = nil) {
-            self.alarmID = alarmID
-            // 초기화 로직...
-        }
     
     var body: some View {
-        VStack {
-            EditAlarmHeaderView()
-            ScrollView {
-                VStack(spacing: 12) {
-                    inputSection(title: "알림 이름", content: CustomTextField(placeholder: "이름을 입력해주세요.", text: $alarmName))
-                    inputSection(title: "알림 시간", content: CustomDatePicker(selection: $selectedTime))
-                    daySelectionSection()
-                    itemsToBringSection()
-                    addItemButton()
-                        .sheet(item: $selectedEditItem) { tempItem in
-                            AlarmEditModifyItemView(
-                                alarmCreationData: self.alarmCreationData,
-                                editingItem: tempItem,
-                                onItemUpdated : { updatedItem in
-                                    print("onItemUpdated 호출됨: \(updatedItem)")
-
-                                    if let coreDataID = updatedItem.coreDataID {
-                                        print("coreDataID: \(coreDataID)")
-                                        
-                                        if let index = self.items.firstIndex(where: { $0.objectID == coreDataID }) {
-                                            print("기존 아이템 발견, 인덱스: \(index)")
-                                            self.items[index].name = updatedItem.name
-                                            self.items[index].isContainer = updatedItem.isContainer
-                                            self.items[index].importance = updatedItem.importance
-                                            // 자식 아이템 처리 로직 추가 가능...
-                                            print("아이템 업데이트 완료: \(self.items[index])")
-                                        } else {
-                                            print("새 아이템 추가 필요")
-                                            let newItem = Items(context: self.managedObjectContext)
-                                            newItem.name = updatedItem.name
-                                            newItem.isContainer = updatedItem.isContainer
-                                            newItem.importance = updatedItem.importance
-                                            // 자식 아이템 처리 로직 추가 가능...
-                                            self.items.append(newItem)
-                                            print("새 아이템 추가됨: \(newItem)")
-                                        }
-                                    } else {
-                                        print("coreDataID 없음, 아이템 업데이트 불가")
-                                    }
-                                }
-
-
-                            )
-                        }
-
+            VStack {
+                EditAlarmHeaderView()
+                ScrollView {
+                    VStack(spacing: 12) {
+                        inputSection(title: "알림 이름", content: CustomTextField(placeholder: "이름을 입력해주세요.", text: $alarmName))
+                        inputSection(title: "알림 시간", content: CustomDatePicker(selection: $selectedTime))
+                        daySelectionSection()
+                        itemsToBringSection()
+                    }
+                }
+                HStack {
+                    deleteButton()
+                    updateButton()
                 }
             }
-            addButton()
-        }
-        .sheet(item: $selectedEditItem) { selectedItem in
-                    AlarmEditModifyItemView(
-                        alarmCreationData: self.alarmCreationData,
-                        editingItem: selectedItem,
-                        onItemUpdated: {
-                            self.loadAlarmData() // 아이템이 업데이트됐을 때 데이터 재로드
-                        }
-                    )
-                }
-        .onTapGesture { hideKeyboard() }
-        .onAppear {
+            .onAppear {
                 loadAlarmData()
-            print("초기 물건 목록: \(items)")
             }
+            .onTapGesture { hideKeyboard() }
+        }
+    private func deleteButton() -> some View {
+        Button(action: {
+            // 삭제 버튼 액션
+        }) {
+            Text("삭제")
+                .foregroundColor(.white)
+                .frame(width: 140)
+                .padding()
+                .background(Color.red)
+                .cornerRadius(10)
+        }
+    }
+
+    // 업데이트(변경) 버튼
+    private func updateButton() -> some View {
+        Button(action: {
+            updateAlarm()
+//            alarmDataModel.fetchAlarms()
+        }) {
+            Text("변경")
+                .foregroundColor(.white)
+                .frame(width: 140)
+                .padding()
+                .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                .cornerRadius(10)
+        }
+    }
+    
+    // 알람 업데이트 로직
+    private func updateAlarm() {
+        guard let alarmID = alarmID,
+              let alarm = managedObjectContext.object(with: alarmID) as? Alarm else {
+            print("Alarm not found")
+            return
+        }
+
+        alarm.name = alarmName
+        alarm.time = selectedTime
+        alarm.sunday = selectedWeekdays[0]
+        alarm.monday = selectedWeekdays[1]
+        alarm.tuesday = selectedWeekdays[2]
+        alarm.wednesday = selectedWeekdays[3]
+        alarm.thursday = selectedWeekdays[4]
+        alarm.friday = selectedWeekdays[5]
+        alarm.saturday = selectedWeekdays[6]
+
+        // CoreData 저장
+        do {
+            try managedObjectContext.save()
+            presentationMode.wrappedValue.dismiss()
+            print("알람 업데이트 성공")
+        } catch {
+            print("알람 업데이트 실패: \(error)")
+        }
     }
     
     @ViewBuilder
@@ -106,6 +104,7 @@ struct EditAlarmView: View {
             .frame(maxWidth: 320)
             .commonInputStyle(colorScheme: colorScheme)
     }
+    
 
     @ViewBuilder
     private func daySelectionSection() -> some View {
@@ -119,72 +118,20 @@ struct EditAlarmView: View {
         .commonInputStyle(colorScheme: colorScheme)
     }
     
-    private func loadAlarmData() {
-        guard let alarmID = alarmID,
-              let alarm = managedObjectContext.object(with: alarmID) as? Alarm else {
-            print("Alarm not found")
-            return
-        }
-        if let alarmItems = alarm.items as? Set<Items> {
-                    self.items = Array(alarmItems)
-                }
-
-        alarmName = alarm.name ?? ""
-        selectedTime = alarm.time ?? Date()
-        selectedWeekdays = [
-            alarm.sunday,
-            alarm.monday,
-            alarm.tuesday,
-            alarm.wednesday,
-            alarm.thursday,
-            alarm.friday,
-            alarm.saturday
-        ]
- 
-
-        // 콘솔에 정보 출력
-        print("Alarm Name: \(alarmName)")
-        print("Selected Time: \(selectedTime)")
-        print("Selected Weekdays: \(selectedWeekdays)")
-
-        // Items 관련 정보 출력
-        if let items = alarm.items as? Set<Items> {
-            for item in items {
-                print("Item Name: \(item.name ?? "Unknown")")
-                print("Is Container: \(item.isContainer)")
-                print("Importance: \(item.importance)")
-                // 연관된 자식 아이템들에 대한 정보
-                if let children = item.children as? Set<Items> {
-                    for child in children {
-                        print("Child Item Name: \(child.name ?? "Unknown")")
-                    }
-                }
-            }
-        }
-    }
-
+    @ViewBuilder
     private func itemsToBringSection() -> some View {
         VStack(alignment: .center, spacing: 5) {
             SectionHeaderView(title: "챙겨야 할 것들")
-            ForEach(items, id: \.self) { item in
-                Button(action: {
-                    let tempItem = EditTemporaryItem(
-                            coreDataID: item.objectID,
-                            name: item.name ?? "",
-                            isContainer: item.isContainer,
-                            importance: item.importance,
-                            containedItems: item.childrenArray.map { $0.name ?? "" }
-                                   )
-                                   self.selectedEditItem = tempItem
-                               }){
+            if let items = alarm?.items as? Set<Items>, !items.isEmpty {
+                ForEach(Array(items), id: \.self) { item in
                     HStack {
                         VStack(alignment: .leading) {
                             Text(item.name ?? "Unknown")
                                 .font(.headline)
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
-                            
+
                             if let children = item.children as? Set<Items>, !children.isEmpty {
-                                Text(children.map { $0.name ?? "" }.joined(separator: ", "))
+                                Text(formatContainedItems(children.map { $0.name ?? "" }))
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
                             }
@@ -202,11 +149,15 @@ struct EditAlarmView: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                 }
+            } else {
+                Text("물건이 없습니다.")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
             }
         }
     }
 
-
+    // 물건 목록을 포맷팅하는 함수
     private func formatContainedItems(_ items: [String]) -> String {
         let maxDisplayCount = 2
         if items.count > maxDisplayCount {
@@ -216,100 +167,60 @@ struct EditAlarmView: View {
             return items.joined(separator: ", ")
         }
     }
-
-
-    private func addItemButton() -> some View {
-        Button(action: {
-            showingNewItemView = true
-        }) {
-            HStack {
-                Image(systemName: "plus")
-                    .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                Text("여기를 눌러 물건 추가")
-                    .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-            }
-        }
-        .sheet(isPresented: $showingNewItemView) {
-            AddItemView(alarmCreationData: self.alarmCreationData, editingItem: nil)  // 새 물건 추가 모드
-        }
-        .frame(maxWidth: 320)
-        .commonInputStyle(colorScheme: colorScheme)
-    }
-
-    private func addButton() -> some View {
-        Button(action: saveAlarm) {
-            Text("변경")
-            .foregroundColor(.white)
-            .frame(maxWidth: 320)
-            .padding()
-            .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-            .cornerRadius(10)
-        }
-    }
     
-    private func saveAlarm() {
+    private func loadAlarmData() {
+         guard let alarmID = self.alarmID,
+               let alarm = managedObjectContext.object(with: alarmID) as? Alarm else {
+             print("Alarm not found")
+             return
+         }
+
+         // 알람 정보 초기화
+         self.alarm = alarm
+         alarmName = alarm.name ?? ""
+         selectedTime = alarm.time ?? Date()
+         selectedWeekdays = [
+             alarm.sunday,
+             alarm.monday,
+             alarm.tuesday,
+             alarm.wednesday,
+             alarm.thursday,
+             alarm.friday,
+             alarm.saturday
+         ]
+
+         // 로드된 데이터에 대한 정보를 콘솔에 출력
+         print("Loaded Alarm Data:")
+         print("Name: \(alarmName)")
+         print("Time: \(selectedTime)")
+         print("Weekdays: \(selectedWeekdays)")
+        print("Items Count: \(alarm.items?.count ?? 0)")
         
-        let calendar = Calendar.current
-        let currentDateComponents = calendar.dateComponents([.year, .month, .day], from: Date())
-        var timeComponents = calendar.dateComponents([.hour, .minute], from: selectedTime)
-        timeComponents.year = currentDateComponents.year
-        timeComponents.month = currentDateComponents.month
-        timeComponents.day = currentDateComponents.day
-        timeComponents.second = 0
-        
-        let newAlarm = Alarm(context: managedObjectContext)
-        newAlarm.name = alarmName
-        newAlarm.alarmIdentifier = UUID().uuidString
-        newAlarm.time = calendar.date(from: timeComponents)
-        newAlarm.sunday = selectedWeekdays[0] // 일요일
-        newAlarm.monday = selectedWeekdays[1] // 월요일
-        newAlarm.tuesday = selectedWeekdays[2] // 화요일
-        newAlarm.wednesday = selectedWeekdays[3] // 수요일
-        newAlarm.thursday = selectedWeekdays[4] // 목요일
-        newAlarm.friday = selectedWeekdays[5] // 금요일
-        newAlarm.saturday = selectedWeekdays[6] // 토요일
-
-
-        for temporaryItem in alarmCreationData.items {
-            let newItem = Items(context: managedObjectContext)
-            newItem.name = temporaryItem.name
-            newItem.isContainer = temporaryItem.isContainer
-            newItem.importance = temporaryItem.importance
-
-            if temporaryItem.isContainer {
-                for childName in temporaryItem.containedItems {
-                    let childItem = Items(context: managedObjectContext)
-                    childItem.name = childName
-                    childItem.isContainer = false // 자식 아이템은 컨테이너가 아님
-                    newItem.addToChildren(childItem)
-                }
-            }
-
-            newAlarm.addToItems(newItem)
-        }
-
-
-        
-        do {
-            try managedObjectContext.save()
-            print("알람 저장 성공: \(newAlarm)")
-            NotificationManager.shared.scheduleNotification(for: newAlarm)
-            presentationMode.wrappedValue.dismiss()
-        } catch let error as NSError {
-            print("알람 저장 실패: \(error), \(error.userInfo)")
-        }
-    }
-
+        // 물건 정보 출력
+               if let items = alarm.items as? Set<Items> {
+                   for item in items {
+                       print("Item: \(item.name ?? "Unknown"), Importance: \(item.importance), IsContainer: \(item.isContainer)")
+                       if let children = item.children as? Set<Items>, !children.isEmpty {
+                           for child in children {
+                               print("Child Item: \(child.name ?? "Unknown")")
+                           }
+                       }
+                   }
+               }
+     }
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
+    
 }
-
 
 struct EditAlarmView_Previews: PreviewProvider {
     static var previews: some View {
-        EditAlarmView()
+        // 더미 Context와 AlarmDataModel 생성
+        let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        let alarmDataModel = AlarmDataModel(context: context)
+
+        EditAlarmView(alarmID: nil)
     }
 }
-
 
