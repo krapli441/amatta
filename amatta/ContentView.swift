@@ -12,11 +12,6 @@ import CoreData
 struct ContentView: View {
     @State private var showingAdd = false
     @Environment(\.managedObjectContext) private var managedObjectContext
-    @FetchRequest(
-        entity: Alarm.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \Alarm.time, ascending: true)],
-        animation: .default
-    ) var alarms: FetchedResults<Alarm>
     @State private var selectedAlarmID: NSManagedObjectID?
     @State private var isEditing = false
     @StateObject var alarmDataModel = AlarmDataModel(context: PersistenceController.shared.container.viewContext)
@@ -49,7 +44,7 @@ struct ContentView: View {
 
                 ScrollView {
                     VStack(spacing: 10) {
-                        if alarms.isEmpty {
+                        if alarmDataModel.alarms.isEmpty {
                             Text("아직 생성된 알림이 없습니다.")
                                 .font(.system(size: 16))
                                 .foregroundColor(.gray)
@@ -88,14 +83,10 @@ struct ContentView: View {
             .frame(maxWidth: .infinity, alignment: .center)
             .onAppear {
                         requestNotificationPermission()
-                        refreshData() // CoreData의 데이터를 새로 고칩니다.
+                        alarmDataModel.fetchAlarms()
                     }
         }
     }
-    
-    private func refreshData() {
-            self.managedObjectContext.refreshAllObjects()
-        }
 
     private func requestNotificationPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
