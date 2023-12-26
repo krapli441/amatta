@@ -57,6 +57,20 @@ struct EditAlarmView: View {
          print("Name: \(alarmName)")
          print("Time: \(selectedTime)")
          print("Weekdays: \(selectedWeekdays)")
+        print("Items Count: \(alarm.items?.count ?? 0)")
+        
+        // 물건 정보 출력
+               if let items = alarm.items as? Set<Items> {
+                   for item in items {
+                       print("Item: \(item.name ?? "Unknown"), Importance: \(item.importance), IsContainer: \(item.isContainer)")
+                       if let children = item.children as? Set<Items>, !children.isEmpty {
+                           for child in children {
+                               print("Child Item: \(child.name ?? "Unknown")")
+                           }
+                       }
+                   }
+               }
+        
      }
     
 }
