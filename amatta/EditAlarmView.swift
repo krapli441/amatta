@@ -47,7 +47,7 @@ struct EditAlarmView: View {
                             AlarmEditModifyItemView(
                                 alarmCreationData: self.alarmCreationData,
                                 editingItem: tempItem,
-                                selectedEditItem: $selectedEditItem, // 이 부분을 추가
+                                selectedEditItem: $selectedEditItem, // selectedEditItem을 전달
                                 onItemUpdated: { updatedItem in
                                     // 'items' 배열에서 해당 EditTemporaryItem의 coreDataID로 Items 객체를 찾아 업데이트
                                     if let coreDataID = updatedItem.coreDataID, let index = self.items.firstIndex(where: { $0.objectID == coreDataID }) {
