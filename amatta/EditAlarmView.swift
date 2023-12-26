@@ -169,14 +169,14 @@ struct EditAlarmView: View {
                 Button(action: {
                     // CoreData의 Items 객체를 TemporaryItem으로 변환
                     let tempItem = EditTemporaryItem(
-                            coreDataID: item.objectID, // CoreData의 ID 사용
-                            name: item.name ?? "",
-                            isContainer: item.isContainer,
-                            importance: item.importance,
-                            containedItems: item.childrenArray.map { $0.name ?? "" }
-                                   )
-                                   self.selectedEditItem = tempItem
-                               }){
+                        coreDataID: item.objectID, // CoreData의 ID 사용
+                        name: item.name ?? "",
+                        isContainer: item.isContainer,
+                        importance: item.importance,
+                        containedItems: item.childrenArray.map { $0.name ?? "" }
+                    )
+                    self.selectedEditItem = tempItem
+                }) {
                     HStack {
                         VStack(alignment: .leading) {
                             Text(item.name ?? "Unknown")
@@ -201,11 +201,11 @@ struct EditAlarmView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(Color.gray, lineWidth: 1)
                     )
-                    // 편집 모드나 추가 로직은 필요한 경우 구현
                 }
             }
         }
     }
+
 
 
     private func formatContainedItems(_ items: [String]) -> String {
