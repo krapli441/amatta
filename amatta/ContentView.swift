@@ -94,9 +94,6 @@ struct ContentView: View {
     }
 }
 
-// 기타 필요한 View 및 Extension 정의는 동일하게 유지합니다.
-
-
 struct AlarmRow: View {
     let alarm: Alarm
     @Environment(\.colorScheme) var colorScheme
