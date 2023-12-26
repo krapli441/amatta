@@ -22,8 +22,6 @@ struct EditAlarmView: View {
     @StateObject private var alarmCreationData = AlarmCreationData()
     @State private var items: [Items] = []
     @State private var selectedEditItem: EditTemporaryItem?
-    @State private var showingToast = false
-    @State private var toastMessage = ""
     @Environment(\.presentationMode) var presentationMode
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
 
@@ -73,8 +71,9 @@ struct EditAlarmView: View {
                                     // 변경 사항 출력
                                     print("변경 후 - 이름: \(self.items[index].name ?? ""), 담김 여부: \(self.items[index].isContainer), 중요도: \(self.items[index].importance)")
 
-                                    // 'items' 배열이 업데이트되면 뷰를 다시 그리도록 SwiftUI에 알립니다.
-                                    self.items = self.items
+                                    var updatedItems = self.items
+                                    updatedItems[index] = self.items[index]
+                                    self.items = updatedItems
                                 }
                             }
                         )
