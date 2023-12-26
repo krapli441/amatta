@@ -43,24 +43,35 @@ struct EditAlarmView: View {
                     daySelectionSection()
                     itemsToBringSection()
                     addItemButton()
-                        .sheet(item: $selectedEditItem) { tempItem in
-                            AlarmEditModifyItemView(
-                                alarmCreationData: self.alarmCreationData,
-                                editingItem: tempItem,
-                                onItemUpdated: { updatedItem in
-                                    // 'items' 배열에서 해당 EditTemporaryItem의 coreDataID로 Items 객체를 찾아 업데이트
-                                    if let coreDataID = updatedItem.coreDataID, let index = self.items.firstIndex(where: { $0.objectID == coreDataID }) {
-                                        // 해당 아이템을 찾아서 업데이트
-                                        self.items[index].name = updatedItem.name
-                                        self.items[index].isContainer = updatedItem.isContainer
-                                        self.items[index].importance = updatedItem.importance
-                                        // 자식 아이템 처리 로직도 추가
-                                    }
-                                    // 'items' 배열이 업데이트되면 뷰를 다시 그리도록 SwiftUI에 알립니다.
-                                    self.items = self.items
+                    // EditAlarmView
+                    .sheet(item: $selectedEditItem) { tempItem in
+                        AlarmEditModifyItemView(
+                            alarmCreationData: self.alarmCreationData,
+                            editingItem: tempItem,
+                            onItemUpdated: { updatedItem in
+                                // 'items' 배열에서 해당 EditTemporaryItem의 coreDataID로 Items 객체를 찾아 업데이트
+                                if let coreDataID = updatedItem.coreDataID, let index = self.items.firstIndex(where: { $0.objectID == coreDataID }) {
+                                    // 해당 아이템을 찾아서 업데이트
+                                    self.items[index].name = updatedItem.name
+                                    self.items[index].isContainer = updatedItem.isContainer
+                                    self.items[index].importance = updatedItem.importance
+                                    // 자식 아이템 처리 로직도 추가
+
+                                    // 수정된 정보 확인을 위한 print 문 추가
+                                    print("coreDataID: \(coreDataID)")
+                                    print("Updated Name: \(updatedItem.name)")
+                                    print("Updated isContainer: \(updatedItem.isContainer)")
+                                    print("Updated importance: \(updatedItem.importance)")
                                 }
-                            )
-                        }
+                                // 'items' 배열이 업데이트되면 뷰를 다시 그리도록 SwiftUI에 알립니다.
+                                self.items = self.items
+
+                                // 수정된 items 배열 확인
+                                print("Updated Items: \(self.items)")
+                            }
+                        )
+                    }
+
 
                 }
             }
