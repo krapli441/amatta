@@ -45,16 +45,19 @@ struct ContentView: View {
                 ScrollView {
                     VStack(spacing: 10) {
                         if alarms.isEmpty {
+                            Spacer() // 상단에 Spacer 추가
                             Text("아직 생성된 알림이 없습니다.")
-                                .font(.system(size: 16))
-                                .foregroundColor(.gray)
-                        } else {
-                            ForEach(alarms, id: \.self) { alarm in
-                            AlarmRow(alarm: alarm, editAction: { alarmID in
-                                    self.selectedAlarmID = alarmID
-                                    self.isEditing = true
-                            })
-                            .frame(maxWidth: 360)
+                            .font(.system(size: 16))
+                            .foregroundColor(.gray)
+                            .multilineTextAlignment(.center)
+                            Spacer() // 하단에 Spacer 추가
+                            } else {
+                                                ForEach(alarms, id: \.self) { alarm in
+                                                    AlarmRow(alarm: alarm, editAction: { alarmID in
+                                                        self.selectedAlarmID = alarmID
+                                                        self.isEditing = true
+                                                    })
+                                                    .frame(maxWidth: 360)
                             }
                         }
                     }

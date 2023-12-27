@@ -37,7 +37,7 @@ struct EditAlarmView: View {
                         .alert(isPresented: $showingDeleteAlert) {
                                             Alert(
                                                 title: Text("알림 삭제"),
-                                                message: Text("정말로 이 알림을 삭제하시겠습니까?"),
+                                                message: Text("정말로 이 알림을 삭제하시겠어요?"),
                                                 primaryButton: .destructive(Text("삭제")) {
                                                     deleteAlarm()
                                                 },
