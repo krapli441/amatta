@@ -139,15 +139,20 @@ struct EditAlarmView: View {
         VStack(alignment: .center, spacing: 5) {
             SectionHeaderView(title: "챙겨야 할 것들")
             if let items = alarm?.items as? Set<Items>, !items.isEmpty {
-                ForEach(Array(items), id: \.self) { item in
+                let sortedItems = items.sorted {
+                    ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
+                }
+                ForEach(sortedItems, id: \.self) { item in
                     HStack {
                         VStack(alignment: .leading) {
                             Text(item.name ?? "Unknown")
                                 .font(.headline)
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
-
                             if let children = item.children as? Set<Items>, !children.isEmpty {
-                                Text(formatContainedItems(children.map { $0.name ?? "" }))
+                                let sortedChildren = children.sorted {
+                                    ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
+                                }
+                                Text(formatContainedItems(sortedChildren.map { $0.name ?? "" }))
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
                             }
@@ -172,6 +177,7 @@ struct EditAlarmView: View {
             }
         }
     }
+
 
     // 물건 목록을 포맷팅하는 함수
     private func formatContainedItems(_ items: [String]) -> String {
