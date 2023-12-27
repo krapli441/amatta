@@ -2,7 +2,7 @@
 //  Alarm+CoreDataProperties.swift
 //  amatta
 //
-//  Created by 박준형 on 12/20/23.
+//  Created by 박준형 on 12/27/23.
 //
 //
 
@@ -16,6 +16,7 @@ extension Alarm {
         return NSFetchRequest<Alarm>(entityName: "Alarm")
     }
 
+    @NSManaged public var alarmIdentifier: String?
     @NSManaged public var friday: Bool
     @NSManaged public var monday: Bool
     @NSManaged public var name: String?
@@ -25,7 +26,6 @@ extension Alarm {
     @NSManaged public var time: Date?
     @NSManaged public var tuesday: Bool
     @NSManaged public var wednesday: Bool
-    @NSManaged public var alarmIdentifier: String?
     @NSManaged public var items: NSSet?
 
 }

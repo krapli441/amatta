@@ -34,14 +34,14 @@
 		6386CB822B31381C004E89D3 /* EditItemHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6386CB812B31381C004E89D3 /* EditItemHeaderView.swift */; };
 		6386CB8E2B329F82004E89D3 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6386CB8D2B329F82004E89D3 /* NotificationManager.swift */; };
 		6386CB902B32ABB7004E89D3 /* ToastMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6386CB8F2B32ABB7004E89D3 /* ToastMessageView.swift */; };
-		6386CB952B32B4C5004E89D3 /* Alarm+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6386CB912B32B4C5004E89D3 /* Alarm+CoreDataClass.swift */; };
-		6386CB962B32B4C5004E89D3 /* Alarm+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6386CB922B32B4C5004E89D3 /* Alarm+CoreDataProperties.swift */; };
-		6386CB972B32B4C5004E89D3 /* Items+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6386CB932B32B4C5004E89D3 /* Items+CoreDataClass.swift */; };
 		63AAADE32B2C1BAE00714F0E /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AAADE22B2C1BAE00714F0E /* AddItemView.swift */; };
 		63AAADE52B2C1CB100714F0E /* ItemHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AAADE42B2C1CB100714F0E /* ItemHeaderView.swift */; };
 		63B5102C2B39562700597E3B /* EditTemporaryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B5102B2B39562700597E3B /* EditTemporaryItem.swift */; };
 		63B5102E2B39563500597E3B /* TemporaryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B5102D2B39563500597E3B /* TemporaryItem.swift */; };
-		63EA090C2B3C0B21005C1BED /* Items+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EA090B2B3C0B21005C1BED /* Items+CoreDataProperties.swift */; };
+		63EA09112B3C1700005C1BED /* Items+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EA090D2B3C1700005C1BED /* Items+CoreDataClass.swift */; };
+		63EA09122B3C1700005C1BED /* Items+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EA090E2B3C1700005C1BED /* Items+CoreDataProperties.swift */; };
+		63EA09132B3C1700005C1BED /* Alarm+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EA090F2B3C1700005C1BED /* Alarm+CoreDataClass.swift */; };
+		63EA09142B3C1700005C1BED /* Alarm+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EA09102B3C1700005C1BED /* Alarm+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,15 +94,15 @@
 		6386CB812B31381C004E89D3 /* EditItemHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemHeaderView.swift; sourceTree = "<group>"; };
 		6386CB8D2B329F82004E89D3 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		6386CB8F2B32ABB7004E89D3 /* ToastMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessageView.swift; sourceTree = "<group>"; };
-		6386CB912B32B4C5004E89D3 /* Alarm+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alarm+CoreDataClass.swift"; sourceTree = "<group>"; };
-		6386CB922B32B4C5004E89D3 /* Alarm+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alarm+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		6386CB932B32B4C5004E89D3 /* Items+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Items+CoreDataClass.swift"; sourceTree = "<group>"; };
 		63AAADE22B2C1BAE00714F0E /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AddItemView.swift; path = ../AddItemView.swift; sourceTree = "<group>"; };
 		63AAADE42B2C1CB100714F0E /* ItemHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemHeaderView.swift; sourceTree = "<group>"; };
 		63B5102B2B39562700597E3B /* EditTemporaryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTemporaryItem.swift; sourceTree = "<group>"; };
 		63B5102D2B39563500597E3B /* TemporaryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemporaryItem.swift; sourceTree = "<group>"; };
 		63EA09082B3C038F005C1BED /* AlarmData 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "AlarmData 2.xcdatamodel"; sourceTree = "<group>"; };
-		63EA090B2B3C0B21005C1BED /* Items+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Items+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		63EA090D2B3C1700005C1BED /* Items+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Items+CoreDataClass.swift"; sourceTree = "<group>"; };
+		63EA090E2B3C1700005C1BED /* Items+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Items+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		63EA090F2B3C1700005C1BED /* Alarm+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alarm+CoreDataClass.swift"; sourceTree = "<group>"; };
+		63EA09102B3C1700005C1BED /* Alarm+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alarm+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,10 +153,10 @@
 		63203DC72B296D6300855113 /* amatta */ = {
 			isa = PBXGroup;
 			children = (
-				6386CB912B32B4C5004E89D3 /* Alarm+CoreDataClass.swift */,
-				6386CB922B32B4C5004E89D3 /* Alarm+CoreDataProperties.swift */,
-				63EA090B2B3C0B21005C1BED /* Items+CoreDataProperties.swift */,
-				6386CB932B32B4C5004E89D3 /* Items+CoreDataClass.swift */,
+				63EA090D2B3C1700005C1BED /* Items+CoreDataClass.swift */,
+				63EA090E2B3C1700005C1BED /* Items+CoreDataProperties.swift */,
+				63EA090F2B3C1700005C1BED /* Alarm+CoreDataClass.swift */,
+				63EA09102B3C1700005C1BED /* Alarm+CoreDataProperties.swift */,
 				635D19A62B35686C00BA2787 /* AlarmEditModifyItemView.swift */,
 				637B46382B3AC78C007FE227 /* PersistenceController.swift */,
 				635D19A42B35686100BA2787 /* AlarmEditAddItemView.swift */,
@@ -349,19 +349,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				63203DFC2B2AA68400855113 /* AppDelegate.swift in Sources */,
+				63EA09112B3C1700005C1BED /* Items+CoreDataClass.swift in Sources */,
 				63203DCB2B296D6300855113 /* ContentView.swift in Sources */,
 				6386CB822B31381C004E89D3 /* EditItemHeaderView.swift in Sources */,
 				63AAADE52B2C1CB100714F0E /* ItemHeaderView.swift in Sources */,
 				635D19A72B35686C00BA2787 /* AlarmEditModifyItemView.swift in Sources */,
 				63203DF82B29A1A400855113 /* AddAlarmView.swift in Sources */,
-				6386CB962B32B4C5004E89D3 /* Alarm+CoreDataProperties.swift in Sources */,
-				6386CB952B32B4C5004E89D3 /* Alarm+CoreDataClass.swift in Sources */,
 				63203E0A2B2AC64700855113 /* SectionHeaderView.swift in Sources */,
+				63EA09122B3C1700005C1BED /* Items+CoreDataProperties.swift in Sources */,
 				635D19A12B3433BE00BA2787 /* EditAlarmView.swift in Sources */,
-				63EA090C2B3C0B21005C1BED /* Items+CoreDataProperties.swift in Sources */,
 				6386CB802B31379E004E89D3 /* EditItemView.swift in Sources */,
 				63B5102E2B39563500597E3B /* TemporaryItem.swift in Sources */,
 				637B46372B3AC6AA007FE227 /* AlarmViewModel.swift in Sources */,
+				63EA09132B3C1700005C1BED /* Alarm+CoreDataClass.swift in Sources */,
 				6386CB902B32ABB7004E89D3 /* ToastMessageView.swift in Sources */,
 				637B46392B3AC78C007FE227 /* PersistenceController.swift in Sources */,
 				63203DC92B296D6300855113 /* amattaApp.swift in Sources */,
@@ -369,12 +369,12 @@
 				63AAADE32B2C1BAE00714F0E /* AddItemView.swift in Sources */,
 				63203E062B2AC62E00855113 /* DayButton.swift in Sources */,
 				63203E0C2B2AC65500855113 /* AlarmHeaderView.swift in Sources */,
+				63EA09142B3C1700005C1BED /* Alarm+CoreDataProperties.swift in Sources */,
 				637C303F2B2BEF050006812D /* AlarmData.xcdatamodeld in Sources */,
 				63203E082B2AC63B00855113 /* CustomDatePicker.swift in Sources */,
 				6386CB8E2B329F82004E89D3 /* NotificationManager.swift in Sources */,
 				63203E042B2AC61700855113 /* CustomTextField.swift in Sources */,
 				635D19A32B34340900BA2787 /* EditAlarmHeader.swift in Sources */,
-				6386CB972B32B4C5004E89D3 /* Items+CoreDataClass.swift in Sources */,
 				635D19A52B35686100BA2787 /* AlarmEditAddItemView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
