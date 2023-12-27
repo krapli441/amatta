@@ -224,10 +224,8 @@ struct EditAlarmView: View {
 
 struct EditAlarmView_Previews: PreviewProvider {
     static var previews: some View {
-        // 더미 Context와 AlarmDataModel 생성
         let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         let alarmDataModel = AlarmDataModel(context: context)
-
         EditAlarmView(alarmID: nil)
     }
 }
