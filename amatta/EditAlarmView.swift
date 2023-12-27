@@ -42,11 +42,6 @@ struct EditAlarmView: View {
                         itemsToBringSection()
                     }
                 }
-                HStack {
-//                    deleteButton()
-
-//                    updateButton()
-                }
             }
             .onAppear {
                 loadAlarmData()
@@ -54,19 +49,6 @@ struct EditAlarmView: View {
             .onTapGesture { hideKeyboard() }
             .onDisappear { updateAlarm() }
         }
-//    private func deleteButton() -> some View {
-//        Button(action: {
-//            // 삭제 버튼 액션
-//            self.showingDeleteAlert = true
-//        }) {
-//            Text("삭제")
-//                .foregroundColor(.white)
-//                .frame(width: 140)
-//                .padding()
-//                .background(Color.red)
-//                .cornerRadius(10)
-//        }
-//    }
     
     // 알림 삭제 로직
     private func deleteAlarm() {
@@ -94,21 +76,7 @@ struct EditAlarmView: View {
             presentationMode.wrappedValue.dismiss()
         }
 
-//    // 업데이트(변경) 버튼
-//    private func updateButton() -> some View {
-//        Button(action: {
-//            updateAlarm()
-////            alarmDataModel.fetchAlarms()
-//        }) {
-//            Text("변경")
-//                .foregroundColor(.white)
-//                .frame(width: 140)
-//                .padding()
-//                .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-//                .cornerRadius(10)
-//        }
-//    }
-    
+
     // 알람 업데이트 로직
     private func updateAlarm() {
         guard let alarmID = alarmID, let alarm = managedObjectContext.object(with: alarmID) as? Alarm else {
