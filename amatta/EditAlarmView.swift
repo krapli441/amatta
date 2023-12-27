@@ -71,12 +71,18 @@ struct EditAlarmView: View {
     
     // 알람 업데이트 로직
     private func updateAlarm() {
-        guard let alarmID = alarmID,
-              let alarm = managedObjectContext.object(with: alarmID) as? Alarm else {
+        guard let alarmID = alarmID, let alarm = managedObjectContext.object(with: alarmID) as? Alarm else {
             print("Alarm not found")
             return
         }
+        
+        // 기존 알림 삭제
+        if let identifier = alarm.alarmIdentifier {
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
+            print("알림 삭제됨: \(identifier)")
+        }
 
+        // 알람 정보 업데이트
         alarm.name = alarmName
         alarm.time = selectedTime
         alarm.sunday = selectedWeekdays[0]
@@ -87,15 +93,17 @@ struct EditAlarmView: View {
         alarm.friday = selectedWeekdays[5]
         alarm.saturday = selectedWeekdays[6]
 
-        // CoreData 저장
+        // CoreData 저장 및 알림 재스케줄링
         do {
             try managedObjectContext.save()
+            NotificationManager.shared.scheduleNotification(for: alarm)
+            print("알림 업데이트됨: \(alarm.alarmIdentifier ?? "Unknown Identifier")")
             presentationMode.wrappedValue.dismiss()
-            print("알람 업데이트 성공")
         } catch {
             print("알람 업데이트 실패: \(error)")
         }
     }
+
     
     @ViewBuilder
     private func inputSection<Content: View>(title: String, content: Content) -> some View {
