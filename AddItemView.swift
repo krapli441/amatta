@@ -13,24 +13,6 @@ class AlarmCreationData: ObservableObject {
     @Published var items: [TemporaryItem] = []
 }
 
-// 임시 아이템 데이터 구조
-//struct TemporaryItem: Identifiable {
-//    var id: UUID
-//    var name: String
-//    var isContainer: Bool
-//    var importance: Float
-//    var containedItems: [String]
-//
-//    init(id: UUID = UUID(), name: String, isContainer: Bool, importance: Float, containedItems: [String]) {
-//        self.id = id
-//        self.name = name
-//        self.isContainer = isContainer
-//        self.importance = importance
-//        self.containedItems = containedItems
-//    }
-//}
-
-
 struct AddItemView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode
@@ -179,9 +161,7 @@ struct AddItemView: View {
            .disabled(isAddButtonDisabled)
        }
 
-    
 
-    
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
