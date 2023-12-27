@@ -2,7 +2,7 @@
 //  Items+CoreDataProperties.swift
 //  amatta
 //
-//  Created by 박준형 on 12/20/23.
+//  Created by 박준형 on 12/27/23.
 //
 //
 
@@ -16,6 +16,7 @@ extension Items {
         return NSFetchRequest<Items>(entityName: "Items")
     }
 
+    @NSManaged public var creationDate: Date?
     @NSManaged public var importance: Float
     @NSManaged public var isContainer: Bool
     @NSManaged public var name: String?

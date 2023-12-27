@@ -37,11 +37,11 @@
 		6386CB952B32B4C5004E89D3 /* Alarm+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6386CB912B32B4C5004E89D3 /* Alarm+CoreDataClass.swift */; };
 		6386CB962B32B4C5004E89D3 /* Alarm+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6386CB922B32B4C5004E89D3 /* Alarm+CoreDataProperties.swift */; };
 		6386CB972B32B4C5004E89D3 /* Items+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6386CB932B32B4C5004E89D3 /* Items+CoreDataClass.swift */; };
-		6386CB982B32B4C5004E89D3 /* Items+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6386CB942B32B4C5004E89D3 /* Items+CoreDataProperties.swift */; };
 		63AAADE32B2C1BAE00714F0E /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AAADE22B2C1BAE00714F0E /* AddItemView.swift */; };
 		63AAADE52B2C1CB100714F0E /* ItemHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AAADE42B2C1CB100714F0E /* ItemHeaderView.swift */; };
 		63B5102C2B39562700597E3B /* EditTemporaryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B5102B2B39562700597E3B /* EditTemporaryItem.swift */; };
 		63B5102E2B39563500597E3B /* TemporaryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B5102D2B39563500597E3B /* TemporaryItem.swift */; };
+		63EA090C2B3C0B21005C1BED /* Items+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EA090B2B3C0B21005C1BED /* Items+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,12 +97,12 @@
 		6386CB912B32B4C5004E89D3 /* Alarm+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alarm+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6386CB922B32B4C5004E89D3 /* Alarm+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alarm+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		6386CB932B32B4C5004E89D3 /* Items+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Items+CoreDataClass.swift"; sourceTree = "<group>"; };
-		6386CB942B32B4C5004E89D3 /* Items+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Items+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		63AAADE22B2C1BAE00714F0E /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AddItemView.swift; path = ../AddItemView.swift; sourceTree = "<group>"; };
 		63AAADE42B2C1CB100714F0E /* ItemHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemHeaderView.swift; sourceTree = "<group>"; };
 		63B5102B2B39562700597E3B /* EditTemporaryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTemporaryItem.swift; sourceTree = "<group>"; };
 		63B5102D2B39563500597E3B /* TemporaryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemporaryItem.swift; sourceTree = "<group>"; };
 		63EA09082B3C038F005C1BED /* AlarmData 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "AlarmData 2.xcdatamodel"; sourceTree = "<group>"; };
+		63EA090B2B3C0B21005C1BED /* Items+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Items+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,8 +155,8 @@
 			children = (
 				6386CB912B32B4C5004E89D3 /* Alarm+CoreDataClass.swift */,
 				6386CB922B32B4C5004E89D3 /* Alarm+CoreDataProperties.swift */,
+				63EA090B2B3C0B21005C1BED /* Items+CoreDataProperties.swift */,
 				6386CB932B32B4C5004E89D3 /* Items+CoreDataClass.swift */,
-				6386CB942B32B4C5004E89D3 /* Items+CoreDataProperties.swift */,
 				635D19A62B35686C00BA2787 /* AlarmEditModifyItemView.swift */,
 				637B46382B3AC78C007FE227 /* PersistenceController.swift */,
 				635D19A42B35686100BA2787 /* AlarmEditAddItemView.swift */,
@@ -350,7 +350,6 @@
 			files = (
 				63203DFC2B2AA68400855113 /* AppDelegate.swift in Sources */,
 				63203DCB2B296D6300855113 /* ContentView.swift in Sources */,
-				6386CB982B32B4C5004E89D3 /* Items+CoreDataProperties.swift in Sources */,
 				6386CB822B31381C004E89D3 /* EditItemHeaderView.swift in Sources */,
 				63AAADE52B2C1CB100714F0E /* ItemHeaderView.swift in Sources */,
 				635D19A72B35686C00BA2787 /* AlarmEditModifyItemView.swift in Sources */,
@@ -359,6 +358,7 @@
 				6386CB952B32B4C5004E89D3 /* Alarm+CoreDataClass.swift in Sources */,
 				63203E0A2B2AC64700855113 /* SectionHeaderView.swift in Sources */,
 				635D19A12B3433BE00BA2787 /* EditAlarmView.swift in Sources */,
+				63EA090C2B3C0B21005C1BED /* Items+CoreDataProperties.swift in Sources */,
 				6386CB802B31379E004E89D3 /* EditItemView.swift in Sources */,
 				63B5102E2B39563500597E3B /* TemporaryItem.swift in Sources */,
 				637B46372B3AC6AA007FE227 /* AlarmViewModel.swift in Sources */,
