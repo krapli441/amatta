@@ -44,13 +44,14 @@ struct EditAlarmView: View {
                                                 secondaryButton: .cancel()
                                             )
                                         }
-                    updateButton()
+//                    updateButton()
                 }
             }
             .onAppear {
                 loadAlarmData()
             }
             .onTapGesture { hideKeyboard() }
+            .onDisappear { updateAlarm() }
         }
     private func deleteButton() -> some View {
         Button(action: {
@@ -92,20 +93,20 @@ struct EditAlarmView: View {
             presentationMode.wrappedValue.dismiss()
         }
 
-    // 업데이트(변경) 버튼
-    private func updateButton() -> some View {
-        Button(action: {
-            updateAlarm()
-//            alarmDataModel.fetchAlarms()
-        }) {
-            Text("변경")
-                .foregroundColor(.white)
-                .frame(width: 140)
-                .padding()
-                .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                .cornerRadius(10)
-        }
-    }
+//    // 업데이트(변경) 버튼
+//    private func updateButton() -> some View {
+//        Button(action: {
+//            updateAlarm()
+////            alarmDataModel.fetchAlarms()
+//        }) {
+//            Text("변경")
+//                .foregroundColor(.white)
+//                .frame(width: 140)
+//                .padding()
+//                .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+//                .cornerRadius(10)
+//        }
+//    }
     
     // 알람 업데이트 로직
     private func updateAlarm() {
