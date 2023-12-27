@@ -12,17 +12,22 @@ struct TemporaryItem: Identifiable {
     var name: String
     var isContainer: Bool
     var importance: Float
-    var containedItems: [String]
-    var containedItemsCreationDates: [Date]
+    var containedItems: [TemporaryContainedItem]
     var creationDate: Date
 
-    init(id: UUID = UUID(), name: String, isContainer: Bool, importance: Float, containedItems: [String], containedItemsCreationDates: [Date] = [], creationDate: Date = Date()) {
+    init(id: UUID = UUID(), name: String, isContainer: Bool, importance: Float, containedItems: [TemporaryContainedItem], creationDate: Date = Date()) {
         self.id = id
         self.name = name
         self.isContainer = isContainer
         self.importance = importance
         self.containedItems = containedItems
-        self.containedItemsCreationDates = containedItemsCreationDates
         self.creationDate = creationDate
     }
+}
+
+
+
+struct TemporaryContainedItem {
+    var name: String
+    var creationDate: Date
 }

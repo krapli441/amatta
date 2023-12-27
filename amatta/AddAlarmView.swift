@@ -151,7 +151,6 @@ struct AddAlarmView: View {
     }
     
     private func saveAlarm() {
-        
         let calendar = Calendar.current
         let currentDateComponents = calendar.dateComponents([.year, .month, .day], from: Date())
         var timeComponents = calendar.dateComponents([.hour, .minute], from: selectedTime)
@@ -164,14 +163,13 @@ struct AddAlarmView: View {
         newAlarm.name = alarmName
         newAlarm.alarmIdentifier = UUID().uuidString
         newAlarm.time = calendar.date(from: timeComponents)
-        newAlarm.sunday = selectedWeekdays[0] // 일요일
-        newAlarm.monday = selectedWeekdays[1] // 월요일
-        newAlarm.tuesday = selectedWeekdays[2] // 화요일
-        newAlarm.wednesday = selectedWeekdays[3] // 수요일
-        newAlarm.thursday = selectedWeekdays[4] // 목요일
-        newAlarm.friday = selectedWeekdays[5] // 금요일
-        newAlarm.saturday = selectedWeekdays[6] // 토요일
-
+        newAlarm.sunday = selectedWeekdays[0]
+        newAlarm.monday = selectedWeekdays[1]
+        newAlarm.tuesday = selectedWeekdays[2]
+        newAlarm.wednesday = selectedWeekdays[3]
+        newAlarm.thursday = selectedWeekdays[4]
+        newAlarm.friday = selectedWeekdays[5]
+        newAlarm.saturday = selectedWeekdays[6]
 
         for temporaryItem in alarmCreationData.items {
             let newItem = Items(context: managedObjectContext)
@@ -181,10 +179,11 @@ struct AddAlarmView: View {
             newItem.creationDate = temporaryItem.creationDate
 
             if temporaryItem.isContainer {
-                for childName in temporaryItem.containedItems {
+                for childItemData in temporaryItem.containedItems {
                     let childItem = Items(context: managedObjectContext)
-                    childItem.name = childName
-                    childItem.isContainer = false // 자식 아이템은 컨테이너가 아님
+                    childItem.name = childItemData.name
+                    childItem.isContainer = false
+                    childItem.creationDate = childItemData.creationDate
                     newItem.addToChildren(childItem)
                 }
             }
@@ -193,7 +192,6 @@ struct AddAlarmView: View {
         }
 
 
-        
         do {
             try managedObjectContext.save()
             print("알람 저장 성공: \(newAlarm)")
@@ -203,6 +201,7 @@ struct AddAlarmView: View {
             print("알람 저장 실패: \(error), \(error.userInfo)")
         }
     }
+
 
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
