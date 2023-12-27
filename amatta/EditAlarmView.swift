@@ -45,10 +45,23 @@ struct EditAlarmView: View {
             }
             .onAppear {
                 loadAlarmData()
+                printItemsInfo()
             }
             .onTapGesture { hideKeyboard() }
             .onDisappear { updateAlarm() }
         }
+    
+    private func printItemsInfo() {
+        if let items = alarm?.items as? Set<Items>, !items.isEmpty {
+            let sortedItems = items.sorted {
+                ($0.creationDate ?? Date()) < ($1.creationDate ?? Date())
+            }
+
+            for item in sortedItems {
+                print("Item: \(item.name ?? "Unknown"), Creation Date: \(item.creationDate ?? Date())")
+            }
+        }
+    }
     
     // 알림 삭제 로직
     private func deleteAlarm() {
@@ -139,13 +152,17 @@ struct EditAlarmView: View {
         VStack(alignment: .center, spacing: 5) {
             SectionHeaderView(title: "챙겨야 할 것들")
             if let items = alarm?.items as? Set<Items>, !items.isEmpty {
-                ForEach(Array(items), id: \.self) { item in
+                // `creationDate`를 기준으로 정렬
+                let sortedItems = items.sorted {
+                    ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
+                }
+                ForEach(sortedItems, id: \.self) { item in
+//                    printItemInfo(item)
                     HStack {
                         VStack(alignment: .leading) {
                             Text(item.name ?? "Unknown")
                                 .font(.headline)
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
-
                             if let children = item.children as? Set<Items>, !children.isEmpty {
                                 Text(formatContainedItems(children.map { $0.name ?? "" }))
                                     .font(.subheadline)
@@ -173,6 +190,10 @@ struct EditAlarmView: View {
         }
     }
 
+
+
+
+    
     // 물건 목록을 포맷팅하는 함수
     private func formatContainedItems(_ items: [String]) -> String {
         let maxDisplayCount = 2
