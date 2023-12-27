@@ -23,7 +23,17 @@ struct EditAlarmView: View {
     
     var body: some View {
             VStack {
-                EditAlarmHeaderView()
+                EditAlarmHeaderView(onDelete: deleteAlarm, showingDeleteAlert: $showingDeleteAlert)
+                    .alert(isPresented: $showingDeleteAlert) {
+                                        Alert(
+                                            title: Text("알림 삭제"),
+                                            message: Text("정말로 이 알림을 삭제하시겠어요?"),
+                                            primaryButton: .destructive(Text("삭제")) {
+                                                deleteAlarm()
+                                            },
+                                            secondaryButton: .cancel()
+                                        )
+                                    }
                 ScrollView {
                     VStack(spacing: 12) {
                         inputSection(title: "알림 이름", content: CustomTextField(placeholder: "이름을 입력해주세요.", text: $alarmName))
@@ -33,17 +43,8 @@ struct EditAlarmView: View {
                     }
                 }
                 HStack {
-                    deleteButton()
-                        .alert(isPresented: $showingDeleteAlert) {
-                                            Alert(
-                                                title: Text("알림 삭제"),
-                                                message: Text("정말로 이 알림을 삭제하시겠어요?"),
-                                                primaryButton: .destructive(Text("삭제")) {
-                                                    deleteAlarm()
-                                                },
-                                                secondaryButton: .cancel()
-                                            )
-                                        }
+//                    deleteButton()
+
 //                    updateButton()
                 }
             }
@@ -53,19 +54,19 @@ struct EditAlarmView: View {
             .onTapGesture { hideKeyboard() }
             .onDisappear { updateAlarm() }
         }
-    private func deleteButton() -> some View {
-        Button(action: {
-            // 삭제 버튼 액션
-            self.showingDeleteAlert = true
-        }) {
-            Text("삭제")
-                .foregroundColor(.white)
-                .frame(width: 140)
-                .padding()
-                .background(Color.red)
-                .cornerRadius(10)
-        }
-    }
+//    private func deleteButton() -> some View {
+//        Button(action: {
+//            // 삭제 버튼 액션
+//            self.showingDeleteAlert = true
+//        }) {
+//            Text("삭제")
+//                .foregroundColor(.white)
+//                .frame(width: 140)
+//                .padding()
+//                .background(Color.red)
+//                .cornerRadius(10)
+//        }
+//    }
     
     // 알림 삭제 로직
     private func deleteAlarm() {
