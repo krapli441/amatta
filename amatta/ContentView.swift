@@ -112,7 +112,6 @@ struct AlarmRow: View {
 
     var body: some View {
         Button(action: {
-            // editAction 클로저 호출
             self.editAction(self.alarm.objectID)
         }) {
             VStack(alignment: .leading, spacing: 10) {
@@ -130,9 +129,22 @@ struct AlarmRow: View {
 
                 // 알림 상세 정보
                 ForEach(alarm.itemsArray, id: \.self) { item in
-                    // ... 아이템 정보 ...
-                }
-                .padding([.leading, .trailing])
+                        HStack {
+                            Text(item.name ?? "물건")
+                                .font(.subheadline)
+                                .foregroundColor(.primary)
+                            
+                            if item.isContainer && !item.childrenArray.isEmpty {
+//                                Text("-")
+//                                    .foregroundColor(.gray)
+                                
+                                Text(item.childrenArray.map { $0.name ?? "항목" }.joined(separator: ", "))
+                                    .font(.footnote)
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                    }
+                    .padding([.leading, .trailing])
 
                 HStack {
                     Spacer()
