@@ -157,7 +157,6 @@ struct EditAlarmView: View {
                     ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
                 }
                 ForEach(sortedItems, id: \.self) { item in
-//                    printItemInfo(item)
                     HStack {
                         VStack(alignment: .leading) {
                             Text(item.name ?? "Unknown")

@@ -756,7 +756,7 @@
 				63EA09082B3C038F005C1BED /* AlarmData 2.xcdatamodel */,
 				637C303E2B2BEF050006812D /* AlarmData.xcdatamodel */,
 			);
-			currentVersion = 63EA09082B3C038F005C1BED /* AlarmData 2.xcdatamodel */;
+			currentVersion = 637C303E2B2BEF050006812D /* AlarmData.xcdatamodel */;
 			path = AlarmData.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
