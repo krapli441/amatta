@@ -18,6 +18,7 @@ struct EditAlarmView: View {
     @State private var alarmName: String = ""
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
+    @State private var showingDeleteAlert = false
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
     
     var body: some View {
@@ -33,6 +34,16 @@ struct EditAlarmView: View {
                 }
                 HStack {
                     deleteButton()
+                        .alert(isPresented: $showingDeleteAlert) {
+                                            Alert(
+                                                title: Text("알림 삭제"),
+                                                message: Text("정말로 이 알림을 삭제하시겠습니까?"),
+                                                primaryButton: .destructive(Text("삭제")) {
+                                                    deleteAlarm()
+                                                },
+                                                secondaryButton: .cancel()
+                                            )
+                                        }
                     updateButton()
                 }
             }
@@ -44,6 +55,7 @@ struct EditAlarmView: View {
     private func deleteButton() -> some View {
         Button(action: {
             // 삭제 버튼 액션
+            self.showingDeleteAlert = true
         }) {
             Text("삭제")
                 .foregroundColor(.white)
@@ -53,6 +65,32 @@ struct EditAlarmView: View {
                 .cornerRadius(10)
         }
     }
+    
+    // 알림 삭제 로직
+    private func deleteAlarm() {
+            guard let alarmID = self.alarmID, let alarmToDelete = managedObjectContext.object(with: alarmID) as? Alarm else {
+                print("Alarm not found")
+                return
+            }
+
+            // 알림 스케줄러에서 알림 삭제
+            if let identifier = alarmToDelete.alarmIdentifier {
+                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
+                print("알림 스케줄러에서 삭제: \(identifier)")
+            }
+
+            // CoreData에서 알림 삭제
+            managedObjectContext.delete(alarmToDelete)
+            do {
+                try managedObjectContext.save()
+                print("CoreData에서 알림 삭제 성공")
+            } catch {
+                print("CoreData에서 알림 삭제 실패: \(error)")
+            }
+
+            // 이전 화면으로 돌아가기
+            presentationMode.wrappedValue.dismiss()
+        }
 
     // 업데이트(변경) 버튼
     private func updateButton() -> some View {
