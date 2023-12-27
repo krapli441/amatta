@@ -161,7 +161,7 @@ struct AddItemView: View {
            Button(action: {
                // 물건 이름이나 담기는 물건의 이름이 비어 있지 않은 경우에만 물건 추가
                if !isAddButtonDisabled {
-                   let newItem = TemporaryItem(name: itemName, isContainer: canContainOtherItems, importance: importance, containedItems: containedItems)
+                   let newItem = TemporaryItem(name: itemName, isContainer: canContainOtherItems, importance: importance, containedItems: containedItems, creationDate: Date())
                    alarmCreationData.items.append(newItem)
                    print("물건 추가됨: \(newItem)")
                    presentationMode.wrappedValue.dismiss()
