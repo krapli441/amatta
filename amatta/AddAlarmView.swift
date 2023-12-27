@@ -178,6 +178,7 @@ struct AddAlarmView: View {
             newItem.name = temporaryItem.name
             newItem.isContainer = temporaryItem.isContainer
             newItem.importance = temporaryItem.importance
+            newItem.creationDate = temporaryItem.creationDate
 
             if temporaryItem.isContainer {
                 for childName in temporaryItem.containedItems {
