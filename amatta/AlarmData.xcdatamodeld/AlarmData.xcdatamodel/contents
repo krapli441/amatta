@@ -17,6 +17,7 @@
         <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="importance" optional="YES" attributeType="Float" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="isContainer" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="itemIdentifier" optional="YES" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
         <relationship name="alarm" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Alarm" inverseName="items" inverseEntity="Alarm"/>
         <relationship name="children" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Items" inverseName="parent" inverseEntity="Items"/>
