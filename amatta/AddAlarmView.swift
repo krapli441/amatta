@@ -179,7 +179,7 @@ struct AddAlarmView: View {
             newItem.name = temporaryItem.name
             newItem.isContainer = temporaryItem.isContainer
             newItem.importance = temporaryItem.importance
-            newItem.creationDate = temporaryItem.creationDate
+            newItem.creationDate = temporaryItem.creationDate // 상위 아이템의 creationDate 사용
 
             if temporaryItem.isContainer {
                 for childItem in temporaryItem.containedItems {
@@ -187,13 +187,14 @@ struct AddAlarmView: View {
                     let childItemEntity = Items(context: managedObjectContext)
                     childItemEntity.name = childItemName
                     childItemEntity.isContainer = false // 자식 아이템은 컨테이너가 아님
+                    childItemEntity.creationDate = Date() // 현재 날짜 및 시간을 사용
                     newItem.addToChildren(childItemEntity)
                     
                     // Print the child item's creationDate here
-                    print("Child Item: \(childItemName), Creation Date: \(childItem.creationDate)")
+                    print("Child Item: \(childItemName), Creation Date: \(childItemEntity.creationDate)")
                 }
             }
-            
+
             // Print the parent item's creationDate here
             print("Parent Item: \(temporaryItem.name), Creation Date: \(temporaryItem.creationDate)")
             
@@ -201,8 +202,6 @@ struct AddAlarmView: View {
         }
 
 
-
-        
         do {
             try managedObjectContext.save()
             print("알람 저장 성공: \(newAlarm)")
