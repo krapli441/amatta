@@ -19,6 +19,8 @@ struct EditAlarmView: View {
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
     @State private var showingDeleteAlert = false
+    @State private var isItemDetailViewPresented = false
+    @State private var selectedItemObjectID: NSManagedObjectID?
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
     
     var body: some View {
@@ -144,7 +146,8 @@ struct EditAlarmView: View {
                 }
                 ForEach(temporarySortedItems, id: \.self) { item in
                     Button(action: {
-                        
+                        selectedItemObjectID = item.objectID // 선택한 물건의 objectID 저장
+                        isItemDetailViewPresented.toggle()
                     }) {
                         HStack {
                             VStack(alignment: .leading) {
@@ -173,6 +176,11 @@ struct EditAlarmView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.gray, lineWidth: 1)
                         )
+                        .sheet(isPresented: $isItemDetailViewPresented) {
+                                if let objectID = selectedItemObjectID {
+                                    AlarmEditModifyItemView(itemObjectID: objectID)
+                                }
+                            }
                     }
                 }
             } else {
