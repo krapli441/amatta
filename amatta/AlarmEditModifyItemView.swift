@@ -86,7 +86,39 @@ struct AlarmEditModifyItemView: View {
             }
             .animation(.easeInOut, value: canContainOtherItems)
         }
+        HStack {
+                        deleteButton()
+                        updateButton()
+                    }
 
+    }
+    
+    private func deleteButton() -> some View {
+        Button(action: {
+            // 여기에 삭제 기능을 넣을 예정
+        }) {
+            Text("삭제")
+                .foregroundColor(.white)
+                .frame(width: 140)
+                .padding()
+                .background(Color.red)
+                .cornerRadius(10)
+        }
+        // 추후 여기에 삭제 확인 Alert 추가
+    }
+
+    private func updateButton() -> some View {
+        Button(action: {
+            // 여기에 업데이트 기능을 넣을 예정
+        }) {
+            Text("변경")
+                .foregroundColor(.white)
+                .frame(width: 140)
+                .padding()
+                .background(Color.blue) // Update 버튼의 색상, 추후 변경 가능
+                .cornerRadius(10)
+        }
+        // 추후 여기에 업데이트 버튼 활성화/비활성화 조건 추가
     }
     
     private func addItemButton() -> some View {
