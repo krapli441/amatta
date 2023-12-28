@@ -115,10 +115,21 @@ struct AlarmEditModifyItemView: View {
                 .foregroundColor(.white)
                 .frame(width: 140)
                 .padding()
-                .background(Color.blue) // Update 버튼의 색상, 추후 변경 가능
+                .background(updateButtonBackgroundColor)
                 .cornerRadius(10)
         }
-        // 추후 여기에 업데이트 버튼 활성화/비활성화 조건 추가
+        .disabled(isUpdateButtonDisabled)
+        .animation(.easeInOut, value: isUpdateButtonDisabled)
+    }
+    
+    // 변경 버튼이 비활성화되어야 하는 조건
+    var isUpdateButtonDisabled: Bool {
+        itemName.isEmpty || containedItems.contains { $0.isEmpty }
+    }
+
+    // 변경 버튼의 배경 색상
+    var updateButtonBackgroundColor: Color {
+        isUpdateButtonDisabled ? Color.gray : Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255)
     }
     
     private func addItemButton() -> some View {
