@@ -21,6 +21,7 @@ struct EditAlarmView: View {
     @State private var showingDeleteAlert = false
     @State private var isItemDetailViewPresented = false
     @State private var selectedItemObjectID: NSManagedObjectID?
+    
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
     
     var body: some View {
@@ -148,7 +149,9 @@ struct EditAlarmView: View {
                     Button(action: {
                         selectedItemObjectID = item.objectID
                         isItemDetailViewPresented.toggle()
-                    }) {
+                        print("다음과 같은 값 전달 : \(item.objectID)")
+                    })
+{
                         HStack {
                             VStack(alignment: .leading) {
                                 Text(item.name ?? "Unknown")
