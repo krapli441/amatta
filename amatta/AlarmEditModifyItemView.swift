@@ -149,27 +149,43 @@ struct AlarmEditModifyItemView: View {
     }
     
     private func updateItem() {
-            guard let objectID = itemObjectID,
-                  let itemToUpdate = managedObjectContext.object(with: objectID) as? Items else {
-                return
-            }
-
-            // 아이템의 속성 업데이트
-            itemToUpdate.name = itemName
-            itemToUpdate.isContainer = canContainOtherItems
-            itemToUpdate.importance = importance
-
-            // 여기에 하위 아이템 관련 업데이트 로직 추가 (필요한 경우)
-
-            do {
-                try managedObjectContext.save()
-                print("물건 변경됨: \(itemToUpdate)")
-            } catch {
-                print("업데이트 실패: \(error)")
-            }
-
-            presentationMode.wrappedValue.dismiss()
+        guard let objectID = itemObjectID,
+              let itemToUpdate = managedObjectContext.object(with: objectID) as? Items else {
+            return
         }
+
+        // 아이템의 속성 업데이트
+        itemToUpdate.name = itemName
+        itemToUpdate.isContainer = canContainOtherItems
+        itemToUpdate.importance = importance
+
+        // 기존 하위 아이템 제거
+        if let existingChildren = itemToUpdate.children as? Set<Items> {
+            existingChildren.forEach(managedObjectContext.delete)
+        }
+
+        // 새로운 하위 아이템 추가
+        if canContainOtherItems {
+            for childItemName in containedItems {
+                let childItemEntity = Items(context: managedObjectContext)
+                childItemEntity.name = childItemName
+                childItemEntity.isContainer = false // 자식 아이템은 컨테이너가 아님
+                childItemEntity.creationDate = Date() // 새로운 날짜 할당
+                itemToUpdate.addToChildren(childItemEntity)
+            }
+        }
+
+        // 변경사항 저장
+        do {
+            try managedObjectContext.save()
+            print("물건 변경됨: \(itemToUpdate)")
+        } catch {
+            print("업데이트 실패: \(error)")
+        }
+
+        presentationMode.wrappedValue.dismiss()
+    }
+
     
     // 변경 버튼이 비활성화되어야 하는 조건
     var isUpdateButtonDisabled: Bool {
