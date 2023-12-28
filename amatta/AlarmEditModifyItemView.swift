@@ -20,6 +20,7 @@ struct AlarmEditModifyItemView: View {
     // 이니셜라이저를 추가하여 selectedItemObjectID를 설정
     init(itemObjectID: NSManagedObjectID?) {
         self.itemObjectID = itemObjectID
+        print("AlarmEditModifyItemView initialized with Item ObjectID: \(String(describing: itemObjectID))")
     }
     
     var body: some View {
@@ -27,7 +28,11 @@ struct AlarmEditModifyItemView: View {
             EditItemHeaderView() // 물건 변경
             ScrollView {
                 Text("Selected Item ObjectID: \(itemObjectID?.description ?? "None")")
+                    .onAppear {
+                        print("Displaying in AlarmEditModifyItemView: \(String(describing: itemObjectID))")
+                    }
             }
+
         }
     }
 }
