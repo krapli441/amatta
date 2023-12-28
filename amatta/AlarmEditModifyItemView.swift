@@ -26,8 +26,8 @@ struct AlarmEditModifyItemView: View {
         VStack {
             EditItemHeaderView() // 물건 변경
             ScrollView {
-                Text("Selected Item ObjectID: \(itemObjectID?.description ?? "None")")
-            }
+                        Text("Selected Item ObjectID: \(String(describing: itemObjectID))")
+                    }
         }
     }
 }
