@@ -143,33 +143,38 @@ struct EditAlarmView: View {
                     ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
                 }
                 ForEach(temporarySortedItems, id: \.self) { item in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(item.name ?? "Unknown")
-                                .font(.headline)
-                                .foregroundColor(colorScheme == .dark ? .white : .black)
-                            if let children = item.children as? Set<Items>, !children.isEmpty {
-                                // 하위 물건들을 creationDate를 기반으로 정렬
-                                let sortedChildren = children.sorted {
-                                    ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
+                    Button(action: {
+                        // 해당 물건을 편집하는 화면으로 이동하는 로직을 추가하세요.
+                        // 예를 들어, NavigationLink를 사용하여 이동할 수 있습니다.
+                    }) {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(item.name ?? "Unknown")
+                                    .font(.headline)
+                                    .foregroundColor(colorScheme == .dark ? .white : .black)
+                                if let children = item.children as? Set<Items>, !children.isEmpty {
+                                    // 하위 물건들을 creationDate를 기반으로 정렬
+                                    let sortedChildren = children.sorted {
+                                        ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
+                                    }
+                                    Text(formatContainedItems(Array(sortedChildren).map { $0.name ?? "" }))
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray)
                                 }
-                                Text(formatContainedItems(Array(sortedChildren).map { $0.name ?? "" }))
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
                             }
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.gray)
                         }
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(.gray)
+                        .padding()
+                        .frame(maxWidth: 350, alignment: .leading)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
                     }
-                    .padding()
-                    .frame(maxWidth: 350, alignment: .leading)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
                 }
             } else {
                 Text("물건이 없습니다.")
@@ -178,6 +183,7 @@ struct EditAlarmView: View {
             }
         }
     }
+
 
 
 
