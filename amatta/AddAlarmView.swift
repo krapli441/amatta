@@ -80,10 +80,11 @@ struct AddAlarmView: View {
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
 
                             if !item.containedItems.isEmpty {
-                                Text(formatContainedItems(item.containedItems))
+                                Text(formatContainedItems(item.containedItems.map { $0.name })) // ContainedItem에서 name을 추출하여 사용
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
                             }
+
                         }
                         Spacer()
                         Image(systemName: "chevron.right")
@@ -181,13 +182,15 @@ struct AddAlarmView: View {
             newItem.creationDate = temporaryItem.creationDate
 
             if temporaryItem.isContainer {
-                for childName in temporaryItem.containedItems {
-                    let childItem = Items(context: managedObjectContext)
-                    childItem.name = childName
-                    childItem.isContainer = false // 자식 아이템은 컨테이너가 아님
-                    newItem.addToChildren(childItem)
+                for childItem in temporaryItem.containedItems {
+                    let childItemName = childItem.name
+                    let childItemEntity = Items(context: managedObjectContext)
+                    childItemEntity.name = childItemName
+                    childItemEntity.isContainer = false // 자식 아이템은 컨테이너가 아님
+                    newItem.addToChildren(childItemEntity)
                 }
             }
+
 
             newAlarm.addToItems(newItem)
         }
