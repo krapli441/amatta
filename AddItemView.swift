@@ -142,27 +142,41 @@ struct AddItemView: View {
         }
     
     private func addButton() -> some View {
-           Button(action: {
-               // 물건 이름이나 담기는 물건의 이름이 비어 있지 않은 경우에만 물건 추가
-               if !isAddButtonDisabled {
-                   let containedItemNames = containedItems.map { $0.name }
-                    let newItem = TemporaryItem(name: itemName, isContainer: canContainOtherItems, importance: importance, containedItems: containedItemNames, creationDate: Date())
-                    alarmCreationData.items.append(newItem)
-                    print("물건 추가됨: \(newItem)")
-                    presentationMode.wrappedValue.dismiss()
-               }
-           }) {
-               Text("추가")
-                   .disabled(isAddButtonDisabled)
-                   .foregroundColor(.white)
-                   .frame(maxWidth: 320)
-                   .padding()
-                   .background(addButtonBackgroundColor)
-                   .cornerRadius(10)
-                   .animation(.easeInOut, value: isAddButtonDisabled)
-           }
-           .disabled(isAddButtonDisabled)
-       }
+        Button(action: {
+            // 물건 이름이나 담기는 물건의 이름이 비어 있지 않은 경우에만 물건 추가
+            if !isAddButtonDisabled {
+                // containedItems를 ContainedItem 객체로 변환
+                let newContainedItems = containedItems.map { ContainedItem(name: $0.name, orderIndex: $0.orderIndex) }
+                let newItem = TemporaryItem(
+                    name: itemName,
+                    isContainer: canContainOtherItems,
+                    importance: importance,
+                    containedItems: newContainedItems.map { $0.name }, // ContainedItem 배열에서 name 속성만 추출
+                    creationDate: Date()
+                )
+                alarmCreationData.items.append(newItem)
+
+                // 새로 추가된 물건 정보 출력
+                print("물건 추가됨: \(newItem)")
+                for containedItem in newContainedItems {
+                    print("Contained Item: Name = \(containedItem.name), OrderIndex = \(containedItem.orderIndex)")
+                }
+                
+                presentationMode.wrappedValue.dismiss()
+            }
+        }) {
+            Text("추가")
+                .disabled(isAddButtonDisabled)
+                .foregroundColor(.white)
+                .frame(maxWidth: 320)
+                .padding()
+                .background(addButtonBackgroundColor)
+                .cornerRadius(10)
+                .animation(.easeInOut, value: isAddButtonDisabled)
+        }
+        .disabled(isAddButtonDisabled)
+    }
+
 
 
     private func hideKeyboard() {
