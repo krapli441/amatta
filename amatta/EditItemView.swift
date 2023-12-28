@@ -201,11 +201,6 @@ struct EditItemView: View {
 }
 
 
-
-
-
-
-
 struct EditItemView_Previews: PreviewProvider {
     static var previews: some View {
         EditItemView(alarmCreationData: AlarmCreationData(), editingItem: nil)
