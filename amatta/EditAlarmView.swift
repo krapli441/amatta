@@ -146,7 +146,7 @@ struct EditAlarmView: View {
                 }
                 ForEach(temporarySortedItems, id: \.self) { item in
                     Button(action: {
-                        selectedItemObjectID = item.objectID // 선택한 물건의 objectID 저장
+                        selectedItemObjectID = item.objectID
                         isItemDetailViewPresented.toggle()
                     }) {
                         HStack {
@@ -155,7 +155,6 @@ struct EditAlarmView: View {
                                     .font(.headline)
                                     .foregroundColor(colorScheme == .dark ? .white : .black)
                                 if let children = item.children as? Set<Items>, !children.isEmpty {
-                                    // 하위 물건들을 creationDate를 기반으로 정렬
                                     let sortedChildren = children.sorted {
                                         ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
                                     }
@@ -176,11 +175,7 @@ struct EditAlarmView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.gray, lineWidth: 1)
                         )
-                        .sheet(isPresented: $isItemDetailViewPresented) {
-                                if let objectID = selectedItemObjectID {
-                                    AlarmEditModifyItemView(itemObjectID: objectID)
-                                }
-                            }
+
                     }
                 }
             } else {
@@ -188,6 +183,9 @@ struct EditAlarmView: View {
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
+        }
+        .sheet(isPresented: $isItemDetailViewPresented) {
+            AlarmEditModifyItemView(itemObjectID: selectedItemObjectID)
         }
     }
 
