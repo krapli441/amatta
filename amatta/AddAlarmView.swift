@@ -181,13 +181,14 @@ struct AddAlarmView: View {
             newItem.creationDate = temporaryItem.creationDate
 
             if temporaryItem.isContainer {
-                for childName in temporaryItem.containedItems {
-                    let childItem = Items(context: managedObjectContext)
-                    childItem.name = childName
-                    childItem.isContainer = false // 자식 아이템은 컨테이너가 아님
-                    newItem.addToChildren(childItem)
-                }
-            }
+                        for (index, containedItem) in temporaryItem.containedItems.enumerated() {
+                            let childItem = Items(context: managedObjectContext)
+                            childItem.name = containedItem.name
+                            childItem.isContainer = false
+                            childItem.orderIndex = Int32(index)
+                            newItem.addToChildren(childItem)
+                        }
+                    }
 
             newAlarm.addToItems(newItem)
         }

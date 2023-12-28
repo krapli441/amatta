@@ -25,8 +25,8 @@ struct TemporaryItem: Identifiable {
     }
 }
 
-struct ContainedItem: Identifiable {
-    var id: UUID = UUID()
+struct ContainedItem {
     var name: String
     var orderIndex: Int
 }
+
