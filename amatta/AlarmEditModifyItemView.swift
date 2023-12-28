@@ -18,24 +18,18 @@ struct AlarmEditModifyItemView: View {
     @State private var canContainOtherItems: Bool = false
     @State private var importance: Float = 1
     @State private var containedItems: [String] = []
-    var editingItem: EditTemporaryItem?
-    var onItemUpdated: (EditTemporaryItem) -> Void
+    var editingItem: TemporaryItem?
 
-
-    init(alarmCreationData: AlarmCreationData, editingItem: EditTemporaryItem?, onItemUpdated: @escaping (EditTemporaryItem) -> Void) {
+    init(alarmCreationData: AlarmCreationData, editingItem: TemporaryItem?) {
         _alarmCreationData = StateObject(wrappedValue: alarmCreationData)
         self.editingItem = editingItem
-        self.onItemUpdated = onItemUpdated
-
         if let editingItem = editingItem {
             _itemName = State(initialValue: editingItem.name)
             _canContainOtherItems = State(initialValue: editingItem.isContainer)
             _importance = State(initialValue: editingItem.importance)
-            _containedItems = State(initialValue: editingItem.containedItems)
+            _containedItems = State(initialValue: editingItem.containedItems.map { $0.name })
         }
     }
-
-
 
     var isUpdateButtonDisabled: Bool {
            itemName.isEmpty || containedItems.contains { $0.isEmpty }
@@ -121,34 +115,34 @@ struct AlarmEditModifyItemView: View {
             containedItems.remove(at: index)
         }
     }
-
+    
     private func updateButton() -> some View {
         Button(action: {
-            let updatedItem = EditTemporaryItem(
-                id: editingItem?.id ?? UUID(),
-                coreDataID: editingItem?.coreDataID,
-                name: itemName,
-                isContainer: canContainOtherItems,
-                importance: importance,
-                containedItems: containedItems
-            )
-
-            onItemUpdated(updatedItem)
-            print("변경된 내용 : \(updatedItem)")
+            if let editingItemID = editingItem?.id {
+                if let index = alarmCreationData.items.firstIndex(where: { $0.id == editingItemID }) {
+                    let updatedItem = TemporaryItem(
+                                            id: editingItemID,
+                                            name: itemName,
+                                            isContainer: canContainOtherItems,
+                                            importance: importance,
+                                            containedItems: containedItems.map { ContainedItem(name: $0, creationDate: Date()) }
+                                        )
+                    alarmCreationData.items[index] = updatedItem
+                    print("물건 변경됨: \(updatedItem)")
+                }
+            }
             presentationMode.wrappedValue.dismiss()
         }) {
             Text("변경")
                 .foregroundColor(.white)
-                .frame(width: 140)
-                .padding()
-                .background(updateButtonBackgroundColor)
-                .cornerRadius(10)
+                 .frame(width: 140)
+                 .padding()
+                 .background(updateButtonBackgroundColor)
+                 .cornerRadius(10)
         }
         .disabled(isUpdateButtonDisabled)
-        .animation(.easeInOut, value: isUpdateButtonDisabled)
+                .animation(.easeInOut, value: isUpdateButtonDisabled)
     }
-
-
 
     private func addItemButton() -> some View {
         Button(action: {
@@ -209,12 +203,6 @@ struct AlarmEditModifyItemView: View {
 
 struct AlarmEditModifyItemView_Previews: PreviewProvider {
     static var previews: some View {
-        AlarmEditModifyItemView(
-            alarmCreationData: AlarmCreationData(),
-            editingItem: nil,
-            onItemUpdated: { _ in } // 빈 클로저 제공
-        )
+        AlarmEditModifyItemView(alarmCreationData: AlarmCreationData(), editingItem: nil)
     }
 }
-
-
