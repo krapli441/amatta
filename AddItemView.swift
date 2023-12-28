@@ -39,7 +39,8 @@ struct AddItemView: View {
             _itemName = State(initialValue: editingItem.name)
             _canContainOtherItems = State(initialValue: editingItem.isContainer)
             _importance = State(initialValue: editingItem.importance)
-            _containedItems = State(initialValue: editingItem.containedItems.enumerated().map { index, name in ContainedItem(name: name, orderIndex: index) })
+            // ContainedItem 객체에서 name 속성만 추출하여 String 배열로 변환
+            _containedItems = State(initialValue: editingItem.containedItems.map { ContainedItem(name: $0.name, orderIndex: $0.orderIndex) })
         }
     }
 
@@ -151,7 +152,7 @@ struct AddItemView: View {
                     name: itemName,
                     isContainer: canContainOtherItems,
                     importance: importance,
-                    containedItems: newContainedItems.map { $0.name }, // ContainedItem 배열에서 name 속성만 추출
+                    containedItems: containedItems,
                     creationDate: Date()
                 )
                 alarmCreationData.items.append(newItem)

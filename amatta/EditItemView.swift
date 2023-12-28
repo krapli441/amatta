@@ -17,7 +17,7 @@ struct EditItemView: View {
     @State private var itemName: String = ""
     @State private var canContainOtherItems: Bool = false
     @State private var importance: Float = 1
-    @State private var containedItems: [String] = []
+    @State private var containedItems: [ContainedItem]
     var editingItem: TemporaryItem?
 
     init(alarmCreationData: AlarmCreationData, editingItem: TemporaryItem?) {
@@ -27,13 +27,13 @@ struct EditItemView: View {
             _itemName = State(initialValue: editingItem.name)
             _canContainOtherItems = State(initialValue: editingItem.isContainer)
             _importance = State(initialValue: editingItem.importance)
-            _containedItems = State(initialValue: editingItem.containedItems)
+            _containedItems = State(initialValue: editingItem.containedItems.map { ContainedItem(name: $0, orderIndex: -1) }) // orderIndex는 임시 값으로 설정
         }
     }
 
     var isUpdateButtonDisabled: Bool {
-           itemName.isEmpty || containedItems.contains { $0.isEmpty }
-       }
+            itemName.isEmpty || containedItems.contains { $0.name.isEmpty }
+        }
 
        var updateButtonBackgroundColor: Color {
            isUpdateButtonDisabled ? Color.gray : Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255)
@@ -70,7 +70,7 @@ struct EditItemView: View {
                     SectionHeaderView(title: "그 안에 무엇이 들어가나요?")
                     ForEach(containedItems.indices, id: \.self) { index in
                         HStack {
-                               TextField("이름", text: $containedItems[index])
+                            TextField("이름", text: $containedItems[index].name)
                                    .padding(10)
                                    .overlay(
                                        RoundedRectangle(cornerRadius: 10)
@@ -117,21 +117,23 @@ struct EditItemView: View {
     }
     
     private func updateButton() -> some View {
-        Button(action: {
-            if let editingItemID = editingItem?.id {
-                if let index = alarmCreationData.items.firstIndex(where: { $0.id == editingItemID }) {
-                    let updatedItem = TemporaryItem(
-                        id: editingItemID, // 기존 아이템의 ID 사용
-                        name: itemName,
-                        isContainer: canContainOtherItems,
-                        importance: importance,
-                        containedItems: containedItems
-                    )
-                    alarmCreationData.items[index] = updatedItem
-                    print("물건 변경됨: \(updatedItem)")
+            Button(action: {
+                if let editingItemID = editingItem?.id {
+                    if let index = alarmCreationData.items.firstIndex(where: { $0.id == editingItemID }) {
+                        let updatedContainedItems = containedItems.map { $0.name }
+                        let updatedItem = TemporaryItem(
+                            id: editingItemID,
+                            name: itemName,
+                            isContainer: canContainOtherItems,
+                            importance: importance,
+                            containedItems: updatedContainedItems,
+                            creationDate: Date()
+                        )
+                        alarmCreationData.items[index] = updatedItem
+                        print("물건 변경됨: \(updatedItem)")
+                    }
                 }
-            }
-            presentationMode.wrappedValue.dismiss()
+                presentationMode.wrappedValue.dismiss()
         }) {
             Text("변경")
                 .foregroundColor(.white)
@@ -147,7 +149,8 @@ struct EditItemView: View {
     private func addItemButton() -> some View {
         Button(action: {
             withAnimation {
-                containedItems.append("")
+                let newIndex = containedItems.count
+                containedItems.append(ContainedItem(name: "", orderIndex: newIndex))
             }
         }) {
                 HStack {
@@ -199,11 +202,6 @@ struct EditItemView: View {
     }
     
 }
-
-
-
-
-
 
 
 struct EditItemView_Previews: PreviewProvider {
