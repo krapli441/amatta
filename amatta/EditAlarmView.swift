@@ -19,6 +19,8 @@ struct EditAlarmView: View {
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
     @State private var showingDeleteAlert = false
+    @State private var showingAlarmEditModifyItemView = false
+    @State private var selectedEditingItem: TemporaryItem?
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
     
     var body: some View {
@@ -42,6 +44,9 @@ struct EditAlarmView: View {
                         itemsToBringSection()
                     }
                 }
+            }
+            .sheet(isPresented: $showingAlarmEditModifyItemView) {
+                AlarmEditModifyItemView(alarmCreationData: self.alarmCreationData, editingItem: selectedEditingItem)
             }
             .onAppear {
                 loadAlarmData()
@@ -144,8 +149,9 @@ struct EditAlarmView: View {
                 }
                 ForEach(temporarySortedItems, id: \.self) { item in
                     Button(action: {
-                        
-                    }) {
+                        selectedEditingItem = item
+                        showingAlarmEditModifyItemView = true
+                    })  {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text(item.name ?? "Unknown")
