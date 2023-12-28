@@ -135,9 +135,6 @@ struct AlarmRow: View {
                                 .foregroundColor(.primary)
                             
                             if item.isContainer && !item.childrenArray.isEmpty {
-//                                Text("-")
-//                                    .foregroundColor(.gray)
-                                
                                 Text(item.childrenArray.map { $0.name ?? "항목" }.joined(separator: ", "))
                                     .font(.footnote)
                                     .foregroundColor(.gray)

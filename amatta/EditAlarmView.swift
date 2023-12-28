@@ -183,10 +183,6 @@ struct EditAlarmView: View {
         }
     }
 
-
-
-
-
     // 물건 목록을 포맷팅하는 함수
     private func formatContainedItems(_ items: [String]) -> String {
         let maxDisplayCount = 2
@@ -241,8 +237,6 @@ struct EditAlarmView: View {
         }
     }
 
-
-    
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
