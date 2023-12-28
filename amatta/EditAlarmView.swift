@@ -188,12 +188,8 @@ struct EditAlarmView: View {
             }
         }
         .sheet(isPresented: $isItemDetailViewPresented) {
-            AlarmEditModifyItemView(itemObjectID: selectedItemObjectID)
-                .onAppear {
-                    print("Presenting AlarmEditModifyItemView with Item ObjectID: \(String(describing: selectedItemObjectID))")
-                }
+            AlarmEditModifyItemView(itemObjectID: $selectedItemObjectID)
         }
-
     }
 
     // 물건 목록을 포맷팅하는 함수

@@ -15,13 +15,12 @@ struct AlarmEditModifyItemView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     
     // selectedItemObjectID 추가
-    var itemObjectID: NSManagedObjectID?
+    @Binding var itemObjectID: NSManagedObjectID?
     
     // 이니셜라이저를 추가하여 selectedItemObjectID를 설정
-    init(itemObjectID: NSManagedObjectID?) {
-        self.itemObjectID = itemObjectID
-        print("AlarmEditModifyItemView initialized with Item ObjectID: \(String(describing: itemObjectID))")
-    }
+    init(itemObjectID: Binding<NSManagedObjectID?>) {
+            self._itemObjectID = itemObjectID
+        }
     
     var body: some View {
         VStack {
@@ -39,6 +38,7 @@ struct AlarmEditModifyItemView: View {
 
 struct AlarmEditModifyItemView_Previews: PreviewProvider {
     static var previews: some View {
-        AlarmEditModifyItemView(itemObjectID: nil)
+        AlarmEditModifyItemView(itemObjectID: .constant(nil))
     }
 }
+
