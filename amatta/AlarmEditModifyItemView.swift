@@ -17,6 +17,8 @@ struct AlarmEditModifyItemView: View {
 
     @State private var itemDetails: String = "Loading..."
     
+    @State private var showingDeleteAlert = false
+    
     @State private var itemName: String = ""
     @State private var canContainOtherItems: Bool = false
     @State private var importance: Float = 1
@@ -95,7 +97,7 @@ struct AlarmEditModifyItemView: View {
     
     private func deleteButton() -> some View {
         Button(action: {
-            // 여기에 삭제 기능을 넣을 예정
+            showingDeleteAlert = true
         }) {
             Text("삭제")
                 .foregroundColor(.white)
@@ -104,7 +106,31 @@ struct AlarmEditModifyItemView: View {
                 .background(Color.red)
                 .cornerRadius(10)
         }
-        // 추후 여기에 삭제 확인 Alert 추가
+        .alert(isPresented: $showingDeleteAlert) {
+            Alert(
+                title: Text("물건을 삭제하시겠어요?"),
+                primaryButton: .destructive(Text("삭제")) {
+                    deleteItem()
+                },
+                secondaryButton: .cancel()
+            )
+        }
+    }
+    
+    private func deleteItem() {
+        guard let objectID = itemObjectID else { return }
+
+        let itemToDelete = managedObjectContext.object(with: objectID)
+        managedObjectContext.delete(itemToDelete)
+
+        do {
+            try managedObjectContext.save()
+            print("물건 삭제됨")
+        } catch {
+            print("삭제 실패: \(error)")
+        }
+
+        presentationMode.wrappedValue.dismiss()
     }
 
     private func updateButton() -> some View {
