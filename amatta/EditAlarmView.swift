@@ -146,12 +146,7 @@ struct EditAlarmView: View {
                     ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
                 }
                 ForEach(temporarySortedItems, id: \.self) { item in
-                    Button(action: {
-                        selectedItemObjectID = item.objectID
-                        isItemDetailViewPresented.toggle()
-                        print("다음과 같은 값 전달 : \(item.objectID)")
-                    })
-{
+                    NavigationLink(destination: AlarmEditModifyItemView(itemObjectID: item.objectID)) {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text(item.name ?? "Unknown")
@@ -178,8 +173,8 @@ struct EditAlarmView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.gray, lineWidth: 1)
                         )
-
                     }
+                    .buttonStyle(PlainButtonStyle())
                 }
             } else {
                 Text("물건이 없습니다.")
@@ -191,6 +186,8 @@ struct EditAlarmView: View {
             AlarmEditModifyItemView(itemObjectID: selectedItemObjectID)
         }
     }
+
+
 
     // 물건 목록을 포맷팅하는 함수
     private func formatContainedItems(_ items: [String]) -> String {
