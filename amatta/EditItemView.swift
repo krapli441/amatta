@@ -95,7 +95,6 @@ struct EditItemView: View {
                     .frame(maxWidth: 320)
                     .commonInputStyle(colorScheme: colorScheme)
                     .accentColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                    // 여기에 나머지 뷰 구성 요소 추가
                 }
             }
             HStack {
