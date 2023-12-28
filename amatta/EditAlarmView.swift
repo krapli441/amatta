@@ -138,11 +138,11 @@ struct EditAlarmView: View {
     private func itemsToBringSection() -> some View {
         VStack(alignment: .center, spacing: 5) {
             SectionHeaderView(title: "챙겨야 할 것들")
-            if let items = alarm?.items as? Set<Items>, !items.isEmpty {
-                let sortedItems = items.sorted {
+            if let temporaryItems = alarm?.items as? Set<Items>, !temporaryItems.isEmpty {
+                let temporarySortedItems = temporaryItems.sorted {
                     ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
                 }
-                ForEach(sortedItems, id: \.self) { item in
+                ForEach(temporarySortedItems, id: \.self) { item in
                     HStack {
                         VStack(alignment: .leading) {
                             Text(item.name ?? "Unknown")
@@ -225,14 +225,17 @@ struct EditAlarmView: View {
         if let items = alarm.items as? Set<Items> {
             for item in items {
                 print("Item: \(item.name ?? "Unknown"), Importance: \(item.importance), IsContainer: \(item.isContainer)")
+                
+                // 하위 물건들에 대한 creationDate 출력
                 if let children = item.children as? Set<Items>, !children.isEmpty {
                     for child in children {
-                        print("Child Item: \(child.name ?? "Unknown")")
+                        print("Child Item: \(child.name ?? "Unknown"), Creation Date: \(child.creationDate ?? Date.distantPast)")
                     }
                 }
             }
         }
     }
+
 
     
     private func hideKeyboard() {
