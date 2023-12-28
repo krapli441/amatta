@@ -173,10 +173,10 @@ struct AddAlarmView: View {
         newAlarm.friday = selectedWeekdays[5] // 금요일
         newAlarm.saturday = selectedWeekdays[6] // 토요일
 
-
         for temporaryItem in alarmCreationData.items {
             let newItem = Items(context: managedObjectContext)
             newItem.name = temporaryItem.name
+            newItem.itemIdentifier = UUID().uuidString
             newItem.isContainer = temporaryItem.isContainer
             newItem.importance = temporaryItem.importance
             newItem.creationDate = temporaryItem.creationDate // 상위 아이템의 creationDate 사용
@@ -190,17 +190,16 @@ struct AddAlarmView: View {
                     childItemEntity.creationDate = childItem.creationDate // 하위 아이템의 creationDate 사용
                     newItem.addToChildren(childItemEntity)
                     
-                    // Print the child item's creationDate here
-                    print("Child Item: \(childItemName), Creation Date: \(childItemEntity.creationDate)")
+                    // Print the child item's creationDate and itemIdentifier here
+                    print("Child Item: \(childItemName), Creation Date: \(childItemEntity.creationDate), Item Identifier: \(childItemEntity.itemIdentifier), ObjectID: \(childItemEntity.objectID)")
                 }
             }
 
-            // Print the parent item's creationDate here
-            print("Parent Item: \(temporaryItem.name), Creation Date: \(temporaryItem.creationDate)")
+            // Print the parent item's creationDate and itemIdentifier here
+            print("Parent Item: \(temporaryItem.name), Creation Date: \(temporaryItem.creationDate), Item Identifier: \(newItem.itemIdentifier), ObjectID: \(newItem.objectID)")
             
             newAlarm.addToItems(newItem)
         }
-
 
         do {
             try managedObjectContext.save()
