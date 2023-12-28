@@ -50,17 +50,27 @@ struct AlarmEditModifyItemView: View {
                 .frame(maxWidth: 320)
 
                 if canContainOtherItems {
-                    SectionHeaderView(title: "그 안에 무엇이 들어가나요?")
-                    ForEach(containedItems.indices, id: \.self) { index in
-                        TextField("이름", text: $containedItems[index])
-                            .padding(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.gray, lineWidth: 1)
-                            )
-                            .frame(width: 325)
-                    }
-                }
+                                SectionHeaderView(title: "그 안에 무엇이 들어가나요?")
+                                ForEach(containedItems.indices, id: \.self) { index in
+                                    HStack {
+                                        TextField("이름", text: $containedItems[index])
+                                            .padding(10)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 10)
+                                                    .stroke(Color.gray, lineWidth: 1)
+                                            )
+                                            .frame(width: 325)
+
+                                        Button(action: {
+                                            removeItem(at: index)
+                                        }) {
+                                            Image(systemName: "minus.circle")
+                                                .foregroundColor(.red)
+                                        }
+                                    }
+                                    .transition(.opacity)
+                                }
+                            }
 
                 SectionHeaderView(title: "얼마나 중요한 물건인가요?")
                 Slider(value: $importance, in: 1...10, step: 1)
@@ -74,6 +84,11 @@ struct AlarmEditModifyItemView: View {
         }
     }
 
+    private func removeItem(at index: Int) {
+        withAnimation(.easeInOut) {
+            containedItems.remove(at: index)
+        }
+    }
 
     private func loadItemDetails() {
             guard let objectID = itemObjectID, let item = managedObjectContext.object(with: objectID) as? Items else {
