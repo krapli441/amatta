@@ -144,8 +144,7 @@ struct EditAlarmView: View {
                 }
                 ForEach(temporarySortedItems, id: \.self) { item in
                     Button(action: {
-                        // 해당 물건을 편집하는 화면으로 이동하는 로직을 추가하세요.
-                        // 예를 들어, NavigationLink를 사용하여 이동할 수 있습니다.
+                        
                     }) {
                         HStack {
                             VStack(alignment: .leading) {
