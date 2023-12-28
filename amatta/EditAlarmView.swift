@@ -190,45 +190,47 @@ struct EditAlarmView: View {
     }
     
     private func loadAlarmData() {
-         guard let alarmID = self.alarmID,
-               let alarm = managedObjectContext.object(with: alarmID) as? Alarm else {
-             print("Alarm not found")
-             return
-         }
+        guard let alarmID = self.alarmID,
+              let alarm = managedObjectContext.object(with: alarmID) as? Alarm else {
+            print("Alarm not found")
+            return
+        }
 
-         // 알람 정보 초기화
-         self.alarm = alarm
-         alarmName = alarm.name ?? ""
-         selectedTime = alarm.time ?? Date()
-         selectedWeekdays = [
-             alarm.sunday,
-             alarm.monday,
-             alarm.tuesday,
-             alarm.wednesday,
-             alarm.thursday,
-             alarm.friday,
-             alarm.saturday
-         ]
+        // 알람 정보 초기화
+        self.alarm = alarm
+        alarmName = alarm.name ?? ""
+        selectedTime = alarm.time ?? Date()
+        selectedWeekdays = [
+            alarm.sunday,
+            alarm.monday,
+            alarm.tuesday,
+            alarm.wednesday,
+            alarm.thursday,
+            alarm.friday,
+            alarm.saturday
+        ]
 
-         // 로드된 데이터에 대한 정보를 콘솔에 출력
-         print("Loaded Alarm Data:")
-         print("Name: \(alarmName)")
-         print("Time: \(selectedTime)")
-         print("Weekdays: \(selectedWeekdays)")
+        // 로드된 데이터에 대한 정보를 콘솔에 출력
+        print("Loaded Alarm Data:")
+        print("Name: \(alarmName)")
+        print("Time: \(selectedTime)")
+        print("Weekdays: \(selectedWeekdays)")
         print("Items Count: \(alarm.items?.count ?? 0)")
-        
+
         // 물건 정보 출력
-               if let items = alarm.items as? Set<Items> {
-                   for item in items {
-                       print("Item: \(item.name ?? "Unknown"), Importance: \(item.importance), IsContainer: \(item.isContainer)")
-                       if let children = item.children as? Set<Items>, !children.isEmpty {
-                           for child in children {
-                               print("Child Item: \(child.name ?? "Unknown")")
-                           }
-                       }
-                   }
-               }
-     }
+        if let items = alarm.items as? Set<Items> {
+            for item in items {
+                print("Item: \(item.name ?? "Unknown"), Importance: \(item.importance), IsContainer: \(item.isContainer)")
+                if let children = item.children as? Set<Items>, !children.isEmpty {
+                    for child in children {
+                        print("Child Item: \(child.name ?? "Unknown")")
+                    }
+                }
+            }
+        }
+    }
+
+    
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
