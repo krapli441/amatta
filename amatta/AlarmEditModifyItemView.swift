@@ -135,7 +135,7 @@ struct AlarmEditModifyItemView: View {
 
     private func updateButton() -> some View {
         Button(action: {
-            // 여기에 업데이트 기능을 넣을 예정
+            updateItem()
         }) {
             Text("변경")
                 .foregroundColor(.white)
@@ -147,6 +147,29 @@ struct AlarmEditModifyItemView: View {
         .disabled(isUpdateButtonDisabled)
         .animation(.easeInOut, value: isUpdateButtonDisabled)
     }
+    
+    private func updateItem() {
+            guard let objectID = itemObjectID,
+                  let itemToUpdate = managedObjectContext.object(with: objectID) as? Items else {
+                return
+            }
+
+            // 아이템의 속성 업데이트
+            itemToUpdate.name = itemName
+            itemToUpdate.isContainer = canContainOtherItems
+            itemToUpdate.importance = importance
+
+            // 여기에 하위 아이템 관련 업데이트 로직 추가 (필요한 경우)
+
+            do {
+                try managedObjectContext.save()
+                print("물건 변경됨: \(itemToUpdate)")
+            } catch {
+                print("업데이트 실패: \(error)")
+            }
+
+            presentationMode.wrappedValue.dismiss()
+        }
     
     // 변경 버튼이 비활성화되어야 하는 조건
     var isUpdateButtonDisabled: Bool {
