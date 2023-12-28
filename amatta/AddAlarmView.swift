@@ -188,12 +188,18 @@ struct AddAlarmView: View {
                     childItemEntity.name = childItemName
                     childItemEntity.isContainer = false // 자식 아이템은 컨테이너가 아님
                     newItem.addToChildren(childItemEntity)
+                    
+                    // Print the child item's creationDate here
+                    print("Child Item: \(childItemName), Creation Date: \(childItem.creationDate)")
                 }
             }
-
-
+            
+            // Print the parent item's creationDate here
+            print("Parent Item: \(temporaryItem.name), Creation Date: \(temporaryItem.creationDate)")
+            
             newAlarm.addToItems(newItem)
         }
+
 
 
         

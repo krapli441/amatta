@@ -149,8 +149,11 @@ struct EditAlarmView: View {
                                 .font(.headline)
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                             if let children = item.children as? Set<Items>, !children.isEmpty {
-                                // 순서대로 아이템을 표시
-                                Text(formatContainedItems(Array(children).map { $0.name ?? "" }))
+                                // 하위 물건들을 creationDate를 기반으로 정렬
+                                let sortedChildren = children.sorted {
+                                    ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
+                                }
+                                Text(formatContainedItems(Array(sortedChildren).map { $0.name ?? "" }))
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
                             }
@@ -175,6 +178,7 @@ struct EditAlarmView: View {
             }
         }
     }
+
 
 
 
