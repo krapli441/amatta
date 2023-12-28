@@ -16,6 +16,8 @@ struct AlarmEditModifyItemView: View {
     @Binding var itemObjectID: NSManagedObjectID?
 
     @State private var itemDetails: String = "Loading..."
+    
+    @State private var itemName: String = ""
 
     init(itemObjectID: Binding<NSManagedObjectID?>) {
         self._itemObjectID = itemObjectID
@@ -24,9 +26,11 @@ struct AlarmEditModifyItemView: View {
     var body: some View {
         VStack {
             EditItemHeaderView() // 물건 변경
-            ScrollView {
-                Text("Selected Item ObjectID: \(itemObjectID?.description ?? "None")")
-                Text(itemDetails) // 여기에 아이템 세부 정보를 표시
+            VStack(spacing: 12) {
+                SectionHeaderView(title: "물건 이름")
+                CustomTextField(placeholder: "이름을 입력해주세요", text: $itemName)
+                    .frame(maxWidth: 320)
+                    .commonInputStyle(colorScheme: colorScheme)
             }
             .onAppear {
                 loadItemDetails()
@@ -40,12 +44,14 @@ struct AlarmEditModifyItemView: View {
             return
         }
 
-        let itemName = item.name ?? "Unknown"
+        // @State 변수 itemName에 아이템 이름 할당
+        itemName = item.name ?? "Unknown"
+
         let itemImportance = item.importance
         let isContainer = item.isContainer ? "Yes" : "No"
 
         // 기본 아이템 정보
-        itemDetails = "Name: \(itemName)\nImportance: \(itemImportance)\nIs Container: \(isContainer)"
+        itemDetails = "Importance: \(itemImportance)\nIs Container: \(isContainer)"
 
         // 컨테이너일 경우 하위 아이템 정보 추가
         if item.isContainer, let children = item.children as? Set<Items>, !children.isEmpty {
@@ -59,6 +65,7 @@ struct AlarmEditModifyItemView: View {
             itemDetails += "\n\n\(childItemsDetails)"
         }
     }
+
 
 
 }

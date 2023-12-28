@@ -234,10 +234,7 @@ struct EditAlarmView: View {
         // 물건 정보 출력
         if let items = alarm.items as? Set<Items> {
             for item in items {
-                // 출력하는 부분에서 item의 objectID를 가져와 출력
                 print("Item: \(item.name ?? "Unknown"), Importance: \(item.importance), IsContainer: \(item.isContainer), ObjectID: \(item.objectID)")
-                
-                // 하위 물건들에 대한 creationDate 출력
                 if let children = item.children as? Set<Items>, !children.isEmpty {
                     for child in children {
                         // 출력하는 부분에서 child item의 objectID를 가져와 출력
