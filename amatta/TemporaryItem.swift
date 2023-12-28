@@ -25,7 +25,6 @@ struct TemporaryItem: Identifiable {
     }
 }
 
-
 struct ContainedItem {
     var name: String
     var creationDate: Date

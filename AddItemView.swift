@@ -21,12 +21,12 @@ struct AddItemView: View {
     @State private var itemName: String = ""
     @State private var canContainOtherItems: Bool = false
     @State private var importance: Float = 1
-    @State private var containedItems: [String] = []
+    @State private var containedItems: [ContainedItem] = []
     var editingItem: TemporaryItem?
     
     var isAddButtonDisabled: Bool {
-            itemName.isEmpty || containedItems.contains { $0.isEmpty }
-        }
+        itemName.isEmpty || containedItems.contains { $0.name.isEmpty }
+    }
     
     var addButtonBackgroundColor: Color {
         isAddButtonDisabled ? Color.gray : Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255)
@@ -74,7 +74,7 @@ struct AddItemView: View {
                     SectionHeaderView(title: "그 안에 무엇이 들어가나요?")
                     ForEach(containedItems.indices, id: \.self) { index in
                         HStack {
-                               TextField("이름", text: $containedItems[index])
+                            TextField("이름", text: $containedItems[index].name)
                                    .padding(10)
                                    .overlay(
                                        RoundedRectangle(cornerRadius: 10)
@@ -125,7 +125,7 @@ struct AddItemView: View {
     private func addItemButton() -> some View {
         Button(action: {
             withAnimation {
-                containedItems.append("")
+                containedItems.append(ContainedItem(name: "", creationDate: Date()))
             }
         }) {
                 HStack {
@@ -140,14 +140,14 @@ struct AddItemView: View {
         }
     
     private func addButton() -> some View {
-           Button(action: {
-               // 물건 이름이나 담기는 물건의 이름이 비어 있지 않은 경우에만 물건 추가
-               if !isAddButtonDisabled {
-                   let newItem = TemporaryItem(name: itemName, isContainer: canContainOtherItems, importance: importance, containedItems: containedItems, creationDate: Date())
-                   alarmCreationData.items.append(newItem)
-                   print("물건 추가됨: \(newItem)")
-                   presentationMode.wrappedValue.dismiss()
-               }
+        Button(action: {
+                    // 물건 이름이나 하위 물건의 이름이 비어 있지 않은 경우에만 물건 추가
+                    if !isAddButtonDisabled {
+                        let newItem = TemporaryItem(name: itemName, isContainer: canContainOtherItems, importance: importance, containedItems: containedItems, creationDate: Date())
+                        alarmCreationData.items.append(newItem)
+                        print("물건 추가됨: \(newItem)")
+                        presentationMode.wrappedValue.dismiss()
+                    }
            }) {
                Text("추가")
                    .disabled(isAddButtonDisabled)
