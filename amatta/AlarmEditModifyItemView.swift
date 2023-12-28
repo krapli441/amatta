@@ -70,8 +70,8 @@ struct AlarmEditModifyItemView: View {
                                     }
                                     .transition(.opacity)
                                 }
+                                addItemButton()
                             }
-
                 SectionHeaderView(title: "얼마나 중요한 물건인가요?")
                 Slider(value: $importance, in: 1...10, step: 1)
                     .frame(maxWidth: 320)
@@ -83,6 +83,23 @@ struct AlarmEditModifyItemView: View {
             }
         }
     }
+    
+    private func addItemButton() -> some View {
+        Button(action: {
+            withAnimation {
+                containedItems.append("")
+            }
+        }) {
+                HStack {
+                    Image(systemName: "plus") // 아이콘 추가
+                        .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255)) // 아이콘 색상 설정
+                    Text("물건 추가")
+                        .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                }
+                .frame(maxWidth: 320)
+                .commonInputStyle(colorScheme: colorScheme)
+            }
+        }
 
     private func removeItem(at index: Int) {
         withAnimation(.easeInOut) {
