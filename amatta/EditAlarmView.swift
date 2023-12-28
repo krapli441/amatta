@@ -20,10 +20,12 @@ struct EditAlarmView: View {
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
     @State private var showingDeleteAlert = false
     @State private var isItemDetailViewPresented = false
+    @State private var navigateToItemView: Bool = false
     @State private var selectedItemObjectID: NSManagedObjectID?
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
     
     var body: some View {
+    
             VStack {
                 EditAlarmHeaderView(onDelete: deleteAlarm, showingDeleteAlert: $showingDeleteAlert)
                     .alert(isPresented: $showingDeleteAlert) {
@@ -51,6 +53,7 @@ struct EditAlarmView: View {
             .onTapGesture { hideKeyboard() }
             .onDisappear { updateAlarm() }
         }
+
     
     // 알림 삭제 로직
     private func deleteAlarm() {
@@ -145,10 +148,7 @@ struct EditAlarmView: View {
                     ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
                 }
                 ForEach(temporarySortedItems, id: \.self) { item in
-                    Button(action: {
-                        selectedItemObjectID = item.objectID
-                        isItemDetailViewPresented.toggle()
-                    }) {
+                    NavigationLink(destination: AlarmEditModifyItemView(itemObjectID: item.objectID)) {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text(item.name ?? "Unknown")
@@ -175,7 +175,6 @@ struct EditAlarmView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.gray, lineWidth: 1)
                         )
-
                     }
                 }
             } else {
@@ -184,10 +183,8 @@ struct EditAlarmView: View {
                     .foregroundColor(.gray)
             }
         }
-        .sheet(isPresented: $isItemDetailViewPresented) {
-            AlarmEditModifyItemView(itemObjectID: selectedItemObjectID)
-        }
     }
+
 
     // 물건 목록을 포맷팅하는 함수
     private func formatContainedItems(_ items: [String]) -> String {

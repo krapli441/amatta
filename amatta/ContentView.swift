@@ -84,7 +84,7 @@ struct ContentView: View {
                 
                 NavigationLink(destination: EditAlarmView(alarmID: selectedAlarmID), isActive: $isEditing) {
                                     EmptyView()
-                                }
+                }
                 
             }
             .frame(maxWidth: .infinity, alignment: .center)
