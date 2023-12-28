@@ -187,7 +187,7 @@ struct AddAlarmView: View {
                     let childItemEntity = Items(context: managedObjectContext)
                     childItemEntity.name = childItemName
                     childItemEntity.isContainer = false // 자식 아이템은 컨테이너가 아님
-                    childItemEntity.creationDate = Date() // 현재 날짜 및 시간을 사용
+                    childItemEntity.creationDate = childItem.creationDate // 하위 아이템의 creationDate 사용
                     newItem.addToChildren(childItemEntity)
                     
                     // Print the child item's creationDate here
