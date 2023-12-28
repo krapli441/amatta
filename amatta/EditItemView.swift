@@ -27,7 +27,7 @@ struct EditItemView: View {
             _itemName = State(initialValue: editingItem.name)
             _canContainOtherItems = State(initialValue: editingItem.isContainer)
             _importance = State(initialValue: editingItem.importance)
-            _containedItems = State(initialValue: editingItem.containedItems.map { ContainedItem(name: $0, orderIndex: -1) }) // orderIndex는 임시 값으로 설정
+            _containedItems = State(initialValue: editingItem.containedItems.enumerated().map { index, name in ContainedItem(name: name, orderIndex: index) })
         }
     }
 
@@ -117,23 +117,24 @@ struct EditItemView: View {
     }
     
     private func updateButton() -> some View {
-            Button(action: {
-                if let editingItemID = editingItem?.id {
-                    if let index = alarmCreationData.items.firstIndex(where: { $0.id == editingItemID }) {
-                        let updatedContainedItems = containedItems.map { $0.name }
-                        let updatedItem = TemporaryItem(
-                            id: editingItemID,
-                            name: itemName,
-                            isContainer: canContainOtherItems,
-                            importance: importance,
-                            containedItems: updatedContainedItems,
-                            creationDate: Date()
-                        )
-                        alarmCreationData.items[index] = updatedItem
-                        print("물건 변경됨: \(updatedItem)")
+        Button(action: {
+                    if let editingItemID = editingItem?.id {
+                        if let index = alarmCreationData.items.firstIndex(where: { $0.id == editingItemID }) {
+                            // containedItems를 String 배열로 변환
+                            let updatedContainedItems = containedItems.map { $0.name }
+                            let updatedItem = TemporaryItem(
+                                id: editingItemID,
+                                name: itemName,
+                                isContainer: canContainOtherItems,
+                                importance: importance,
+                                containedItems: updatedContainedItems, // String 배열로 변환
+                                creationDate: Date()
+                            )
+                            alarmCreationData.items[index] = updatedItem
+                            print("물건 변경됨: \(updatedItem)")
+                        }
                     }
-                }
-                presentationMode.wrappedValue.dismiss()
+                    presentationMode.wrappedValue.dismiss()
         }) {
             Text("변경")
                 .foregroundColor(.white)
