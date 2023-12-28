@@ -89,7 +89,7 @@ struct EditItemView: View {
                         }
                     addItemButton()
                     .transition(.opacity)
-                                        }
+                    }
                     SectionHeaderView(title: "얼마나 중요한 물건인가요?")
                     Slider(value: $importance, in: 1...10, step: 1)
                     .frame(maxWidth: 320)
