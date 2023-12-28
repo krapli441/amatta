@@ -27,7 +27,7 @@ struct EditItemView: View {
             _itemName = State(initialValue: editingItem.name)
             _canContainOtherItems = State(initialValue: editingItem.isContainer)
             _importance = State(initialValue: editingItem.importance)
-            _containedItems = State(initialValue: editingItem.containedItems)
+            _containedItems = State(initialValue: editingItem.containedItems.map { $0.name })
         }
     }
 
@@ -121,12 +121,12 @@ struct EditItemView: View {
             if let editingItemID = editingItem?.id {
                 if let index = alarmCreationData.items.firstIndex(where: { $0.id == editingItemID }) {
                     let updatedItem = TemporaryItem(
-                        id: editingItemID, // 기존 아이템의 ID 사용
-                        name: itemName,
-                        isContainer: canContainOtherItems,
-                        importance: importance,
-                        containedItems: containedItems
-                    )
+                                            id: editingItemID,
+                                            name: itemName,
+                                            isContainer: canContainOtherItems,
+                                            importance: importance,
+                                            containedItems: containedItems.map { ContainedItem(name: $0, creationDate: Date()) }
+                                        )
                     alarmCreationData.items[index] = updatedItem
                     print("물건 변경됨: \(updatedItem)")
                 }
