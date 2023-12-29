@@ -259,14 +259,23 @@ struct EditAlarmView: View {
             alarm.saturday
         ]
 
+        // 물건 정보 초기화
+        if let items = alarm.items as? Set<Items> {
+            self.alarmItems = Array(items).sorted {
+                ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
+            }
+        } else {
+            self.alarmItems = []
+        }
+
         // 로드된 데이터에 대한 정보를 콘솔에 출력
         print("Loaded Alarm Data:")
         print("Name: \(alarmName)")
         print("Time: \(selectedTime)")
         print("Weekdays: \(selectedWeekdays)")
         print("Items Count: \(alarm.items?.count ?? 0)")
-
     }
+
     
     private func loadItemData() {
         guard let alarmID = self.alarmID,
