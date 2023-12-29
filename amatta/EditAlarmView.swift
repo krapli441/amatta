@@ -58,29 +58,37 @@ struct EditAlarmView: View {
     
     // 알림 삭제 로직
     private func deleteAlarm() {
-            guard let alarmID = self.alarmID, let alarmToDelete = managedObjectContext.object(with: alarmID) as? Alarm else {
-                print("Alarm not found")
-                return
-            }
-
-            // 알림 스케줄러에서 알림 삭제
-            if let identifier = alarmToDelete.alarmIdentifier {
-                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
-                print("알림 스케줄러에서 삭제: \(identifier)")
-            }
-
-            // CoreData에서 알림 삭제
-            managedObjectContext.delete(alarmToDelete)
-            do {
-                try managedObjectContext.save()
-                print("CoreData에서 알림 삭제 성공")
-            } catch {
-                print("CoreData에서 알림 삭제 실패: \(error)")
-            }
-
-            // 이전 화면으로 돌아가기
-            presentationMode.wrappedValue.dismiss()
+        guard let alarmID = self.alarmID, let alarmToDelete = managedObjectContext.object(with: alarmID) as? Alarm else {
+            print("Alarm not found")
+            return
         }
+
+        // 알림 스케줄러에서 알림 삭제
+        if let identifier = alarmToDelete.alarmIdentifier {
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
+            print("알림 스케줄러에서 삭제: \(identifier)")
+
+            // 삭제 후 남아있는 알림 스케줄 확인
+            UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+                print("삭제 후 남아있는 스케줄된 알림 수: \(requests.count)")
+                for request in requests {
+                    print("남아있는 알림 ID: \(request.identifier), 알림 내용: \(request.content.body)")
+                }
+            }
+        }
+
+        // CoreData에서 알림 삭제
+        managedObjectContext.delete(alarmToDelete)
+        do {
+            try managedObjectContext.save()
+            print("CoreData에서 알림 삭제 성공")
+        } catch {
+            print("CoreData에서 알림 삭제 실패: \(error)")
+        }
+
+        // 이전 화면으로 돌아가기
+        presentationMode.wrappedValue.dismiss()
+    }
 
 
     // 알람 업데이트 로직
