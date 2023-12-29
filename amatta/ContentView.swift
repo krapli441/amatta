@@ -89,8 +89,18 @@ struct ContentView: View {
             }
             .frame(maxWidth: .infinity, alignment: .center)
             .onAppear(perform: requestNotificationPermission)
+            .onAppear(perform: loadScheduledNotifications)
         }
     }
+    
+    private func loadScheduledNotifications() {
+            UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+                print("현재 스케줄된 알림 수: \(requests.count)")
+                for request in requests {
+                    print("알림 ID: \(request.identifier), 알림 내용: \(request.content.body)")
+                }
+            }
+        }
 
     private func requestNotificationPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
