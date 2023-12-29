@@ -67,13 +67,13 @@ struct EditAlarmView: View {
 
         // 각 요일에 대한 알림 식별자로 알림 삭제
         if let identifier = alarmToDelete.alarmIdentifier {
-            let weekdays = [alarmToDelete.sunday, alarmToDelete.monday, alarmToDelete.tuesday, alarmToDelete.wednesday, alarmToDelete.thursday, alarmToDelete.friday, alarmToDelete.saturday]
-            for (index, day) in weekdays.enumerated() where day {
-                let dayIdentifier = "\(identifier)_\(index)"
-                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [dayIdentifier])
-                print("알림 스케줄러에서 삭제: \(dayIdentifier)")
+                let weekdays = [alarmToDelete.sunday, alarmToDelete.monday, alarmToDelete.tuesday, alarmToDelete.wednesday, alarmToDelete.thursday, alarmToDelete.friday, alarmToDelete.saturday]
+                for (index, day) in weekdays.enumerated() where day {
+                    let dayIdentifier = "alarm_\(identifier)_\(index)"
+                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [dayIdentifier])
+                    print("알림 스케줄러에서 삭제: \(dayIdentifier)")
+                }
             }
-        }
 
         // CoreData에서 알림 삭제
         managedObjectContext.delete(alarmToDelete)
