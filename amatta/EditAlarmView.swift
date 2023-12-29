@@ -21,6 +21,7 @@ struct EditAlarmView: View {
     @State private var alarmItems: [Items] = []
     @State private var showingDeleteAlert = false
     @State private var isItemDetailViewPresented = false
+    @State private var isAddItemViewPresented = false
     @State private var selectedItemObjectID: NSManagedObjectID?
     
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
@@ -139,24 +140,6 @@ struct EditAlarmView: View {
         .commonInputStyle(colorScheme: colorScheme)
     }
     
-//    @ViewBuilder
-//    private func itemsToBringSection() -> some View {
-//        VStack(alignment: .center, spacing: 5) {
-//            SectionHeaderView(title: "챙겨야 할 것들")
-//            if let temporaryItems = alarm?.items as? Set<Items>, !temporaryItems.isEmpty {
-//                let temporarySortedItems = temporaryItems.sorted {
-//                    ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
-//                }
-//                ForEach(temporarySortedItems, id: \.self) { item in
-//                    itemButton(item: item)
-//                }
-//            }
-//            addItemButton()
-//        }
-//        .sheet(isPresented: $isItemDetailViewPresented, onDismiss: loadItemData) {
-//                    AlarmEditModifyItemView(itemObjectID: $selectedItemObjectID)
-//            }
-//    }
     
     @ViewBuilder
     private func itemsToBringSection() -> some View {
@@ -223,19 +206,23 @@ struct EditAlarmView: View {
     }
     
     private func addItemButton() -> some View {
-            Button(action: {
-                // 현재는 아무 기능도 수행하지 않음
-            }) {
-                HStack {
-                    Image(systemName: "plus")
-                        .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                    Text("여기를 눌러 물건 추가")
-                        .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                }
+        Button(action: {
+            isAddItemViewPresented = true
+        }) {
+            HStack {
+                Image(systemName: "plus")
+                    .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                Text("여기를 눌러 물건 추가")
+                    .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
             }
-            .frame(maxWidth: 320)
-            .commonInputStyle(colorScheme: colorScheme)
         }
+        .frame(maxWidth: 320)
+        .commonInputStyle(colorScheme: colorScheme)
+        .sheet(isPresented: $isAddItemViewPresented) {
+            AlarmEditAddItemView()
+        }
+    }
+
     
     private func loadAlarmData() {
         guard let alarmID = self.alarmID,
