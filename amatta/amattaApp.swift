@@ -30,6 +30,8 @@ struct amattaApp: App {
             // 추가적인 검증 로직을 여기에 구현할 수 있습니다.
         }
     }
+    
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
         WindowGroup {
