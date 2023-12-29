@@ -30,64 +30,67 @@ struct AlarmEditAddItemView: View {
     }
     
     var body: some View {
-        ItemHeaderView()
-        ScrollView {
-            VStack(spacing: 12) {
-                // 물건 이름 섹션
-                SectionHeaderView(title: "물건 이름")
-                CustomTextField(placeholder: "이름을 입력해주세요", text: $itemName)
-                    .frame(maxWidth: 320)
-                    .commonInputStyle(colorScheme: colorScheme)
+        VStack {
+            ItemHeaderView()
+            ScrollView {
+                VStack(spacing: 12) {
+                    // 물건 이름 섹션
+                    SectionHeaderView(title: "물건 이름")
+                    CustomTextField(placeholder: "이름을 입력해주세요", text: $itemName)
+                        .frame(maxWidth: 320)
+                        .commonInputStyle(colorScheme: colorScheme)
 
-                // 무언가 담을 수 있나요? 섹션
-                SectionHeaderView(title: "무언가 담을 수 있나요?")
-                HStack {
-                    Button("네") {
-                        canContainOtherItems = true
-                    }
-                    .buttonStyle(ChoiceButtonStyle(isSelected: canContainOtherItems == true))
-
-                    Button("아니요") {
-                        canContainOtherItems = false
-                    }
-                    .buttonStyle(ChoiceButtonStyle(isSelected: canContainOtherItems == false))
-                }
-                .frame(maxWidth: 320)
-                
-                if canContainOtherItems {
-                SectionHeaderView(title: "그 안에 무엇이 들어가나요?")
-                ForEach(containedItems.indices, id: \.self) { index in
+                    // 무언가 담을 수 있나요? 섹션
+                    SectionHeaderView(title: "무언가 담을 수 있나요?")
                     HStack {
-                        TextField("이름", text: $containedItems[index].name)
-                               .padding(10)
-                               .overlay(
-                                   RoundedRectangle(cornerRadius: 10)
-                                       .stroke(Color.gray, lineWidth: 1)
-                               )
-                               .frame(width: 325) // 여백을 고려하여 너비를 조정
-
-                        Button(action: {
-                            removeItem(at: index)
-                        }) {
-                            Image(systemName: "minus.circle")
-                                .foregroundColor(.red)
+                        Button("네") {
+                            canContainOtherItems = true
                         }
-                       }
+                        .buttonStyle(ChoiceButtonStyle(isSelected: canContainOtherItems == true))
+
+                        Button("아니요") {
+                            canContainOtherItems = false
+                        }
+                        .buttonStyle(ChoiceButtonStyle(isSelected: canContainOtherItems == false))
+                    }
+                    .frame(maxWidth: 320)
+                    
+                    if canContainOtherItems {
+                    SectionHeaderView(title: "그 안에 무엇이 들어가나요?")
+                    ForEach(containedItems.indices, id: \.self) { index in
+                        HStack {
+                            TextField("이름", text: $containedItems[index].name)
+                                   .padding(10)
+                                   .overlay(
+                                       RoundedRectangle(cornerRadius: 10)
+                                           .stroke(Color.gray, lineWidth: 1)
+                                   )
+                                   .frame(width: 325) // 여백을 고려하여 너비를 조정
+
+                            Button(action: {
+                                removeItem(at: index)
+                            }) {
+                                Image(systemName: "minus.circle")
+                                    .foregroundColor(.red)
+                            }
+                           }
+                        .transition(.opacity)
+                        }
+                    addItemButton()
                     .transition(.opacity)
                     }
-                addItemButton()
-                .transition(.opacity)
+                    SectionHeaderView(title: "얼마나 중요한 물건인가요?")
+                    Slider(value: $importance, in: 1...10, step: 1)
+                    .frame(maxWidth: 320)
+                    .commonInputStyle(colorScheme: colorScheme)
+                    .accentColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                    Text("중요도가 높은 물건은 알림에 자주 나타납니다.")
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: 320, alignment: .leading)
                 }
-                SectionHeaderView(title: "얼마나 중요한 물건인가요?")
-                Slider(value: $importance, in: 1...10, step: 1)
-                .frame(maxWidth: 320)
-                .commonInputStyle(colorScheme: colorScheme)
-                .accentColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                Text("중요도가 높은 물건은 알림에 자주 나타납니다.")
-                    .font(.footnote)
-                    .foregroundColor(.gray)
-                    .frame(maxWidth: 320, alignment: .leading)
             }
+            addButton()
         }
         .onTapGesture { hideKeyboard() }
         .animation(.easeInOut, value: canContainOtherItems)
@@ -119,5 +122,56 @@ struct AlarmEditAddItemView: View {
             containedItems.remove(at: index)
         }
     }
+    
+    private func addButton() -> some View {
+        Button(action: {
+            // 물건 이름이 비어 있지 않은 경우에만 물건 추가
+            if !itemName.isEmpty {
+                let newItem = Items(context: managedObjectContext)
+                newItem.name = itemName
+                newItem.isContainer = canContainOtherItems
+                newItem.importance = importance
+                newItem.creationDate = Date()
+
+                // 컨테이너인 경우, 하위 물건들을 추가
+                if canContainOtherItems {
+                    for childItemName in containedItems.map(\.name) {
+                        let childItem = Items(context: managedObjectContext)
+                        childItem.name = childItemName
+                        childItem.isContainer = false
+                        childItem.creationDate = Date()
+                        newItem.addToChildren(childItem)
+                    }
+                }
+
+                // 선택한 알림에 물건 추가
+                if let alarm = managedObjectContext.object(with: alarmID) as? Alarm {
+                    alarm.addToItems(newItem)
+                }
+
+                // CoreData에 변경사항 저장
+                do {
+                    try managedObjectContext.save()
+                    print("물건 추가됨: \(newItem.name ?? "Unknown")")
+                } catch {
+                    print("저장 실패: \(error)")
+                }
+
+                // 뷰 닫기
+                presentationMode.wrappedValue.dismiss()
+            }
+        }) {
+            Text("추가")
+                .disabled(itemName.isEmpty)
+                .foregroundColor(.white)
+                .frame(maxWidth: 320)
+                .padding()
+                .background(itemName.isEmpty ? Color.gray : Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                .cornerRadius(10)
+                .animation(.easeInOut, value: itemName.isEmpty)
+        }
+        .disabled(itemName.isEmpty)
+    }
+
     
 }
