@@ -10,6 +10,7 @@ import SwiftUI
 import CoreData
 
 struct AlarmEditModifyItemView: View {
+    var onDisappear: (() -> Void)?
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.managedObjectContext) private var managedObjectContext
@@ -93,7 +94,9 @@ struct AlarmEditModifyItemView: View {
                         updateButton()
                     }
         .onTapGesture { hideKeyboard() }
-
+        .onDisappear {
+                    onDisappear?()
+                }
     }
     
     private func deleteButton() -> some View {

@@ -150,12 +150,11 @@ struct EditAlarmView: View {
                     itemButton(item: item)
                 }
             }
-
-            addItemButton() // '여기를 눌러 물건 추가' 버튼을 항상 표시
+            addItemButton()
         }
         .sheet(isPresented: $isItemDetailViewPresented) {
-            AlarmEditModifyItemView(itemObjectID: $selectedItemObjectID)
-        }
+                AlarmEditModifyItemView(itemObjectID: $selectedItemObjectID)
+            }
     }
 
     private func itemButton(item: Items) -> some View {
