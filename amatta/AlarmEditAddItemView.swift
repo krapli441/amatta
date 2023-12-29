@@ -14,7 +14,7 @@ struct AlarmEditAddItemView: View {
         @Environment(\.presentationMode) var presentationMode
         @Environment(\.colorScheme) var colorScheme
     
-    var alarmID: NSManagedObjectID
+    let alarmID: NSManagedObjectID
     
     @State private var itemName: String = ""
     @State private var canContainOtherItems: Bool = false
@@ -69,7 +69,7 @@ struct AlarmEditAddItemView: View {
                     }
                 addItemButton()
                 .transition(.opacity)
-                                    }
+                }
                 SectionHeaderView(title: "얼마나 중요한 물건인가요?")
                 Slider(value: $importance, in: 1...10, step: 1)
                 .frame(maxWidth: 320)
@@ -81,6 +81,12 @@ struct AlarmEditAddItemView: View {
                     .frame(maxWidth: 320, alignment: .leading)
             }
         }
+        .onTapGesture { hideKeyboard() }
+        .animation(.easeInOut, value: canContainOtherItems)
+    }
+
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
     
     private func addItemButton() -> some View {

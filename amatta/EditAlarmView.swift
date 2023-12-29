@@ -219,8 +219,9 @@ struct EditAlarmView: View {
         .frame(maxWidth: 320)
         .commonInputStyle(colorScheme: colorScheme)
         .sheet(isPresented: $isAddItemViewPresented) {
-            AlarmEditAddItemView()
+            AlarmEditAddItemView(alarmID: alarmID!)
         }
+
     }
 
     
