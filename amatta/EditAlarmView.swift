@@ -152,8 +152,8 @@ struct EditAlarmView: View {
             }
             addItemButton()
         }
-        .sheet(isPresented: $isItemDetailViewPresented) {
-                AlarmEditModifyItemView(itemObjectID: $selectedItemObjectID)
+        .sheet(isPresented: $isItemDetailViewPresented, onDismiss: loadAlarmData) {
+                    AlarmEditModifyItemView(itemObjectID: $selectedItemObjectID)
             }
     }
 
@@ -247,19 +247,43 @@ struct EditAlarmView: View {
         print("Weekdays: \(selectedWeekdays)")
         print("Items Count: \(alarm.items?.count ?? 0)")
 
-        // 물건 정보 출력
-        if let items = alarm.items as? Set<Items> {
+//        // 물건 정보 출력
+//        if let items = alarm.items as? Set<Items> {
+//            for item in items {
+//                print("Item: \(item.name ?? "Unknown"), Importance: \(item.importance), IsContainer: \(item.isContainer), ObjectID: \(item.objectID)")
+//                if let children = item.children as? Set<Items>, !children.isEmpty {
+//                    for child in children {
+//                        // 출력하는 부분에서 child item의 objectID를 가져와 출력
+//                        print("Child Item: \(child.name ?? "Unknown"), Creation Date: \(child.creationDate ?? Date.distantPast), ObjectID: \(child.objectID)")
+//                    }
+//                }
+//            }
+//        }
+    }
+    
+    private func loadItemData() {
+        guard let alarmID = self.alarmID,
+              let updatedAlarm = managedObjectContext.object(with: alarmID) as? Alarm else {
+            print("Alarm not found")
+            return
+        }
+
+        // 알람에 연결된 물건 정보 갱신
+        self.alarm = updatedAlarm
+
+        // 물건 정보 출력 및 상태 업데이트
+        if let items = updatedAlarm.items as? Set<Items> {
             for item in items {
                 print("Item: \(item.name ?? "Unknown"), Importance: \(item.importance), IsContainer: \(item.isContainer), ObjectID: \(item.objectID)")
                 if let children = item.children as? Set<Items>, !children.isEmpty {
                     for child in children {
-                        // 출력하는 부분에서 child item의 objectID를 가져와 출력
                         print("Child Item: \(child.name ?? "Unknown"), Creation Date: \(child.creationDate ?? Date.distantPast), ObjectID: \(child.objectID)")
                     }
                 }
             }
         }
     }
+
 
 
     private func hideKeyboard() {
