@@ -92,11 +92,11 @@ struct EditAlarmView: View {
 
     // 알람 업데이트 로직
     private func updateAlarm() {
-        
+        // 알림이 삭제되었다면 업데이트 로직을 실행하지 않음
         if isDeletedAlarm {
-                return
-            }
-        
+            return
+        }
+
         guard let alarmID = alarmID, let alarm = managedObjectContext.object(with: alarmID) as? Alarm else {
             print("Alarm not found")
             presentationMode.wrappedValue.dismiss()
@@ -105,8 +105,12 @@ struct EditAlarmView: View {
 
         // 기존 알림 삭제
         if let identifier = alarm.alarmIdentifier, identifier != "Unknown Identifier" {
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
-            print("알림 삭제됨: \(identifier)")
+            let weekdays = [alarm.sunday, alarm.monday, alarm.tuesday, alarm.wednesday, alarm.thursday, alarm.friday, alarm.saturday]
+            for (index, day) in weekdays.enumerated() where day {
+                let dayIdentifier = "alarm_\(identifier)_\(index)"
+                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [dayIdentifier])
+                print("알림 삭제됨: \(dayIdentifier)")
+            }
         } else {
             print("유효한 알림 식별자가 없습니다.")
         }
@@ -137,6 +141,7 @@ struct EditAlarmView: View {
 
         presentationMode.wrappedValue.dismiss()
     }
+
 
 
     @ViewBuilder
