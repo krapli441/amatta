@@ -23,7 +23,7 @@ struct EditAlarmView: View {
     @State private var isItemDetailViewPresented = false
     @State private var isAddItemViewPresented = false
     @State private var selectedItemObjectID: NSManagedObjectID?
-    
+    @State private var isDeletedAlarm = false
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
     @State private var hasChanges = false
     
@@ -44,13 +44,9 @@ struct EditAlarmView: View {
                 ScrollView {
                     VStack(spacing: 12) {
                         inputSection(title: "알림 이름", content: CustomTextField(placeholder: "이름을 입력해주세요.", text: $alarmName))
-                            .onChange(of: alarmName) { _ in hasChanges = true }
                         inputSection(title: "알림 시간", content: CustomDatePicker(selection: $selectedTime))
-                            .onChange(of: selectedTime) { _ in hasChanges = true }
                         daySelectionSection()
-                            .onChange(of: selectedWeekdays) { _ in hasChanges = true }
                         itemsToBringSection()
-                            .onChange(of: alarmItems) { _ in hasChanges = true }
                     }
                 }
             }
@@ -59,11 +55,7 @@ struct EditAlarmView: View {
                 print("EditAlarmView 감지함")
             }
             .onTapGesture { hideKeyboard() }
-            .onDisappear {
-                        if hasChanges {
-                            updateAlarm()
-                        }
-                    }
+            .onDisappear { updateAlarm() }
         }
     
     // 알림 삭제 로직
@@ -93,22 +85,30 @@ struct EditAlarmView: View {
         }
 
         // 이전 화면으로 돌아가기
+        isDeletedAlarm = true
         presentationMode.wrappedValue.dismiss()
     }
 
 
-
     // 알람 업데이트 로직
     private func updateAlarm() {
+        
+        if isDeletedAlarm {
+                return
+            }
+        
         guard let alarmID = alarmID, let alarm = managedObjectContext.object(with: alarmID) as? Alarm else {
             print("Alarm not found")
+            presentationMode.wrappedValue.dismiss()
             return
         }
-        
+
         // 기존 알림 삭제
-        if let identifier = alarm.alarmIdentifier {
+        if let identifier = alarm.alarmIdentifier, identifier != "Unknown Identifier" {
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
             print("알림 삭제됨: \(identifier)")
+        } else {
+            print("유효한 알림 식별자가 없습니다.")
         }
 
         // 알람 정보 업데이트
@@ -123,17 +123,22 @@ struct EditAlarmView: View {
         alarm.saturday = selectedWeekdays[6]
 
         // CoreData 저장 및 알림 재스케줄링
-        do {
-            try managedObjectContext.save()
-            NotificationManager.shared.scheduleNotification(for: alarm)
-            print("알림 업데이트됨: \(alarm.alarmIdentifier ?? "Unknown Identifier")")
-            presentationMode.wrappedValue.dismiss()
-        } catch {
-            print("알람 업데이트 실패: \(error)")
+        if let alarmIdentifier = alarm.alarmIdentifier, alarmIdentifier != "Unknown Identifier" {
+            do {
+                try managedObjectContext.save()
+                NotificationManager.shared.scheduleNotification(for: alarm)
+                print("알림 업데이트됨: \(alarmIdentifier)")
+            } catch {
+                print("알림 업데이트 실패: \(error)")
+            }
+        } else {
+            print("알림 업데이트하지 않음: CoreData에 유효한 알림이 없습니다.")
         }
+
+        presentationMode.wrappedValue.dismiss()
     }
 
-    
+
     @ViewBuilder
     private func inputSection<Content: View>(title: String, content: Content) -> some View {
         SectionHeaderView(title: title)
