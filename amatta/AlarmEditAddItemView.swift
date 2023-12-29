@@ -21,6 +21,14 @@ struct AlarmEditAddItemView: View {
     @State private var importance: Float = 1
     @State private var containedItems: [ContainedItem] = []
     
+    var isAddButtonDisabled: Bool {
+        itemName.isEmpty || containedItems.contains { $0.name.isEmpty }
+    }
+    
+    var addButtonBackgroundColor: Color {
+        isAddButtonDisabled ? Color.gray : Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255)
+    }
+    
     var body: some View {
         ItemHeaderView()
         ScrollView {
