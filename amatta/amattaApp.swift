@@ -12,7 +12,11 @@ import CoreData
 @main
 struct amattaApp: App {
     let persistentContainer: NSPersistentContainer
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
+    // 푸시 알림을 통해 표시할 알람의 ID를 저장하기 위한 @State 변수
+    @State private var selectedAlarmID: NSManagedObjectID?
+    
     init() {
         // 여기에서 CoreData 모델 파일 이름을 프로젝트에 맞게 수정하세요.
         persistentContainer = NSPersistentContainer(name: "AlarmData")
@@ -31,13 +35,18 @@ struct amattaApp: App {
         }
     }
     
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 // managedObjectContext를 ContentView에 전달합니다.
                 .environment(\.managedObjectContext, persistentContainer.viewContext)
+                .sheet(item: $selectedAlarmID) { alarmID in
+                    if let alarm = try? persistentContainer.viewContext.existingObject(with: alarmID) as? Alarm {
+                        AlarmDetailView(alarm: alarm)
+                    }
+                }
         }
     }
 }

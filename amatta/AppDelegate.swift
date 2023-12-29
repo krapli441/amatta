@@ -18,11 +18,11 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     
     // 사용자가 알림을 터치하여 앱을 열었을 때 호출되는 메서드
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        let userInfo = response.notification.request.content.userInfo
-        if let alarmIDString = userInfo["alarmID"] as? String {
-            // 여기에서 alarmIDString을 사용하여 특정 스크린으로 이동하는 로직 구현
-            // 예를 들어, 알람 ID에 해당하는 알람 정보를 표시하는 화면으로 이동
+            let userInfo = response.notification.request.content.userInfo
+            if let alarmIDString = userInfo["alarmID"] as? String, let url = URL(string: alarmIDString), let alarmID = persistentContainer.persistentStoreCoordinator.managedObjectID(forURIRepresentation: url) {
+                // 여기에서 AlarmDetailView로 이동하는 로직 구현
+                // 예: 알람 ID를 기반으로 AlarmDetailView를 표시
+            }
+            completionHandler()
         }
-        completionHandler()
-    }
 }

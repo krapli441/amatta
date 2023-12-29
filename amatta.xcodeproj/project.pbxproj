@@ -42,6 +42,7 @@
 		63B5102E2B39563500597E3B /* TemporaryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B5102D2B39563500597E3B /* TemporaryItem.swift */; };
 		63EA09232B3C19BA005C1BED /* Alarm+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EA09212B3C19BA005C1BED /* Alarm+CoreDataProperties.swift */; };
 		63EA09242B3C19BA005C1BED /* Items+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EA09222B3C19BA005C1BED /* Items+CoreDataProperties.swift */; };
+		63F4D06F2B3EB4D8008EC7C1 /* AlarmDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4D06E2B3EB4D8008EC7C1 /* AlarmDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,7 @@
 		63B5102D2B39563500597E3B /* TemporaryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemporaryItem.swift; sourceTree = "<group>"; };
 		63EA09212B3C19BA005C1BED /* Alarm+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alarm+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		63EA09222B3C19BA005C1BED /* Items+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Items+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		63F4D06E2B3EB4D8008EC7C1 /* AlarmDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +157,7 @@
 				63EA09212B3C19BA005C1BED /* Alarm+CoreDataProperties.swift */,
 				63EA09222B3C19BA005C1BED /* Items+CoreDataProperties.swift */,
 				6386CB912B32B4C5004E89D3 /* Alarm+CoreDataClass.swift */,
+				63F4D06E2B3EB4D8008EC7C1 /* AlarmDetailView.swift */,
 				6386CB932B32B4C5004E89D3 /* Items+CoreDataClass.swift */,
 				635D19A62B35686C00BA2787 /* AlarmEditModifyItemView.swift */,
 				637B46382B3AC78C007FE227 /* PersistenceController.swift */,
@@ -360,6 +363,7 @@
 				63EA09242B3C19BA005C1BED /* Items+CoreDataProperties.swift in Sources */,
 				63B5102E2B39563500597E3B /* TemporaryItem.swift in Sources */,
 				637B46372B3AC6AA007FE227 /* AlarmViewModel.swift in Sources */,
+				63F4D06F2B3EB4D8008EC7C1 /* AlarmDetailView.swift in Sources */,
 				6386CB902B32ABB7004E89D3 /* ToastMessageView.swift in Sources */,
 				637B46392B3AC78C007FE227 /* PersistenceController.swift in Sources */,
 				63203DC92B296D6300855113 /* amattaApp.swift in Sources */,
