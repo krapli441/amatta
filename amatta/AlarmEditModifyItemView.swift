@@ -16,7 +16,7 @@ struct AlarmEditModifyItemView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     @Binding var itemObjectID: NSManagedObjectID?
 
-    @State private var itemDetails: String = "Loading..."
+    @State private var itemDetails: String = "불러오는 중..."
     
     @State private var showingDeleteAlert = false
     
@@ -225,18 +225,23 @@ struct AlarmEditModifyItemView: View {
     }
 
     private func loadItemDetails() {
-            guard let objectID = itemObjectID, let item = managedObjectContext.object(with: objectID) as? Items else {
-                return
-            }
-
-            itemName = item.name ?? "Unknown"
-            canContainOtherItems = item.isContainer
-            importance = item.importance
-
-            if let children = item.children as? Set<Items>, !children.isEmpty {
-                containedItems = children.map { $0.name ?? "Unknown" }
-            }
+        guard let objectID = itemObjectID, let item = managedObjectContext.object(with: objectID) as? Items else {
+            return
         }
+
+        itemName = item.name ?? "불러오는 중..."
+        canContainOtherItems = item.isContainer
+        importance = item.importance
+
+        if let children = item.children as? Set<Items>, !children.isEmpty {
+            containedItems = children
+                .sorted { ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast) }
+                .map { $0.name ?? "불러오는 중..." }
+        } else {
+            containedItems = []
+        }
+    }
+
     
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
