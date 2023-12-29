@@ -10,6 +10,8 @@ import SwiftUI
 import CoreData
 
 struct AlarmEditAddItemView: View {
+    var onDisappear: (() -> Void)?
+    
     @Environment(\.managedObjectContext) private var managedObjectContext
         @Environment(\.presentationMode) var presentationMode
         @Environment(\.colorScheme) var colorScheme
@@ -94,6 +96,9 @@ struct AlarmEditAddItemView: View {
         }
         .onTapGesture { hideKeyboard() }
         .animation(.easeInOut, value: canContainOtherItems)
+        .onDisappear {
+                    onDisappear?()
+                }
     }
 
     private func hideKeyboard() {

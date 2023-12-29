@@ -218,7 +218,7 @@ struct EditAlarmView: View {
         }
         .frame(maxWidth: 320)
         .commonInputStyle(colorScheme: colorScheme)
-        .sheet(isPresented: $isAddItemViewPresented) {
+        .sheet(isPresented: $isAddItemViewPresented, onDismiss: loadItemData) {
             AlarmEditAddItemView(alarmID: alarmID!)
         }
 
@@ -281,8 +281,6 @@ struct EditAlarmView: View {
             self.alarmItems = []
         }
     }
-
-
 
 
     private func hideKeyboard() {
