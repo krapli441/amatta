@@ -182,9 +182,7 @@ struct EditAlarmView: View {
                     }
                 }
             } else {
-                Text("물건이 없습니다.")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
+                addItemButton()
             }
         }
         .sheet(isPresented: $isItemDetailViewPresented) {
@@ -202,6 +200,21 @@ struct EditAlarmView: View {
             return items.joined(separator: ", ")
         }
     }
+    
+    private func addItemButton() -> some View {
+            Button(action: {
+                // 현재는 아무 기능도 수행하지 않음
+            }) {
+                HStack {
+                    Image(systemName: "plus")
+                        .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                    Text("여기를 눌러 물건 추가")
+                        .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                }
+            }
+            .frame(maxWidth: 320)
+            .commonInputStyle(colorScheme: colorScheme)
+        }
     
     private func loadAlarmData() {
         guard let alarmID = self.alarmID,
