@@ -5,55 +5,24 @@
 ////  Created by 박준형 on 12/14/23.
 ////
 //
-//import Foundation
-//import UIKit
-//import CoreData
-//
-//class AppDelegate: NSObject, UIApplicationDelegate {
-//
-//    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-//        // CoreData 초기화 코드
-//        self.persistentContainer.loadPersistentStores { (storeDescription, error) in
-//            if let error = error as NSError? {
-//                fatalError("Unresolved error \(error), \(error.userInfo)")
-//            }
-//        }
-//        
-//        // CoreData 모델 검증 코드
-//        let persistentContainer = self.persistentContainer
-//        let managedObjectModel = persistentContainer.managedObjectModel
-//        let entities = managedObjectModel.entities
-//
-//        for entity in entities {
-//            print("Entity name: \(entity.name ?? "Unknown")")
-//            // 여기에서 추가적인 검증 로직을 구현할 수 있습니다.
-//        }
-//        
-//        return true
-//    }
-//
-//    // MARK: - Core Data stack
-//    lazy var persistentContainer: NSPersistentContainer = {
-//        let container = NSPersistentContainer(name: "AlarmData")
-//        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-//            if let error = error as NSError? {
-//                fatalError("Unresolved error \(error), \(error.userInfo)")
-//            }
-//        })
-//        return container
-//    }()
-//
-//    // MARK: - Core Data Saving support
-//    func saveContext () {
-//        let context = persistentContainer.viewContext
-//        if context.hasChanges {
-//            do {
-//                try context.save()
-//            } catch {
-//                let nserror = error as NSError
-//                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-//            }
-//        }
-//    }
-//}
-//
+import UIKit
+import UserNotifications
+
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // 알림 센터 델리게이트 설정
+        UNUserNotificationCenter.current().delegate = self
+        return true
+    }
+    
+    // 사용자가 알림을 터치하여 앱을 열었을 때 호출되는 메서드
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        if let alarmIDString = userInfo["alarmID"] as? String {
+            // 여기에서 alarmIDString을 사용하여 특정 스크린으로 이동하는 로직 구현
+            // 예를 들어, 알람 ID에 해당하는 알람 정보를 표시하는 화면으로 이동
+        }
+        completionHandler()
+    }
+}

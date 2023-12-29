@@ -17,6 +17,7 @@ class NotificationManager {
         guard let alarmName = alarm.name, let alarmTime = alarm.time else { return }
 
         let content = UNMutableNotificationContent()
+        content.userInfo = ["alarmID": alarm.objectID.uriRepresentation().absoluteString]
 
         if let itemsSet = alarm.items as? Set<Items>, !itemsSet.isEmpty {
             // 중요도가 가장 높은 물건을 무작위로 선택
