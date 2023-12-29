@@ -17,13 +17,6 @@ struct CustomTextField: View {
         TextField(placeholder, text: $text)
             .multilineTextAlignment(.center)
             .foregroundColor(.primary)
-//            .padding()
-//            .background(colorScheme == .dark ? Color(white: 0.2) : Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255))
-//            .cornerRadius(10)
-//            .overlay(
-//                RoundedRectangle(cornerRadius: 10)
-//                    .stroke(Color.gray, lineWidth: 1)
-//            )
     }
 }
 

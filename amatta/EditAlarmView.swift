@@ -25,6 +25,8 @@ struct EditAlarmView: View {
     @State private var selectedItemObjectID: NSManagedObjectID?
     
     let weekdays = ["일", "월", "화", "수", "목", "금", "토"]
+    @State private var hasChanges = false
+    
     
     var body: some View {
             VStack {
@@ -42,9 +44,13 @@ struct EditAlarmView: View {
                 ScrollView {
                     VStack(spacing: 12) {
                         inputSection(title: "알림 이름", content: CustomTextField(placeholder: "이름을 입력해주세요.", text: $alarmName))
+                            .onChange(of: alarmName) { _ in hasChanges = true }
                         inputSection(title: "알림 시간", content: CustomDatePicker(selection: $selectedTime))
+                            .onChange(of: selectedTime) { _ in hasChanges = true }
                         daySelectionSection()
+                            .onChange(of: selectedWeekdays) { _ in hasChanges = true }
                         itemsToBringSection()
+                            .onChange(of: alarmItems) { _ in hasChanges = true }
                     }
                 }
             }
@@ -53,7 +59,11 @@ struct EditAlarmView: View {
                 print("EditAlarmView 감지함")
             }
             .onTapGesture { hideKeyboard() }
-            .onDisappear { updateAlarm() }
+            .onDisappear {
+                        if hasChanges {
+                            updateAlarm()
+                        }
+                    }
         }
     
     // 알림 삭제 로직
