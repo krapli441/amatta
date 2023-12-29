@@ -146,49 +146,52 @@ struct EditAlarmView: View {
                     ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
                 }
                 ForEach(temporarySortedItems, id: \.self) { item in
-                    Button(action: {
-                        selectedItemObjectID = item.objectID
-                        isItemDetailViewPresented.toggle()
-                        print("Selected Item ObjectID in EditAlarmView: \(String(describing: selectedItemObjectID))")
-                    })
-{
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(item.name ?? "Unknown")
-                                    .font(.headline)
-                                    .foregroundColor(colorScheme == .dark ? .white : .black)
-                                if let children = item.children as? Set<Items>, !children.isEmpty {
-                                    let sortedChildren = children.sorted {
-                                        ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
-                                    }
-                                    Text(formatContainedItems(Array(sortedChildren).map { $0.name ?? "" }))
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                }
-                            }
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .foregroundColor(.gray)
-                        }
-                        .padding()
-                        .frame(maxWidth: 350, alignment: .leading)
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(10)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-
-                    }
+                    itemButton(item: item)
                 }
-            } else {
-                addItemButton()
             }
+
+            addItemButton() // '여기를 눌러 물건 추가' 버튼을 항상 표시
         }
         .sheet(isPresented: $isItemDetailViewPresented) {
             AlarmEditModifyItemView(itemObjectID: $selectedItemObjectID)
         }
     }
+
+    private func itemButton(item: Items) -> some View {
+        Button(action: {
+            selectedItemObjectID = item.objectID
+            isItemDetailViewPresented.toggle()
+            print("Selected Item ObjectID in EditAlarmView: \(String(describing: selectedItemObjectID))")
+        }) {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(item.name ?? "Unknown")
+                        .font(.headline)
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                    if let children = item.children as? Set<Items>, !children.isEmpty {
+                        let sortedChildren = children.sorted {
+                            ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
+                        }
+                        Text(formatContainedItems(Array(sortedChildren).map { $0.name ?? "" }))
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.gray)
+            }
+            .padding()
+            .frame(maxWidth: 350, alignment: .leading)
+            .background(Color.gray.opacity(0.1))
+            .cornerRadius(10)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.gray, lineWidth: 1)
+            )
+        }
+    }
+
 
     // 물건 목록을 포맷팅하는 함수
     private func formatContainedItems(_ items: [String]) -> String {
