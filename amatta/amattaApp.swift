@@ -20,7 +20,8 @@ struct amattaApp: App {
     init() {
         // 여기에서 CoreData 모델 파일 이름을 프로젝트에 맞게 수정하세요.
         persistentContainer = NSPersistentContainer(name: "AlarmData")
-
+        appDelegate.persistentContainer = persistentContainer
+        
         persistentContainer.loadPersistentStores { storeDescription, error in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -42,11 +43,6 @@ struct amattaApp: App {
             ContentView()
                 // managedObjectContext를 ContentView에 전달합니다.
                 .environment(\.managedObjectContext, persistentContainer.viewContext)
-                .sheet(item: $selectedAlarmID) { alarmID in
-                    if let alarm = try? persistentContainer.viewContext.existingObject(with: alarmID) as? Alarm {
-                        AlarmDetailView(alarm: alarm)
-                    }
-                }
         }
     }
 }
