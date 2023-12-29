@@ -48,6 +48,7 @@ struct EditAlarmView: View {
             }
             .onAppear {
                 loadAlarmData()
+                print("EditAlarmView 감지함")
             }
             .onTapGesture { hideKeyboard() }
             .onDisappear { updateAlarm() }
