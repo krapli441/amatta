@@ -92,6 +92,7 @@ struct AlarmEditModifyItemView: View {
                         deleteButton()
                         updateButton()
                     }
+        .onTapGesture { hideKeyboard() }
 
     }
     
@@ -233,6 +234,11 @@ struct AlarmEditModifyItemView: View {
                 containedItems = children.map { $0.name ?? "Unknown" }
             }
         }
+    
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+    
 }
 
 struct AlarmEditModifyItemView_Previews: PreviewProvider {
