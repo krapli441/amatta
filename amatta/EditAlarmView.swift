@@ -19,7 +19,6 @@ struct EditAlarmView: View {
     @State private var selectedTime = Date()
     @State private var selectedWeekdays: [Bool] = Array(repeating: false, count: 7)
     @State private var alarmItems: [Items] = []
-    
     @State private var showingDeleteAlert = false
     @State private var isItemDetailViewPresented = false
     @State private var selectedItemObjectID: NSManagedObjectID?
@@ -284,15 +283,29 @@ struct EditAlarmView: View {
             return
         }
 
+        print("Loading item data for Alarm ID: \(alarmID)")
+
         // 물건 정보 갱신
         if let items = updatedAlarm.items as? Set<Items> {
             self.alarmItems = Array(items).sorted {
                 ($0.creationDate ?? Date.distantPast) < ($1.creationDate ?? Date.distantPast)
             }
+
+            // 갱신된 물건 정보 출력
+            for item in self.alarmItems {
+                print("Updated Item: \(item.name ?? "Unknown"), Importance: \(item.importance), IsContainer: \(item.isContainer), ObjectID: \(item.objectID)")
+                if let children = item.children as? Set<Items>, !children.isEmpty {
+                    for child in children {
+                        print("Updated Child Item: \(child.name ?? "Unknown"), Creation Date: \(child.creationDate ?? Date.distantPast), ObjectID: \(child.objectID)")
+                    }
+                }
+            }
         } else {
             self.alarmItems = []
+            print("No items found for this alarm.")
         }
     }
+
 
 
     private func hideKeyboard() {
