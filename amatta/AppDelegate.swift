@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
         if let alarmIdentifier = userInfo["alarmIdentifier"] as? String {
+            
+            print("Received alarm identifier: \(alarmIdentifier)")
             // alarmIdentifier로 필요한 작업 수행
             // 예: 해당 알람의 정보를 조회하고 PushAlarmScreenView로 이동
         }
