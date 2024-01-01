@@ -38,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             newAlarmData.alarmName = alarm.name ?? "Unknown"
             newAlarmData.items = convertItemsToAlarmDataItems(items: alarm.items as? Set<Items> ?? [])
             self.alarmManager.alarmData = newAlarmData
+            self.alarmManager.tappedAlarm = true
                 }
             } catch {
                 print("Error fetching alarm: \(error)")
