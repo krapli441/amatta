@@ -17,7 +17,11 @@ struct ContentView: View {
     @State private var selectedAlarmID: NSManagedObjectID?
     @State private var isEditing = false
     @Environment(\.managedObjectContext) var managedObjectContext
-    @State private var tappedAlarm: Alarm?
+    @State private var tappedAlarm: Bool = false
+    @ObservedObject var alarmData = AlarmData()
+    
+    // AppDelegate의 인스턴스 생성
+        @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some View {
         NavigationView {
@@ -87,9 +91,10 @@ struct ContentView: View {
                                     EmptyView()
                 }
                 // 사용자가 푸시 알림을 탭한 경우, 해당 알람 정보로 PushAlarmScreenView로 이동
-                NavigationLink(destination: PushAlarmScreenView(alarmData: AlarmData(alarm: tappedAlarm)), isActive: $tappedAlarm) {
-                EmptyView()
+                NavigationLink(destination: PushAlarmScreenView(alarmData: alarmData), isActive: $tappedAlarm) {
+                    EmptyView()
                 }
+
                 
             }
             .frame(maxWidth: .infinity, alignment: .center)
@@ -98,7 +103,8 @@ struct ContentView: View {
             .onReceive(NotificationCenter.default.publisher(for: Notification.Name("PushAlarmTapped"))) { notification in
                         // 사용자가 푸시 알림을 탭한 경우, 알람 정보를 받아와서 변수에 저장
                         if let alarmIdentifier = notification.userInfo?["alarmIdentifier"] as? String {
-                            fetchAlarm(with: alarmIdentifier)
+                            // AppDelegate의 인스턴스에서 fetchAlarm 호출
+                            appDelegate.fetchAlarm(with: alarmIdentifier)
                         }
                     }
         }

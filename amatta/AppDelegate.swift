@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     // CoreData에서 알림 정보를 조회하는 메소드
-    private func fetchAlarm(with identifier: String) {
+    internal func fetchAlarm(with identifier: String) {
         let context = persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<Alarm>(entityName: "Alarm")
         fetchRequest.predicate = NSPredicate(format: "alarmIdentifier == %@", identifier)
@@ -43,20 +43,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         do {
             let alarms = try context.fetch(fetchRequest)
             if let alarm = alarms.first {
-                alarmData.alarmName = alarm.name ?? "Unknown"
-                alarmData.items = convertItemsToAlarmDataItems(items: alarm.items as? Set<Items> ?? [])
+                // alarmData와 items를 안전하게 초기화
+                var newAlarmData = AlarmData()
+                newAlarmData.alarmName = alarm.name ?? "Unknown"
+                newAlarmData.items = convertItemsToAlarmDataItems(items: alarm.items as? Set<Items> ?? [])
 
                 // AlarmData 객체에 저장된 정보 출력
                 print("Stored Alarm Data:")
-                print("Alarm Name: \(alarmData.alarmName)")
-                printItems(alarmData.items, indentLevel: 0)
+                print("Alarm Name: \(newAlarmData.alarmName)")
+                printItems(newAlarmData.items, indentLevel: 0)
+
+                // 최종적으로 alarmData에 할당
+                alarmData = newAlarmData
             }
         } catch {
             print("Error fetching alarm: \(error)")
         }
     }
 
-    private func printItems(_ items: [AlarmData.Item], indentLevel: Int) {
+
+    internal func printItems(_ items: [AlarmData.Item], indentLevel: Int) {
         let indent = String(repeating: "    ", count: indentLevel)
         for item in items {
             print("\(indent)\(item.name) (중요도: \(item.importance))")
@@ -67,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     
-    private func convertItemsToAlarmDataItems(items: Set<Items>) -> [AlarmData.Item] {
+    internal func convertItemsToAlarmDataItems(items: Set<Items>) -> [AlarmData.Item] {
             return items.map { item in
                 AlarmData.Item(
                     name: item.name ?? "Unknown",
