@@ -14,23 +14,19 @@ struct PushAlarmScreenView: View {
 
     var body: some View {
         VStack {
-            if tappedAlarm {
-                // tappedAlarm이 true일 때만 알림 정보 표시
-                if let alarmData = alarmData {
-                    Text("알람 이름: \(alarmData.alarmName)")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .padding()
-                    
-                    // 알림 정보를 표시하는 나머지 부분 추가
-                } else {
-                    Text("알람 정보를 불러올 수 없습니다.")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundColor(.red)
+            if tappedAlarm, let alarmData = alarmData {
+                // PushAlarmHeaderView를 사용하여 알람 이름 표시
+                PushAlarmHeaderView(alarmName: alarmData.alarmName)
+
+                ScrollView {
+                    VStack(spacing: 10) {
+                        ForEach(alarmData.items, id: \.self) { item in
+                            itemRow(item)
+                        }
+                    }
+                    .padding(.top, 10)
                 }
             } else {
-                // tappedAlarm이 false일 때의 뷰 (또는 다른 처리)
                 Text("알람 정보를 불러올 수 없습니다.")
                     .font(.title)
                     .fontWeight(.bold)
@@ -40,16 +36,32 @@ struct PushAlarmScreenView: View {
         .padding()
         .navigationBarTitle("알람 상세 정보", displayMode: .inline)
         .onDisappear {
-            // PushAlarmScreenView에서 나갈 때 tappedAlarm을 false로 설정합니다.
             tappedAlarm = false
         }
+    }
+
+    // 물건 정보와 하위 물건들을 표시하는 함수
+    private func itemRow(_ item: AlarmData.Item) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(item.name)
+                .font(.subheadline)
+                .foregroundColor(.primary)
+            
+            ForEach(item.children, id: \.self) { childItem in
+                Text(childItem.name)
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+            }
+        }
+        .padding()
+        .frame(maxWidth: 360)
+        .background(Color.white)
+        .cornerRadius(10)
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color.gray, lineWidth: 1)
+        )
     }
 }
 
 
-
-//struct PushAlarmScreenView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PushAlarmScreenView(alarmData: AlarmData())
-//    }
-//}
