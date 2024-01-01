@@ -18,9 +18,9 @@ class NotificationManager {
 
         let content = UNMutableNotificationContent()
 
-        if let itemsSet = alarm.items as? Set<Items>, !itemsSet.isEmpty {
+        if let itemsArray = alarm.items?.allObjects as? [Items], !itemsArray.isEmpty {
             // 중요도가 가장 높은 물건을 무작위로 선택
-            let importantItems = itemsSet.filter { $0.importance == itemsSet.max(by: { $0.importance < $1.importance })?.importance }
+            let importantItems = itemsArray.filter { $0.importance == itemsArray.max(by: { $0.importance < $1.importance })?.importance }
             if let randomItem = importantItems.randomElement() {
                 content.title = "혹시.. \(randomItem.name ?? "물건") 챙기셨나요?"
                 
