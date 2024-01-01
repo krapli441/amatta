@@ -37,8 +37,12 @@ struct amattaApp: App {
                 // managedObjectContext를 ContentView에 전달합니다.
                 .environment(\.managedObjectContext, persistentContainer.viewContext)
                 .onOpenURL { url in
-                            // URL을 처리하여 적절한 화면으로 이동하는 로직 추가 필요
-                        }
+                                    if let alarmIdentifier = extractAlarmIdentifier(from: url) {
+                                        // CoreData에서 해당 alarmIdentifier로 알람 정보 조회
+                                        // 조회된 정보를 가지고 PushAlarmScreenView로 이동
+                                        // 예: PushAlarmScreenView(alarmIdentifier: alarmIdentifier)
+                                    }
+                                }
         }
     }
 }

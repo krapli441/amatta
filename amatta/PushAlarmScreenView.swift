@@ -21,3 +21,8 @@ struct PushAlarmScreenView_Previews: PreviewProvider {
         PushAlarmScreenView(alarmName: "미리보기 알림")
     }
 }
+
+func extractAlarmIdentifier(from url: URL) -> String? {
+        // 예: URL "amatta://alarm/123"에서 "123" 추출
+        // URL 파싱 로직 구현
+    }
