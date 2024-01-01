@@ -6,3 +6,16 @@
 //
 
 import Foundation
+import SwiftUI
+
+struct PushAlarmScreenView: View {
+    var body : some View {
+        PushAlarmHeaderView()
+    }
+}
+    
+struct PushAlarmScreenView_Previews: PreviewProvider {
+    static var previews: some View {
+        PushAlarmScreenView()
+    }
+}
