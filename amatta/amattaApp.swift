@@ -36,6 +36,9 @@ struct amattaApp: App {
             ContentView()
                 // managedObjectContext를 ContentView에 전달합니다.
                 .environment(\.managedObjectContext, persistentContainer.viewContext)
+                .onOpenURL { url in
+                            // URL을 처리하여 적절한 화면으로 이동하는 로직 추가 필요
+                        }
         }
     }
 }
