@@ -15,9 +15,11 @@ class NotificationManager {
 
     func scheduleNotification(for alarm: Alarm) {
         guard let alarmName = alarm.name, let alarmTime = alarm.time else { return }
+        guard let alarmIdentifier = alarm.alarmIdentifier else { return }
 
         let content = UNMutableNotificationContent()
-
+        
+        content.userInfo = ["alarmIdentifier": alarmIdentifier]
         if let itemsSet = alarm.items as? Set<Items>, !itemsSet.isEmpty {
             // 중요도가 가장 높은 물건을 무작위로 선택
             let importantItems = itemsSet.filter { $0.importance == itemsSet.max(by: { $0.importance < $1.importance })?.importance }
