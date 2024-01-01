@@ -41,17 +41,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         do {
             let alarms = try context.fetch(fetchRequest)
             if let alarm = alarms.first {
-            // AlarmData 객체에 데이터 저장
-            alarmData.alarmName = alarm.name ?? "Unknown"
-            alarmData.items = convertItemsToAlarmDataItems(items: alarm.items as? Set<Items> ?? [])
-                        
-            // 필요한 경우, PushAlarmHeaderView로 이동하는 로직 추가
-            // 예: SwiftUI 뷰에서 화면 전환 처리
+                alarmData.alarmName = alarm.name ?? "Unknown"
+                alarmData.items = convertItemsToAlarmDataItems(items: alarm.items as? Set<Items> ?? [])
+
+                // AlarmData 객체에 저장된 정보 출력
+                print("Stored Alarm Data:")
+                print("Alarm Name: \(alarmData.alarmName)")
+                printItems(alarmData.items, indentLevel: 0)
             }
-                } catch {
-                    print("Error fetching alarm: \(error)")
-                }
+        } catch {
+            print("Error fetching alarm: \(error)")
+        }
     }
+
+    private func printItems(_ items: [AlarmData.Item], indentLevel: Int) {
+        let indent = String(repeating: "    ", count: indentLevel)
+        for item in items {
+            print("\(indent)\(item.name) (중요도: \(item.importance))")
+            if !item.children.isEmpty {
+                printItems(item.children, indentLevel: indentLevel + 1)
+            }
+        }
+    }
+
     
     private func convertItemsToAlarmDataItems(items: Set<Items>) -> [AlarmData.Item] {
             return items.map { item in
@@ -62,20 +74,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 )
             }
         }
-
-//    private func printItem(_ item: Items, indentLevel: Int) {
-//        let indent = String(repeating: "    ", count: indentLevel)
-//        print("\(indent)\(item.name ?? "Unknown") (중요도: \(item.importance))")
-//        
-//        // 하위 물건들을 재귀적으로 출력
-//        if let children = item.children as? Set<Items>, !children.isEmpty {
-//            for child in children {
-//                printItem(child, indentLevel: indentLevel + 1)
-//            }
-//        }
-//    }
-
-
 }
 
 
