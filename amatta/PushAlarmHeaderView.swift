@@ -9,9 +9,11 @@ import Foundation
 import SwiftUI
 
 struct PushAlarmHeaderView: View {
+    let alarmName: String
+
     var body: some View {
         HStack {
-            Text("푸시 알람 스크린")
+            Text(alarmName)
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
@@ -22,8 +24,9 @@ struct PushAlarmHeaderView: View {
     }
 }
 
+
 struct PushAlarmHeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        PushAlarmHeaderView()
+        PushAlarmHeaderView(alarmName: "미리보기 알림")
     }
 }

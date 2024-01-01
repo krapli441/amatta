@@ -9,13 +9,15 @@ import Foundation
 import SwiftUI
 
 struct PushAlarmScreenView: View {
-    var body : some View {
-        PushAlarmHeaderView()
+    let alarmName: String
+
+    var body: some View {
+        PushAlarmHeaderView(alarmName: alarmName)
     }
 }
     
 struct PushAlarmScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        PushAlarmScreenView()
+        PushAlarmScreenView(alarmName: "미리보기 알림")
     }
 }
