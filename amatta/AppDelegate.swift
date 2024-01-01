@@ -1,59 +1,31 @@
-////
-////  AppDelegate.swift
-////  amatta
-////
-////  Created by 박준형 on 12/14/23.
-////
 //
-//import Foundation
-//import UIKit
-//import CoreData
+//  AppDelegate.swift
+//  amatta
 //
-//class AppDelegate: NSObject, UIApplicationDelegate {
+//  Created by 박준형 on 12/14/23.
 //
-//    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-//        // CoreData 초기화 코드
-//        self.persistentContainer.loadPersistentStores { (storeDescription, error) in
-//            if let error = error as NSError? {
-//                fatalError("Unresolved error \(error), \(error.userInfo)")
-//            }
-//        }
-//        
-//        // CoreData 모델 검증 코드
-//        let persistentContainer = self.persistentContainer
-//        let managedObjectModel = persistentContainer.managedObjectModel
-//        let entities = managedObjectModel.entities
-//
-//        for entity in entities {
-//            print("Entity name: \(entity.name ?? "Unknown")")
-//            // 여기에서 추가적인 검증 로직을 구현할 수 있습니다.
-//        }
-//        
-//        return true
-//    }
-//
-//    // MARK: - Core Data stack
-//    lazy var persistentContainer: NSPersistentContainer = {
-//        let container = NSPersistentContainer(name: "AlarmData")
-//        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-//            if let error = error as NSError? {
-//                fatalError("Unresolved error \(error), \(error.userInfo)")
-//            }
-//        })
-//        return container
-//    }()
-//
-//    // MARK: - Core Data Saving support
-//    func saveContext () {
-//        let context = persistentContainer.viewContext
-//        if context.hasChanges {
-//            do {
-//                try context.save()
-//            } catch {
-//                let nserror = error as NSError
-//                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-//            }
-//        }
-//    }
-//}
-//
+
+import Foundation
+import UIKit
+import UserNotifications
+
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // 알림 센터 대리자 설정
+        UNUserNotificationCenter.current().delegate = self
+        return true
+    }
+
+    // 알림을 탭했을 때 호출되는 메소드
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        if let alarmIdentifier = userInfo["alarmIdentifier"] as? String {
+            // alarmIdentifier로 필요한 작업 수행
+            // 예: 해당 알람의 정보를 조회하고 PushAlarmScreenView로 이동
+        }
+
+        completionHandler()
+    }
+}
+
+
