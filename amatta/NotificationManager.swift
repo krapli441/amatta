@@ -66,5 +66,14 @@ class NotificationManager {
             }
         }
     }
+}
 
+func userNotificationCenter(_ center: UNUserNotificationCenter,
+                            didReceive response: UNNotificationResponse,
+                            withCompletionHandler completionHandler: @escaping () -> Void) {
+    let userInfo = response.notification.request.content.userInfo
+    print("Received userInfo: \(userInfo)")
+    // 여기에서 userInfo를 사용하여 필요한 작업 수행
+
+    completionHandler()
 }
