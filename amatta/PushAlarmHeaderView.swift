@@ -17,7 +17,7 @@ struct PushAlarmHeaderView: View {
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                .padding(.leading, 45)
+                .padding(.leading, 20)
             Spacer()
         }
         .padding(.top, 20)

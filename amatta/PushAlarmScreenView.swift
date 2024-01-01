@@ -20,7 +20,7 @@ struct PushAlarmScreenView: View {
                 
                 Text("놓고 간 물건은 없는지 확인해보세요!")
                                     .font(.system(size: 20))
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(maxWidth: 360, alignment: .leading)
                                     .padding(.top, 5)
 
                 ScrollView {
