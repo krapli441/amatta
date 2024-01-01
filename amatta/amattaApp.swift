@@ -12,6 +12,7 @@ import CoreData
 @main
 struct amattaApp: App {
     let persistentContainer: NSPersistentContainer
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     init() {
         persistentContainer = NSPersistentContainer(name: "AlarmData")
