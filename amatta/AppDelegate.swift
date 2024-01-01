@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // CoreData context 설정
     var persistentContainer: NSPersistentContainer!
     var alarmData = AlarmData()
+    var tappedAlarm: Bool = false
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // 알림 센터 대리자 설정
@@ -27,10 +28,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if let alarmIdentifier = userInfo["alarmIdentifier"] as? String {
             // CoreData에서 알림 정보 조회
             fetchAlarm(with: alarmIdentifier)
+            // PushAlarmScreenView로 이동
+            tappedAlarm = true
         }
-
         completionHandler()
     }
+
 
     // CoreData에서 알림 정보를 조회하는 메소드
     private func fetchAlarm(with identifier: String) {
