@@ -12,15 +12,7 @@ import CoreData
 
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     // CoreData context 설정
-    let persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "AlarmData")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        })
-        return container
-    }()
+    var persistentContainer: NSPersistentContainer!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // 알림 센터 대리자 설정
