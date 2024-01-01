@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 class AlarmData: ObservableObject {
     @Published var alarmName: String = ""
@@ -19,4 +20,7 @@ class AlarmData: ObservableObject {
     }
 }
 
-
+class AlarmManager: ObservableObject {
+    @Published var tappedAlarm: Bool = false
+    @Published var alarmData: AlarmData?
+}
