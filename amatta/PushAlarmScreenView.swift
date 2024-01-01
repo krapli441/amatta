@@ -14,35 +14,23 @@ struct PushAlarmScreenView: View {
 
     var body: some View {
         VStack {
-            if let alarmData = alarmData {
-                Text("알람 이름: \(alarmData.alarmName)")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding()
-                
-                List(alarmData.items, id: \.self) { item in
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("\(item.name)")
-                            .font(.headline)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                        
-                        Text("중요도: \(item.importance)")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                        
-                        // 하위 아이템 표시 (필요한 경우)
-                        if !item.children.isEmpty {
-                            ForEach(item.children, id: \.self) { childItem in
-                                Text("\(childItem.name)")
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                            }
-                        }
-                    }
-                    .padding(.vertical, 8)
+            if tappedAlarm {
+                // tappedAlarm이 true일 때만 알림 정보 표시
+                if let alarmData = alarmData {
+                    Text("알람 이름: \(alarmData.alarmName)")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding()
+                    
+                    // 알림 정보를 표시하는 나머지 부분 추가
+                } else {
+                    Text("알람 정보를 불러올 수 없습니다.")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.red)
                 }
             } else {
+                // tappedAlarm이 false일 때의 뷰 (또는 다른 처리)
                 Text("알람 정보를 불러올 수 없습니다.")
                     .font(.title)
                     .fontWeight(.bold)
@@ -51,8 +39,13 @@ struct PushAlarmScreenView: View {
         }
         .padding()
         .navigationBarTitle("알람 상세 정보", displayMode: .inline)
+        .onAppear {
+            // PushAlarmScreenView가 나타날 때 tappedAlarm을 다시 false로 설정
+            tappedAlarm = false
+        }
     }
 }
+
 
 
 //struct PushAlarmScreenView_Previews: PreviewProvider {
