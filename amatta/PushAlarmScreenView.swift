@@ -25,6 +25,7 @@ struct PushAlarmScreenView: View {
                         }
                     }
                     .padding(.top, 10)
+                    .frame(maxWidth: .infinity) // 상위 레이아웃의 너비를 최대한으로 설정
                 }
             } else {
                 Text("알람 정보를 불러올 수 없습니다.")
@@ -40,13 +41,12 @@ struct PushAlarmScreenView: View {
         }
     }
 
-    // 물건 정보와 하위 물건들을 표시하는 함수
     private func itemRow(_ item: AlarmData.Item) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(item.name)
                 .font(.system(size: 24, weight: .bold))
                 .foregroundColor(.primary)
-                .frame(maxWidth: .infinity, alignment: .leading) // 텍스트를 왼쪽으로 정렬
+                .frame(maxWidth: .infinity, alignment: .leading)
 
             ForEach(item.children, id: \.self) { childItem in
                 HStack {
@@ -57,7 +57,7 @@ struct PushAlarmScreenView: View {
                         .font(.system(size: 16))
                         .foregroundColor(.gray)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading) // 하위 물건 텍스트를 왼쪽으로 정렬
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
         .padding()
@@ -68,9 +68,6 @@ struct PushAlarmScreenView: View {
             RoundedRectangle(cornerRadius: 10)
                 .stroke(Color.gray, lineWidth: 1)
         )
+        .frame(maxWidth: .infinity) // 각 물건 박스를 상위 레이아웃의 중앙에 위치시킴
     }
-
-
 }
-
-
