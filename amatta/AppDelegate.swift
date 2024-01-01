@@ -8,8 +8,20 @@
 import Foundation
 import UIKit
 import UserNotifications
+import CoreData
 
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    // CoreData context 설정
+    let persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "AlarmData")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // 알림 센터 대리자 설정
         UNUserNotificationCenter.current().delegate = self
@@ -20,14 +32,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
         if let alarmIdentifier = userInfo["alarmIdentifier"] as? String {
-            
-            print("Received alarm identifier: \(alarmIdentifier)")
-            // alarmIdentifier로 필요한 작업 수행
-            // 예: 해당 알람의 정보를 조회하고 PushAlarmScreenView로 이동
+            // CoreData에서 알림 정보 조회
+            fetchAlarm(with: alarmIdentifier)
         }
 
         completionHandler()
     }
+
+    // CoreData에서 알림 정보를 조회하는 메소드
+    private func fetchAlarm(with identifier: String) {
+        let context = persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<Alarm>(entityName: "Alarm")
+        fetchRequest.predicate = NSPredicate(format: "alarmIdentifier == %@", identifier)
+
+        do {
+            let alarms = try context.fetch(fetchRequest)
+            if let alarm = alarms.first {
+                // 알림 정보 콘솔에 출력
+                print("Alarm Name: \(alarm.name ?? "Unknown")")
+                // 여기에 더 많은 알림 정보 출력 로직 추가 가능
+            } else {
+                print("No alarm found with identifier: \(identifier)")
+            }
+        } catch {
+            print("Error fetching alarm: \(error)")
+        }
+    }
 }
+
 
 
