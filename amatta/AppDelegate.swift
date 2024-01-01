@@ -30,6 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             fetchAlarm(with: alarmIdentifier)
             // PushAlarmScreenView로 이동
             tappedAlarm = true
+            print("tappedAlarm is now true")
         }
         completionHandler()
     }
