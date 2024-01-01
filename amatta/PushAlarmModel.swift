@@ -12,9 +12,11 @@ class AlarmData: ObservableObject {
     @Published var alarmName: String = ""
     @Published var items: [Item] = []
 
-    struct Item {
+    struct Item: Hashable {
         var name: String
         var importance: Float
         var children: [Item]
     }
 }
+
+
