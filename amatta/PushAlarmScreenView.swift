@@ -39,8 +39,8 @@ struct PushAlarmScreenView: View {
         }
         .padding()
         .navigationBarTitle("알람 상세 정보", displayMode: .inline)
-        .onAppear {
-            // PushAlarmScreenView가 나타날 때 tappedAlarm을 다시 false로 설정
+        .onDisappear {
+            // PushAlarmScreenView에서 나갈 때 tappedAlarm을 false로 설정합니다.
             tappedAlarm = false
         }
     }
