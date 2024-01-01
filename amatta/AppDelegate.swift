@@ -44,8 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
                 // 관련된 물건들 조회 및 출력
                 if let items = alarm.items as? Set<Items>, !items.isEmpty {
-                    let itemsDescription = items.map { "\($0.name ?? "Unknown") (중요도: \($0.importance))" }.joined(separator: ", ")
-                    print("Items: \(itemsDescription)")
+                    for item in items {
+                        printItem(item, indentLevel: 0)
+                    }
                 } else {
                     print("No items found for this alarm.")
                 }
@@ -56,6 +57,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print("Error fetching alarm: \(error)")
         }
     }
+
+    private func printItem(_ item: Items, indentLevel: Int) {
+        let indent = String(repeating: "    ", count: indentLevel)
+        print("\(indent)\(item.name ?? "Unknown") (중요도: \(item.importance))")
+        
+        // 하위 물건들을 재귀적으로 출력
+        if let children = item.children as? Set<Items>, !children.isEmpty {
+            for child in children {
+                printItem(child, indentLevel: indentLevel + 1)
+            }
+        }
+    }
+
 
 }
 
