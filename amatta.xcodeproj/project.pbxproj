@@ -42,6 +42,8 @@
 		63B5102E2B39563500597E3B /* TemporaryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B5102D2B39563500597E3B /* TemporaryItem.swift */; };
 		63EA09232B3C19BA005C1BED /* Alarm+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EA09212B3C19BA005C1BED /* Alarm+CoreDataProperties.swift */; };
 		63EA09242B3C19BA005C1BED /* Items+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EA09222B3C19BA005C1BED /* Items+CoreDataProperties.swift */; };
+		63F4D0712B425F1C008EC7C1 /* PushAlarmScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4D0702B425F1C008EC7C1 /* PushAlarmScreenView.swift */; };
+		63F4D0732B425F5E008EC7C1 /* PushAlarmHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4D0722B425F5E008EC7C1 /* PushAlarmHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +104,8 @@
 		63B5102D2B39563500597E3B /* TemporaryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemporaryItem.swift; sourceTree = "<group>"; };
 		63EA09212B3C19BA005C1BED /* Alarm+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alarm+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		63EA09222B3C19BA005C1BED /* Items+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Items+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		63F4D0702B425F1C008EC7C1 /* PushAlarmScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmScreenView.swift; sourceTree = "<group>"; };
+		63F4D0722B425F5E008EC7C1 /* PushAlarmHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				63EA09212B3C19BA005C1BED /* Alarm+CoreDataProperties.swift */,
+				63F4D0702B425F1C008EC7C1 /* PushAlarmScreenView.swift */,
 				63EA09222B3C19BA005C1BED /* Items+CoreDataProperties.swift */,
 				6386CB912B32B4C5004E89D3 /* Alarm+CoreDataClass.swift */,
 				6386CB932B32B4C5004E89D3 /* Items+CoreDataClass.swift */,
@@ -182,6 +187,7 @@
 				635D19A02B3433BE00BA2787 /* EditAlarmView.swift */,
 				63203E072B2AC63B00855113 /* CustomDatePicker.swift */,
 				63203E092B2AC64700855113 /* SectionHeaderView.swift */,
+				63F4D0722B425F5E008EC7C1 /* PushAlarmHeaderView.swift */,
 				63203E0B2B2AC65500855113 /* AlarmHeaderView.swift */,
 				635D19A22B34340900BA2787 /* EditAlarmHeader.swift */,
 				63AAADE42B2C1CB100714F0E /* ItemHeaderView.swift */,
@@ -352,10 +358,12 @@
 				6386CB822B31381C004E89D3 /* EditItemHeaderView.swift in Sources */,
 				63AAADE52B2C1CB100714F0E /* ItemHeaderView.swift in Sources */,
 				635D19A72B35686C00BA2787 /* AlarmEditModifyItemView.swift in Sources */,
+				63F4D0732B425F5E008EC7C1 /* PushAlarmHeaderView.swift in Sources */,
 				63203DF82B29A1A400855113 /* AddAlarmView.swift in Sources */,
 				6386CB952B32B4C5004E89D3 /* Alarm+CoreDataClass.swift in Sources */,
 				63203E0A2B2AC64700855113 /* SectionHeaderView.swift in Sources */,
 				635D19A12B3433BE00BA2787 /* EditAlarmView.swift in Sources */,
+				63F4D0712B425F1C008EC7C1 /* PushAlarmScreenView.swift in Sources */,
 				6386CB802B31379E004E89D3 /* EditItemView.swift in Sources */,
 				63EA09242B3C19BA005C1BED /* Items+CoreDataProperties.swift in Sources */,
 				63B5102E2B39563500597E3B /* TemporaryItem.swift in Sources */,
