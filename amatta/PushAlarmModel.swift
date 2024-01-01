@@ -18,7 +18,17 @@ class AlarmData: ObservableObject {
         var importance: Float
         var children: [Item]
     }
+
+    init() {
+        // 기본 생성자
+    }
+
+    init(alarmName: String, items: [Item]) {
+        self.alarmName = alarmName
+        self.items = items
+    }
 }
+
 
 class AlarmManager: ObservableObject {
     @Published var tappedAlarm: Bool = false

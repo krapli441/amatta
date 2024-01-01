@@ -13,8 +13,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     // CoreData context 설정
     var persistentContainer: NSPersistentContainer!
-    var alarmData = AlarmData()
-    var tappedAlarm: Bool = false
+    var alarmManager = AlarmManager()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // 알림 센터 대리자 설정
@@ -22,40 +21,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return true
     }
 
-    // 알림을 탭했을 때 호출되는 메소드
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        let userInfo = response.notification.request.content.userInfo
-        if let alarmIdentifier = userInfo["alarmIdentifier"] as? String {
-            // CoreData에서 알림 정보 조회
-            fetchAlarm(with: alarmIdentifier)
-            // PushAlarmScreenView로 이동
-            tappedAlarm = true
-            print("tappedAlarm is now true")
-        }
-        completionHandler()
-    }
+        // 기존 로직...
 
-
-    // CoreData에서 알림 정보를 조회하는 메소드
-    private func fetchAlarm(with identifier: String) {
+        // CoreData에서 알림 정보를 조회하는 코드
         let context = persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<Alarm>(entityName: "Alarm")
-        fetchRequest.predicate = NSPredicate(format: "alarmIdentifier == %@", identifier)
+        // 여기서는 예시로 알림의 userInfo에서 식별자를 가져오는 코드를 가정합니다.
+        if let alarmIdentifier = response.notification.request.content.userInfo["alarmIdentifier"] as? String {
+            fetchRequest.predicate = NSPredicate(format: "alarmIdentifier == %@", alarmIdentifier)
 
-        do {
+            do {
             let alarms = try context.fetch(fetchRequest)
             if let alarm = alarms.first {
-                alarmData.alarmName = alarm.name ?? "Unknown"
-                alarmData.items = convertItemsToAlarmDataItems(items: alarm.items as? Set<Items> ?? [])
-
-                // AlarmData 객체에 저장된 정보 출력
-                print("Stored Alarm Data:")
-                print("Alarm Name: \(alarmData.alarmName)")
-                printItems(alarmData.items, indentLevel: 0)
+            let newAlarmData = AlarmData()
+            newAlarmData.alarmName = alarm.name ?? "Unknown"
+            newAlarmData.items = convertItemsToAlarmDataItems(items: alarm.items as? Set<Items> ?? [])
+            self.alarmManager.alarmData = newAlarmData
+                }
+            } catch {
+                print("Error fetching alarm: \(error)")
             }
-        } catch {
-            print("Error fetching alarm: \(error)")
         }
+
+        completionHandler()
     }
 
     private func printItems(_ items: [AlarmData.Item], indentLevel: Int) {
