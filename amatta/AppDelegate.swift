@@ -40,9 +40,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         do {
             let alarms = try context.fetch(fetchRequest)
             if let alarm = alarms.first {
-                // 알림 정보 콘솔에 출력
                 print("Alarm Name: \(alarm.name ?? "Unknown")")
-                // 여기에 더 많은 알림 정보 출력 로직 추가 가능
+
+                // 관련된 물건들 조회 및 출력
+                if let items = alarm.items as? Set<Items>, !items.isEmpty {
+                    let itemsDescription = items.map { "\($0.name ?? "Unknown") (중요도: \($0.importance))" }.joined(separator: ", ")
+                    print("Items: \(itemsDescription)")
+                } else {
+                    print("No items found for this alarm.")
+                }
             } else {
                 print("No alarm found with identifier: \(identifier)")
             }
@@ -50,6 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print("Error fetching alarm: \(error)")
         }
     }
+
 }
 
 
