@@ -44,13 +44,18 @@ struct PushAlarmScreenView: View {
     private func itemRow(_ item: AlarmData.Item) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(item.name)
-                .font(.subheadline)
+                .font(.system(size: 24, weight: .bold)) // 상위 물건의 텍스트 크기와 굵기 조절
                 .foregroundColor(.primary)
             
             ForEach(item.children, id: \.self) { childItem in
-                Text(childItem.name)
-                    .font(.footnote)
-                    .foregroundColor(.gray)
+                HStack(alignment: .top, spacing: 5) {
+                    Text("·") // 중간점 추가
+                        .font(.subheadline)
+
+                    Text(childItem.name)
+                        .font(.system(size: 16)) // 하위 물건의 텍스트 크기 조절
+                        .foregroundColor(.gray)
+                }
             }
         }
         .padding()
@@ -62,6 +67,7 @@ struct PushAlarmScreenView: View {
                 .stroke(Color.gray, lineWidth: 1)
         )
     }
+
 }
 
 
