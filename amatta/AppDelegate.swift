@@ -13,6 +13,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     // CoreData context 설정
     var persistentContainer: NSPersistentContainer!
+    var alarmData = AlarmData()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // 알림 센터 대리자 설정
@@ -40,35 +41,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         do {
             let alarms = try context.fetch(fetchRequest)
             if let alarm = alarms.first {
-                print("Alarm Name: \(alarm.name ?? "Unknown")")
-
-                // 관련된 물건들 조회 및 출력
-                if let items = alarm.items as? Set<Items>, !items.isEmpty {
-                    for item in items {
-                        printItem(item, indentLevel: 0)
-                    }
-                } else {
-                    print("No items found for this alarm.")
+            // AlarmData 객체에 데이터 저장
+            alarmData.alarmName = alarm.name ?? "Unknown"
+            alarmData.items = convertItemsToAlarmDataItems(items: alarm.items as? Set<Items> ?? [])
+                        
+            // 필요한 경우, PushAlarmHeaderView로 이동하는 로직 추가
+            // 예: SwiftUI 뷰에서 화면 전환 처리
+            }
+                } catch {
+                    print("Error fetching alarm: \(error)")
                 }
-            } else {
-                print("No alarm found with identifier: \(identifier)")
-            }
-        } catch {
-            print("Error fetching alarm: \(error)")
-        }
     }
+    
+    private func convertItemsToAlarmDataItems(items: Set<Items>) -> [AlarmData.Item] {
+            return items.map { item in
+                AlarmData.Item(
+                    name: item.name ?? "Unknown",
+                    importance: item.importance,
+                    children: convertItemsToAlarmDataItems(items: item.children as? Set<Items> ?? [])
+                )
+            }
+        }
 
-    private func printItem(_ item: Items, indentLevel: Int) {
-        let indent = String(repeating: "    ", count: indentLevel)
-        print("\(indent)\(item.name ?? "Unknown") (중요도: \(item.importance))")
-        
-        // 하위 물건들을 재귀적으로 출력
-        if let children = item.children as? Set<Items>, !children.isEmpty {
-            for child in children {
-                printItem(child, indentLevel: indentLevel + 1)
-            }
-        }
-    }
+//    private func printItem(_ item: Items, indentLevel: Int) {
+//        let indent = String(repeating: "    ", count: indentLevel)
+//        print("\(indent)\(item.name ?? "Unknown") (중요도: \(item.importance))")
+//        
+//        // 하위 물건들을 재귀적으로 출력
+//        if let children = item.children as? Set<Items>, !children.isEmpty {
+//            for child in children {
+//                printItem(child, indentLevel: indentLevel + 1)
+//            }
+//        }
+//    }
 
 
 }
