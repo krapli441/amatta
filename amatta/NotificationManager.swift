@@ -63,5 +63,24 @@ class NotificationManager {
             }
         }
     }
+    
+    func pushNotificationTapped(for alarm: Alarm) {
+            // Alarm 객체를 JSON 또는 다른 형태로 변환하여 PushAlarmScreenView에 전달
+            let alarmInfo = convertAlarmToInfo(alarm)
+            
+            // PushAlarmScreenView로 이동하는 코드 추가
+            // 예: 화면 전환 코드 (NavigationLink 또는 NavigationView 사용)
+        }
+    
+    private func convertAlarmToInfo(_ alarm: Alarm) -> AlarmInfo {
+            // Alarm 객체에서 필요한 정보 추출 및 변환
+            let alarmName = alarm.name ?? ""
+            let itemsInfo = alarm.items?.compactMap { item -> ItemInfo? in
+                guard let itemName = item.name else { return nil }
+                return ItemInfo(name: itemName, importance: item.importance)
+            } ?? []
+
+            return AlarmInfo(name: alarmName, items: itemsInfo)
+        }
 
 }
