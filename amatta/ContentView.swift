@@ -16,8 +16,8 @@ struct ContentView: View {
     ) var alarms: FetchedResults<Alarm>
     @State private var selectedAlarmID: NSManagedObjectID?
     @State private var isEditing = false
-    @State private var tappedAlarm = false
-    @State private var selectedAlarmData: AlarmData?
+    @EnvironmentObject var alarmManager: AlarmManager
+    
     @Environment(\.managedObjectContext) var managedObjectContext
 
     var body: some View {
@@ -86,13 +86,13 @@ struct ContentView: View {
                 NavigationLink(destination: EditAlarmView(alarmID: selectedAlarmID), isActive: $isEditing) {
                                     EmptyView()
                                 }
-                NavigationLink(destination: PushAlarmScreenView(alarmData: $selectedAlarmData, tappedAlarm: $tappedAlarm), isActive: $tappedAlarm) {
+                NavigationLink(destination: PushAlarmScreenView(alarmData: $alarmManager.alarmData, tappedAlarm: $alarmManager.tappedAlarm), isActive: $alarmManager.tappedAlarm) {
                     EmptyView()
                 }
+
             }
             .frame(maxWidth: .infinity, alignment: .center)
             .onAppear {
-                print("tappedAlarm is \(self.tappedAlarm ? "true" : "false")")
                 requestNotificationPermission()
                 loadScheduledNotifications()
             }

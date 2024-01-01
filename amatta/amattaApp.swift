@@ -37,6 +37,7 @@ struct amattaApp: App {
             ContentView()
                 // managedObjectContext를 ContentView에 전달합니다.
                 .environment(\.managedObjectContext, persistentContainer.viewContext)
+                .environmentObject(appDelegate.alarmManager)
         }
     }
 }
