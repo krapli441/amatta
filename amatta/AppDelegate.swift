@@ -27,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if let alarmIdentifier = userInfo["alarmIdentifier"] as? String {
             // CoreData에서 알림 정보 조회
             fetchAlarm(with: alarmIdentifier)
+            // 상태 변경 - 사용자가 알림을 탭한 경우
+            NotificationCenter.default.post(name: Notification.Name("PushAlarmTapped"), object: nil, userInfo: ["alarmIdentifier": alarmIdentifier])
         }
 
         completionHandler()
