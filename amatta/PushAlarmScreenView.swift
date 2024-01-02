@@ -17,27 +17,35 @@ struct PushAlarmScreenView: View {
             if tappedAlarm, let alarmData = alarmData {
                 // PushAlarmHeaderView를 사용하여 알람 이름 표시
                 PushAlarmHeaderView(alarmName: alarmData.alarmName)
-                
+
                 Text("놓고 간 물건은 없는지 확인해보세요!")
-                                    .font(.system(size: 20))
-                                    .frame(maxWidth: 360, alignment: .leading)
-                                    .padding(.top, 5)
+                    .font(.system(size: 20))
+                    .frame(maxWidth: 360, alignment: .leading)
+                    .padding(.top, 5)
 
-                ScrollView {
-                    VStack(spacing: 10) {
-                        ForEach(alarmData.items, id: \.self) { item in
-                            itemRow(item)
+                if alarmData.items.isEmpty {
+                    // 챙겨야 할 물건이 없을 때의 메시지
+                    Text("챙겨야 할 물건이 없습니다.")
+                        .font(.title)
+                        .foregroundColor(.gray)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                } else {
+                    ScrollView {
+                        VStack(spacing: 10) {
+                            ForEach(alarmData.items, id: \.self) { item in
+                                itemRow(item)
+                            }
                         }
+                        .padding(.top, 10)
+                        .frame(maxWidth: .infinity)
+                        Text("잘 챙겼는지 헷갈린다면, 눈으로 확인하는 것도 좋아요!")
+                            .font(.system(size: 14))
+                            .foregroundColor(.gray)
+                            .frame(maxWidth: .infinity)
+                            .padding(.top, 5)
                     }
-                    .padding(.top, 10)
-                    .frame(maxWidth: .infinity) // 상위 레이아웃의 너비를 최대한으로 설정
-                    Text("잘 챙겼는지 헷갈린다면, 눈으로 확인하는 것도 좋아요!")
-                                        .font(.system(size: 14))
-                                        .foregroundColor(.gray)
-                                        .frame(maxWidth: .infinity)
-                                        .padding(.top, 5)
                 }
-
             } else {
                 Text("알람 정보를 불러올 수 없습니다.")
                     .font(.title)
