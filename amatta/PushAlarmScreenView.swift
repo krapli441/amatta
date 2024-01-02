@@ -53,11 +53,21 @@ struct PushAlarmScreenView: View {
 
     private func itemRow(_ item: AlarmData.Item) -> some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(item.name)
-                .font(.system(size: 24, weight: .bold))
-                .foregroundColor(.primary)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            HStack {
+                Text(item.name)
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(.primary)
 
+                Spacer() // 좌우 대칭을 위해 Spacer 추가
+
+                // 중요도가 8 이상일 때 '중요' 표시
+                if item.importance >= 8 {
+                    Text("중요")
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(.red)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
             ForEach(item.children, id: \.self) { childItem in
                 HStack {
                     Text("·")
@@ -80,4 +90,5 @@ struct PushAlarmScreenView: View {
         )
         .frame(maxWidth: .infinity) // 각 물건 박스를 상위 레이아웃의 중앙에 위치시킴
     }
+
 }
