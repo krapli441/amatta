@@ -31,12 +31,13 @@ struct PushAlarmScreenView: View {
                     }
                     .padding(.top, 10)
                     .frame(maxWidth: .infinity) // 상위 레이아웃의 너비를 최대한으로 설정
+                    Text("잘 챙겼는지 헷갈린다면, 눈으로 확인하는 것도 좋아요!")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(.gray)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.top, 5)
                 }
-                Text("잘 챙겼는지 헷갈린다면, 눈으로 확인하는 것도 좋아요!")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(.gray)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.top, 5)
+
             } else {
                 Text("알람 정보를 불러올 수 없습니다.")
                     .font(.title)
