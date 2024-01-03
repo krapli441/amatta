@@ -32,14 +32,12 @@ struct ContentView: View {
                         .padding([.leading, .trailing], 40)
                         .padding(.top, 20)
                     Spacer()
-                    Button(action: {
-                        // 톱니바퀴 버튼 기능
-                    }) {
-                        Image(systemName: "gear")
-                            .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                            .padding([.leading, .trailing], 40)
-                            .padding(.top, 20)
-                    }
+                    NavigationLink(destination: SettingView()) {
+                    Image(systemName: "gear")
+                    .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                    .padding([.leading, .trailing], 40)
+                    .padding(.top, 20)
+                                        }
                 }
                 Spacer()
 
