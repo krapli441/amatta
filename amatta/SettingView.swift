@@ -10,7 +10,7 @@ import SwiftUI
 import UserNotifications
 
 struct SettingView: View {
-    @State private var isNotificationsEnabled = false
+    @State private var isNotificationsEnabled = true
     @State private var previousToggleState = false
     @State private var showingAlert = false
 
