@@ -10,6 +10,7 @@ import SwiftUI
 import UserNotifications
 
 struct SettingView: View {
+    @Environment(\.colorScheme) var colorScheme
     @State private var isNotificationsEnabled = true
     @State private var previousToggleState = false
     @State private var showingAlert = false
@@ -40,7 +41,7 @@ struct SettingView: View {
                 .padding()
             }
             .frame(maxWidth: 360)
-            .background(Color.white)
+            .background(colorScheme == .dark ? Color(white: 0.2) : Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255))
             .cornerRadius(10)
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
