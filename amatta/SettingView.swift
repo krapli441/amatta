@@ -11,7 +11,7 @@ import SwiftUI
 import SwiftUI
 
 struct SettingView: View {
-    @State private var isNotificationsEnabled = false // 토글 스위치 상태를 위한 상태 변수
+    @State private var isNotificationsEnabled = false
     @State private var showingAlert = false
 
     var body: some View {
@@ -24,26 +24,23 @@ struct SettingView: View {
                     Text("알림")
                         .font(.system(size: 18))
                         .foregroundColor(Color.primary)
-                    Spacer() // 텍스트와 스위치 사이의 공간
+                    
+                    Spacer()
+
                     Toggle(isOn: $isNotificationsEnabled) {
-                        Text("") // Toggle에 대한 라벨 없음
+                        Text("")
                     }
                     .onChange(of: isNotificationsEnabled) { newValue in
-                                    if newValue {
-                                        // 스위치를 on으로 변경하려고 할 때
-                                        showingAlert = true
-                                    } else {
-                                        // 스위치를 off로 변경하는 것은 바로 반영
-                                        // 실제 알림 기능을 끄는 로직이 필요하다면 여기에 추가
-                                    }
+                        if newValue {
+                            checkNotificationAuthorizationStatus() { enabled in
+                                if !enabled {
+                                    // 스위치가 on으로 바뀌었지만, 알림 권한이 없는 경우
+                                    self.showingAlert = true
+                                    self.isNotificationsEnabled = false
                                 }
-                    .alert(isPresented: $showingAlert) {
-                                    Alert(
-                                        title: Text("알림 설정 변경"),
-                                        message: Text("알림을 다시 켜려면, 설정 앱에서 이 앱의 알림을 허용해야 합니다."),
-                                        dismissButton: .default(Text("확인"))
-                                    )
-                                }
+                            }
+                        }
+                    }
                 }
                 .padding()
             }
@@ -55,26 +52,41 @@ struct SettingView: View {
                     .stroke(Color.gray, lineWidth: 1)
             )
             .padding()
+            .alert(isPresented: $showingAlert) {
+                Alert(
+                    title: Text("알림 설정 변경"),
+                    message: Text("알림을 다시 켜려면, 설정 앱에서 이 앱의 알림을 허용해야 합니다."),
+                    dismissButton: .default(Text("설정으로 이동"), action: openAppSettings)
+                )
+            }
 
             Spacer()
         }
         .navigationBarTitle("", displayMode: .inline)
         .onAppear {
-                    checkNotificationAuthorizationStatus()
-                }
-    }
-    
-    
-    private func checkNotificationAuthorizationStatus() {
-            UNUserNotificationCenter.current().getNotificationSettings { settings in
-                DispatchQueue.main.async {
-                    // 권한 상태에 따라 스위치 상태 설정
-                    self.isNotificationsEnabled = (settings.authorizationStatus == .authorized)
-                }
+            checkNotificationAuthorizationStatus() { enabled in
+                self.isNotificationsEnabled = enabled
             }
         }
-    
+    }
+
+    private func checkNotificationAuthorizationStatus(completion: @escaping (Bool) -> Void) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            DispatchQueue.main.async {
+                completion(settings.authorizationStatus == .authorized)
+            }
+        }
+    }
+
+    private func openAppSettings() {
+        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(settingsUrl) else {
+            return
+        }
+
+        UIApplication.shared.open(settingsUrl)
+    }
 }
+
 
 struct SettingView_Previews: PreviewProvider {
     static var previews: some View {
