@@ -46,6 +46,7 @@
 		63F4D0732B425F5E008EC7C1 /* PushAlarmHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4D0722B425F5E008EC7C1 /* PushAlarmHeaderView.swift */; };
 		63F4D0762B42864B008EC7C1 /* PushAlarmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4D0752B42864B008EC7C1 /* PushAlarmModel.swift */; };
 		63F9A3CB2B45027A00360858 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F9A3CA2B45027A00360858 /* SettingView.swift */; };
+		63F9A3CD2B4504D800360858 /* SettingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F9A3CC2B4504D800360858 /* SettingHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +111,7 @@
 		63F4D0722B425F5E008EC7C1 /* PushAlarmHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmHeaderView.swift; sourceTree = "<group>"; };
 		63F4D0752B42864B008EC7C1 /* PushAlarmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAlarmModel.swift; sourceTree = "<group>"; };
 		63F9A3CA2B45027A00360858 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		63F9A3CC2B4504D800360858 /* SettingHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +186,7 @@
 				63B5102D2B39563500597E3B /* TemporaryItem.swift */,
 				63F9A3CA2B45027A00360858 /* SettingView.swift */,
 				635D199E2B34207400BA2787 /* Launch Screen.storyboard */,
+				63F9A3CC2B4504D800360858 /* SettingHeaderView.swift */,
 				6386CB812B31381C004E89D3 /* EditItemHeaderView.swift */,
 				6386CB7F2B31379E004E89D3 /* EditItemView.swift */,
 				637B46362B3AC6AA007FE227 /* AlarmViewModel.swift */,
@@ -373,6 +376,7 @@
 				635D19A12B3433BE00BA2787 /* EditAlarmView.swift in Sources */,
 				63F4D0712B425F1C008EC7C1 /* PushAlarmScreenView.swift in Sources */,
 				6386CB802B31379E004E89D3 /* EditItemView.swift in Sources */,
+				63F9A3CD2B4504D800360858 /* SettingHeaderView.swift in Sources */,
 				63EA09242B3C19BA005C1BED /* Items+CoreDataProperties.swift in Sources */,
 				63B5102E2B39563500597E3B /* TemporaryItem.swift in Sources */,
 				637B46372B3AC6AA007FE227 /* AlarmViewModel.swift in Sources */,
