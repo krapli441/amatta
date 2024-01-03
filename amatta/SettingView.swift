@@ -12,6 +12,7 @@ import SwiftUI
 
 struct SettingView: View {
     @State private var isNotificationsEnabled = false // 토글 스위치 상태를 위한 상태 변수
+    @State private var showingAlert = false
 
     var body: some View {
         VStack {
@@ -27,6 +28,22 @@ struct SettingView: View {
                     Toggle(isOn: $isNotificationsEnabled) {
                         Text("") // Toggle에 대한 라벨 없음
                     }
+                    .onChange(of: isNotificationsEnabled) { newValue in
+                                    if newValue {
+                                        // 스위치를 on으로 변경하려고 할 때
+                                        showingAlert = true
+                                    } else {
+                                        // 스위치를 off로 변경하는 것은 바로 반영
+                                        // 실제 알림 기능을 끄는 로직이 필요하다면 여기에 추가
+                                    }
+                                }
+                    .alert(isPresented: $showingAlert) {
+                                    Alert(
+                                        title: Text("알림 설정 변경"),
+                                        message: Text("알림을 다시 켜려면, 설정 앱에서 이 앱의 알림을 허용해야 합니다."),
+                                        dismissButton: .default(Text("확인"))
+                                    )
+                                }
                 }
                 .padding()
             }
