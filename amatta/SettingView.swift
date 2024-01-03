@@ -50,8 +50,9 @@ struct SettingView: View {
             .alert(isPresented: $showingSettingsAlert) {
                 Alert(
                     title: Text("알림 설정 변경"),
-                    message: Text("앱 설정에서 알림을 비활성할 수 있습니다."),
-                    dismissButton: .default(Text("설정으로 이동"), action: openAppSettings)
+                    message: Text("앱 설정에서 알림을 끌 수 있습니다."),
+                    primaryButton: .default(Text("설정으로 이동"), action: openAppSettings),
+                    secondaryButton: .cancel(Text("취소"))
                 )
             }
 
