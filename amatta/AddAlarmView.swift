@@ -161,10 +161,12 @@ struct AddAlarmView: View {
             .foregroundColor(.white)
             .frame(maxWidth: 320)
             .padding()
-            .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+            .background(isAddButtonDisabled ? Color.gray : Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
             .cornerRadius(10)
+            .animation(.easeInOut, value: isAddButtonDisabled)
         }
     }
+
     
     private func saveAlarm() {
         
