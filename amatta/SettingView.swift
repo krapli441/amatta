@@ -13,6 +13,7 @@ import SwiftUI
 struct SettingView: View {
     @State private var isNotificationsEnabled = false
     @State private var showingAlert = false
+    @State private var userToggledSwitch = false
 
     var body: some View {
         VStack {
@@ -30,9 +31,11 @@ struct SettingView: View {
                     Toggle(isOn: $isNotificationsEnabled) {
                         Text("")
                     }
-                    .onChange(of: isNotificationsEnabled) { _ in
-                        // 스위치 상태가 변경될 때마다 경고창 표시
-                        showingAlert = true
+                    .onChange(of: isNotificationsEnabled) { newValue in
+                        userToggledSwitch = true  // 사용자가 토글 스위치를 조작함
+                        if userToggledSwitch {
+                            showingAlert = true
+                        }
                     }
                 }
                 .padding()
@@ -59,6 +62,7 @@ struct SettingView: View {
         .navigationBarTitle("", displayMode: .inline)
         .onAppear {
             checkNotificationAuthorizationStatus()
+            userToggledSwitch = false  // onAppear 시에는 사용자가 조작하지 않았으므로 false로 초기화
         }
     }
 
