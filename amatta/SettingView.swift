@@ -12,13 +12,13 @@ import SwiftUI
 
 struct SettingView: View {
     @State private var isNotificationsEnabled = false
-    @State private var showingAlert = false
+    @State private var showingSettingsAlert = false
 
     var body: some View {
         VStack {
             SettingHeaderView()
 
-            // 회색 테두리 선이 있는 '알림' 설정 박스
+            // '알림' 설정 박스
             VStack {
                 HStack {
                     Text("알림")
@@ -31,14 +31,9 @@ struct SettingView: View {
                         Text("")
                     }
                     .onChange(of: isNotificationsEnabled) { newValue in
-                        if newValue {
-                            checkNotificationAuthorizationStatus() { enabled in
-                                if !enabled {
-                                    // 스위치가 on으로 바뀌었지만, 알림 권한이 없는 경우
-                                    self.showingAlert = true
-                                    self.isNotificationsEnabled = false
-                                }
-                            }
+                        if !newValue {
+                            // 스위치가 off로 바뀌었을 때
+                            showingSettingsAlert = true
                         }
                     }
                 }
@@ -52,10 +47,10 @@ struct SettingView: View {
                     .stroke(Color.gray, lineWidth: 1)
             )
             .padding()
-            .alert(isPresented: $showingAlert) {
+            .alert(isPresented: $showingSettingsAlert) {
                 Alert(
                     title: Text("알림 설정 변경"),
-                    message: Text("알림을 다시 켜려면, 설정 앱에서 이 앱의 알림을 허용해야 합니다."),
+                    message: Text("앱 설정에서 알림을 비활성할 수 있습니다."),
                     dismissButton: .default(Text("설정으로 이동"), action: openAppSettings)
                 )
             }
