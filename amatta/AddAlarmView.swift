@@ -19,6 +19,7 @@ struct AddAlarmView: View {
     @State private var editingItem: TemporaryItem?
     @State private var showingToast = false
     @State private var toastMessage = ""
+    @State private var isAddButtonDisabled = true
     
     @Environment(\.managedObjectContext) private var managedObjectContext
     @Environment(\.presentationMode) var presentationMode
@@ -42,10 +43,24 @@ struct AddAlarmView: View {
                 }
             }
             addButton()
+                .disabled(isAddButtonDisabled)
+                .onAppear {
+                            checkAddButtonState() // View가 나타날 때 상태 검사
+                        }
+                        .onChange(of: alarmName) { _ in
+                            checkAddButtonState() // 알림 이름이 변경될 때 상태 검사
+                        }
+                        .onChange(of: selectedWeekdays) { _ in
+                            checkAddButtonState() // 선택된 요일이 변경될 때 상태 검사
+                        }
         }
         .onTapGesture { hideKeyboard() }
     }
 
+    private func checkAddButtonState() {
+            isAddButtonDisabled = alarmName.isEmpty || !selectedWeekdays.contains(true)
+        }
+    
     @ViewBuilder
     private func inputSection<Content: View>(title: String, content: Content) -> some View {
         SectionHeaderView(title: title)
