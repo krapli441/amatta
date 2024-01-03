@@ -32,7 +32,7 @@ struct SettingView: View {
                         Text("")
                     }
                     .onChange(of: isNotificationsEnabled) { newValue in
-                        userToggledSwitch = true  // 사용자가 토글 스위치를 조작함
+                        userToggledSwitch = true  // 사용자가 토글 스위치를 조작함을 나타냄
                         if userToggledSwitch {
                             showingAlert = true
                         }
@@ -62,15 +62,14 @@ struct SettingView: View {
         .navigationBarTitle("", displayMode: .inline)
         .onAppear {
             checkNotificationAuthorizationStatus()
-            userToggledSwitch = false  // onAppear 시에는 사용자가 조작하지 않았으므로 false로 초기화
         }
     }
 
     private func checkNotificationAuthorizationStatus() {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             DispatchQueue.main.async {
-                // 권한 상태에 따라 스위치 상태 설정
                 self.isNotificationsEnabled = (settings.authorizationStatus == .authorized)
+                userToggledSwitch = false  // onAppear에서 사용자가 조작하지 않았으므로 false로 설정
             }
         }
     }
