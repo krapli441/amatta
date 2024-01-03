@@ -8,11 +8,16 @@
 import Foundation
 import SwiftUI
 
+import SwiftUI
+
 struct SettingView: View {
-    // 여기에 환경설정 뷰의 내용을 구현합니다.
     var body: some View {
-        Text("환경설정")
-            // 다른 UI 요소와 로직을 추가할 수 있습니다.
+        VStack {
+            // 헤더를 VStack의 상단에 배치
+            SettingHeaderView()
+            Spacer()
+        }
+        .navigationBarTitle("", displayMode: .inline)
     }
 }
 
@@ -21,3 +26,4 @@ struct SettingView_Previews: PreviewProvider {
         SettingView()
     }
 }
+
