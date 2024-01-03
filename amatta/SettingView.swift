@@ -7,25 +7,34 @@
 
 import Foundation
 import SwiftUI
-
-import SwiftUI
+import UserNotifications
 
 struct SettingView: View {
-    @State private var isNotificationsEnabled = false // 토글 스위치 상태를 위한 상태 변수
+    @State private var isNotificationsEnabled = false
+    @State private var previousToggleState = false
+    @State private var showingAlert = false
 
     var body: some View {
         VStack {
             SettingHeaderView()
 
-            // 회색 테두리 선이 있는 '알림' 설정 박스
             VStack {
                 HStack {
                     Text("알림")
                         .font(.system(size: 18))
                         .foregroundColor(Color.primary)
-                    Spacer() // 텍스트와 스위치 사이의 공간
+
+                    Spacer()
+
                     Toggle(isOn: $isNotificationsEnabled) {
-                        Text("") // Toggle에 대한 라벨 없음
+                        Text("")
+                    }
+                    .onChange(of: isNotificationsEnabled) { newValue in
+                        if newValue != previousToggleState {
+                            // 토글 상태가 변경된 경우에만 경고창 표시
+                            showingAlert = true
+                        }
+                        previousToggleState = newValue
                     }
                 }
                 .padding()
@@ -38,25 +47,37 @@ struct SettingView: View {
                     .stroke(Color.gray, lineWidth: 1)
             )
             .padding()
+            .alert(isPresented: $showingAlert) {
+                Alert(
+                    title: Text("알림 변경"),
+                    message: Text("앱 설정에서 알림을 켜거나 끌 수 있습니다."),
+                    primaryButton: .default(Text("설정으로 이동"), action: openAppSettings),
+                    secondaryButton: .cancel(Text("취소"))
+                )
+            }
 
             Spacer()
         }
         .navigationBarTitle("", displayMode: .inline)
         .onAppear {
-                    checkNotificationAuthorizationStatus()
-                }
+            checkNotificationAuthorizationStatus()
+            previousToggleState = isNotificationsEnabled
+        }
     }
-    
-    
+
     private func checkNotificationAuthorizationStatus() {
-            UNUserNotificationCenter.current().getNotificationSettings { settings in
-                DispatchQueue.main.async {
-                    // 권한 상태에 따라 스위치 상태 설정
-                    self.isNotificationsEnabled = (settings.authorizationStatus == .authorized)
-                }
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            DispatchQueue.main.async {
+                self.isNotificationsEnabled = (settings.authorizationStatus == .authorized)
             }
         }
-    
+    }
+
+    private func openAppSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(url)
+        }
+    }
 }
 
 struct SettingView_Previews: PreviewProvider {
@@ -64,6 +85,7 @@ struct SettingView_Previews: PreviewProvider {
         SettingView()
     }
 }
+
 
 
 
