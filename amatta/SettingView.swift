@@ -11,7 +11,7 @@ import SwiftUI
 import SwiftUI
 
 struct SettingView: View {
-    // 필요한 경우 상태 변수를 여기에 추가할 수 있습니다.
+    @State private var isNotificationsEnabled = false // 토글 스위치 상태를 위한 상태 변수
 
     var body: some View {
         VStack {
@@ -19,13 +19,18 @@ struct SettingView: View {
 
             // 회색 테두리 선이 있는 '알림' 설정 박스
             VStack {
-                Text("알림")
-                    .font(.system(size: 18))
-                    .padding()
-                // 추후에 여기에 스위치나 다른 UI 요소를 추가할 수 있습니다.
+                HStack {
+                    Text("알림")
+                        .font(.system(size: 18))
+                        .foregroundColor(Color.primary)
+                    Spacer() // 텍스트와 스위치 사이의 공간
+                    Toggle(isOn: $isNotificationsEnabled) {
+                        Text("") // Toggle에 대한 라벨 없음
+                    }
+                }
+                .padding()
             }
-            .frame(maxWidth: 360, maxHeight: 15)
-            .padding()
+            .frame(maxWidth: 360)
             .background(Color.white)
             .cornerRadius(10)
             .overlay(
@@ -45,5 +50,6 @@ struct SettingView_Previews: PreviewProvider {
         SettingView()
     }
 }
+
 
 
