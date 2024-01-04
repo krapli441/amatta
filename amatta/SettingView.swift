@@ -40,7 +40,7 @@ struct SettingView: View {
                 }
                 .padding()
             }
-            .frame(maxWidth: 360)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.80)
             .background(colorScheme == .dark ? Color(white: 0.2) : Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255))
             .cornerRadius(10)
             .overlay(
