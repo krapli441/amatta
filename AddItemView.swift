@@ -52,7 +52,7 @@ struct AddItemView: View {
                     // 물건 이름 섹션
                     SectionHeaderView(title: "물건 이름")
                     CustomTextField(placeholder: "이름을 입력해주세요", text: $itemName)
-                        .frame(maxWidth: 320)
+                        .frame(maxWidth: UIScreen.main.bounds.width * 0.75)
                         .commonInputStyle(colorScheme: colorScheme)
 
                     // 무언가 담을 수 있나요? 섹션
@@ -68,7 +68,7 @@ struct AddItemView: View {
                         }
                         .buttonStyle(ChoiceButtonStyle(isSelected: canContainOtherItems == false))
                     }
-                    .frame(maxWidth: 320)
+                    .frame(maxWidth: UIScreen.main.bounds.width * 0.75)
                     
                     if canContainOtherItems {
                     SectionHeaderView(title: "그 안에 무엇이 들어가나요?")
@@ -80,7 +80,7 @@ struct AddItemView: View {
                                        RoundedRectangle(cornerRadius: 10)
                                            .stroke(Color.gray, lineWidth: 1)
                                    )
-                                   .frame(width: 325) // 여백을 고려하여 너비를 조정
+                                   .frame(width: 285) // 여백을 고려하여 너비를 조정
 
                             Button(action: {
                                 removeItem(at: index)
@@ -96,7 +96,7 @@ struct AddItemView: View {
                                         }
                     SectionHeaderView(title: "얼마나 중요한 물건인가요?")
                     Slider(value: $importance, in: 1...10, step: 1)
-                    .frame(maxWidth: 320)
+                        .frame(maxWidth: UIScreen.main.bounds.width * 0.75)
                     .commonInputStyle(colorScheme: colorScheme)
                     .accentColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                     Text("중요도가 높은 물건은 알림에 자주 나타납니다.")
@@ -134,7 +134,7 @@ struct AddItemView: View {
                     Text("물건 추가")
                         .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                 }
-                .frame(maxWidth: 320)
+                .frame(maxWidth: UIScreen.main.bounds.width * 0.75)
                 .commonInputStyle(colorScheme: colorScheme)
             }
         }
@@ -174,7 +174,7 @@ struct ChoiceButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .frame(width: 140, height: 15) // 버튼 크기 조정
+            .frame(width: 120, height: 15) // 버튼 크기 조정
             .foregroundColor(.white)
             .padding()
             .background(isSelected ? Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255) : Color.gray)
