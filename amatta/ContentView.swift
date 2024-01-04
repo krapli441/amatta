@@ -95,6 +95,7 @@ struct ContentView: View {
                 loadScheduledNotifications()
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     private func loadScheduledNotifications() {
