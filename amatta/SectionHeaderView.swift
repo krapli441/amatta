@@ -10,6 +10,7 @@ import SwiftUI
 
 struct SectionHeaderView: View {
     let title: String
+    @Environment(\.horizontalSizeClass) var sizeClass
 
     var body: some View {
         HStack {
@@ -19,12 +20,13 @@ struct SectionHeaderView: View {
             Spacer()
         }
         .padding(.vertical, 5)
-        .padding(.leading, 45)
+        .padding(.leading, sizeClass == .compact ? 15 : 45)
     }
 }
 
 struct SectionHeaderView_Previews: PreviewProvider {
     static var previews: some View {
         SectionHeaderView(title: "섹션 제목")
+        .environment(\.horizontalSizeClass, .compact)
     }
 }
