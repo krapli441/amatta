@@ -174,7 +174,7 @@ struct ChoiceButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .frame(width: 120, height: 15) // 버튼 크기 조정
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.2)
             .foregroundColor(.white)
             .padding()
             .background(isSelected ? Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255) : Color.gray)

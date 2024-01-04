@@ -169,7 +169,7 @@ struct AlarmEditAddItemView: View {
             Text("추가")
                 .disabled(itemName.isEmpty)
                 .foregroundColor(.white)
-                .frame(maxWidth: 320)
+                .frame(maxWidth: UIScreen.main.bounds.width * 0.8)
                 .padding()
                 .background(itemName.isEmpty ? Color.gray : Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                 .cornerRadius(10)
