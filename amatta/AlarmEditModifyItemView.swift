@@ -51,7 +51,7 @@ struct AlarmEditModifyItemView: View {
                         }
                         .buttonStyle(ChoiceButtonStyle(isSelected: canContainOtherItems == false))
                     }
-                    .frame(maxWidth: UIScreen.main.bounds.width * 0.75)
+                    .frame(maxWidth: UIScreen.main.bounds.width * 0.83)
 
                     if canContainOtherItems {
                                     SectionHeaderView(title: "그 안에 무엇이 들어가나요?")
