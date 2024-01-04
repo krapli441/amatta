@@ -67,7 +67,7 @@ struct AlarmEditAddItemView: View {
                                        RoundedRectangle(cornerRadius: 10)
                                            .stroke(Color.gray, lineWidth: 1)
                                    )
-                                   .frame(width: 325) // 여백을 고려하여 너비를 조정
+                                   .frame(maxWidth: UIScreen.main.bounds.width * 0.75)
 
                             Button(action: {
                                 removeItem(at: index)
@@ -117,7 +117,7 @@ struct AlarmEditAddItemView: View {
                     Text("물건 추가")
                         .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                 }
-                .frame(maxWidth: 320)
+                .frame(maxWidth: UIScreen.main.bounds.width * 0.75)
                 .commonInputStyle(colorScheme: colorScheme)
             }
         }

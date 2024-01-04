@@ -249,10 +249,5 @@ struct AlarmEditModifyItemView: View {
     
 }
 
-struct AlarmEditModifyItemView_Previews: PreviewProvider {
-    static var previews: some View {
-        AlarmEditModifyItemView(itemObjectID: .constant(nil))
-    }
-}
 
 
