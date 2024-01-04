@@ -148,7 +148,7 @@ struct EditAlarmView: View {
     private func inputSection<Content: View>(title: String, content: Content) -> some View {
         SectionHeaderView(title: title)
         content
-            .frame(maxWidth: 320)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.75)
             .commonInputStyle(colorScheme: colorScheme)
     }
     
@@ -161,7 +161,7 @@ struct EditAlarmView: View {
                 DayButton(day: weekdays[index], isSelected: $selectedWeekdays[index])
             }
         }
-        .frame(maxWidth: 320, maxHeight: 15)
+        .frame(maxWidth: UIScreen.main.bounds.width * 0.75, maxHeight: 15)
         .commonInputStyle(colorScheme: colorScheme)
     }
     
@@ -208,7 +208,7 @@ struct EditAlarmView: View {
                     .foregroundColor(.gray)
             }
             .padding()
-            .frame(maxWidth: 350, alignment: .leading)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.83, alignment: .leading)
             .background(Color.gray.opacity(0.1))
             .cornerRadius(10)
             .overlay(
@@ -241,7 +241,7 @@ struct EditAlarmView: View {
                     .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
             }
         }
-        .frame(maxWidth: 320)
+        .frame(maxWidth: UIScreen.main.bounds.width * 0.75)
         .commonInputStyle(colorScheme: colorScheme)
         .sheet(isPresented: $isAddItemViewPresented, onDismiss: loadItemData) {
             AlarmEditAddItemView(alarmID: alarmID!)
