@@ -65,7 +65,7 @@ struct AddAlarmView: View {
     private func inputSection<Content: View>(title: String, content: Content) -> some View {
         SectionHeaderView(title: title)
         content
-            .frame(maxWidth: 320)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.75)
             .commonInputStyle(colorScheme: colorScheme)
     }
 
@@ -77,7 +77,7 @@ struct AddAlarmView: View {
                 DayButton(day: weekdays[index], isSelected: $selectedWeekdays[index])
             }
         }
-        .frame(maxWidth: 320, maxHeight: 15)
+        .frame(maxWidth: UIScreen.main.bounds.width * 0.75, maxHeight: 15)
         .commonInputStyle(colorScheme: colorScheme)
     }
 
@@ -106,7 +106,7 @@ struct AddAlarmView: View {
                             .foregroundColor(.gray)
                     }
                     .padding()
-                    .frame(maxWidth: 350, alignment: .leading)  // HStack의 최대 너비를 무한대로 설정하여 중앙 정렬
+                    .frame(maxWidth: UIScreen.main.bounds.width * 0.75, alignment: .leading)
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(10)
                     .overlay(
@@ -151,7 +151,7 @@ struct AddAlarmView: View {
         .sheet(isPresented: $showingNewItemView) {
             AddItemView(alarmCreationData: self.alarmCreationData, editingItem: nil)  // 새 물건 추가 모드
         }
-        .frame(maxWidth: 320)
+        .frame(maxWidth: UIScreen.main.bounds.width * 0.75)
         .commonInputStyle(colorScheme: colorScheme)
     }
 
@@ -159,7 +159,7 @@ struct AddAlarmView: View {
         Button(action: saveAlarm) {
             Text("추가")
             .foregroundColor(.white)
-            .frame(maxWidth: 320)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.75)
             .padding()
             .background(isAddButtonDisabled ? Color.gray : Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
             .cornerRadius(10)

@@ -16,7 +16,7 @@ struct AlarmHeaderView: View {
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                .padding(.leading, sizeClass == .compact ? 20 : 45)
+                .padding(.leading, UIScreen.main.bounds.width * 0.1)
             Spacer()
         }
         .padding(.top, 20)
