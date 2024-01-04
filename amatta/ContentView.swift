@@ -29,7 +29,7 @@ struct ContentView: View {
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                        .padding([.leading, .trailing], 40)
+                        .padding(.leading, UIScreen.main.bounds.width * 0.1)
                         .padding(.top, 20)
                     Spacer()
                     NavigationLink(destination: SettingView()) {
@@ -52,12 +52,12 @@ struct ContentView: View {
                             .multilineTextAlignment(.center)
                             Spacer() // 하단에 Spacer 추가
                             } else {
-                                                ForEach(alarms, id: \.self) { alarm in
-                                                    AlarmRow(alarm: alarm, editAction: { alarmID in
-                                                        self.selectedAlarmID = alarmID
-                                                        self.isEditing = true
-                                                    })
-                                                    .frame(maxWidth: 360)
+                            ForEach(alarms, id: \.self) { alarm in
+                            AlarmRow(alarm: alarm, editAction: { alarmID in
+                            self.selectedAlarmID = alarmID
+                            self.isEditing = true
+                            })
+                            .frame(maxWidth: UIScreen.main.bounds.width * 0.8)
                             }
                         }
                     }
@@ -75,7 +75,7 @@ struct ContentView: View {
                         Text("새로운 알림 추가")
                     }
                     .padding()
-                    .frame(maxWidth: 360)
+                    .frame(maxWidth: UIScreen.main.bounds.width * 0.8)
                     .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                     .foregroundColor(.white)
                     .cornerRadius(10)
