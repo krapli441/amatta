@@ -68,7 +68,6 @@ struct ContentView: View {
 
                 Spacer()
 
-                // 알람 추가 버튼
                 NavigationLink(destination: AddAlarmView()) {
                     HStack {
                         Image(systemName: "plus")
@@ -79,8 +78,10 @@ struct ContentView: View {
                     .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                     .foregroundColor(.white)
                     .cornerRadius(10)
-                    .padding()
                 }
+                .contentShape(Rectangle()) // 여기서 Rectangle()은 터치 영역을 실제 뷰의 경계로 제한합니다.
+                .padding() // 필요에 따라 padding을 조절합니다.
+
                 NavigationLink(destination: EditAlarmView(alarmID: selectedAlarmID), isActive: $isEditing) {
                                     EmptyView()
                                 }
