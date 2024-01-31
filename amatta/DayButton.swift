@@ -38,6 +38,7 @@ struct DayButton: View {
                                 .frame(width: 30, height: 30) : nil
                 )
         }
+        .buttonStyle(PlainButtonStyle()) // 버튼 스타일을 Plain으로 설정하여 배경을 제거합니다.
     }
 }
 
