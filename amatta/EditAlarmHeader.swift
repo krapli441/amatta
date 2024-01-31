@@ -28,7 +28,7 @@ struct EditAlarmHeaderView: View {
                 Image(systemName: "trash")
                     .foregroundColor(Color.red)
             }
-            .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)) // 여기에서 패딩 값을 조정합니다.
+            .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)) // 여기에서 패딩 값을 조정합니다.
             .contentShape(Rectangle()) // 이 부분이 터치 영역을 조절합니다.
         }
         .padding(.top, 20)
