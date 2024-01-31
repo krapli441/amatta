@@ -33,12 +33,14 @@ struct ContentView: View {
                         .padding(.top, 20)
                     Spacer()
                     NavigationLink(destination: SettingView()) {
-                    Image(systemName: "gear")
-                    .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
-                    .padding([.leading, .trailing], 40)
+                        Image(systemName: "gear")
+                            .foregroundColor(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
+                    }
                     .padding(.top, 20)
-                                        }
+                    .padding(.trailing, UIScreen.main.bounds.width * 0.1)
                 }
+
+
                 Spacer()
 
                 // 알람 리스트
