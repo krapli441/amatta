@@ -85,11 +85,14 @@ struct ContentView: View {
                 .contentShape(Rectangle())
 
                 NavigationLink(destination: EditAlarmView(alarmID: selectedAlarmID), isActive: $isEditing) {
-                                    EmptyView()
-                                }
+                    EmptyView()
+                }
+                .buttonStyle(PlainButtonStyle())
+
                 NavigationLink(destination: PushAlarmScreenView(alarmData: $alarmManager.alarmData, tappedAlarm: $alarmManager.tappedAlarm), isActive: $alarmManager.tappedAlarm) {
                     EmptyView()
                 }
+                .buttonStyle(PlainButtonStyle())
 
             }
             .frame(maxWidth: .infinity, alignment: .center)
