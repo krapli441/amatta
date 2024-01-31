@@ -75,14 +75,14 @@ struct ContentView: View {
                         Image(systemName: "plus")
                         Text("새로운 알림 추가")
                     }
-                    .padding()
+                    .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)) // 여기에서 패딩 값을 조정합니다.
+                    .frame(height: 44) // 버튼의 높이를 지정합니다.
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.8)
                     .background(Color(red: 82 / 255, green: 182 / 255, blue: 154 / 255))
                     .foregroundColor(.white)
                     .cornerRadius(10)
                 }
-                .contentShape(Rectangle()) // 여기서 Rectangle()은 터치 영역을 실제 뷰의 경계로 제한합니다.
-                .padding() // 필요에 따라 padding을 조절합니다.
+                .contentShape(Rectangle())
 
                 NavigationLink(destination: EditAlarmView(alarmID: selectedAlarmID), isActive: $isEditing) {
                                     EmptyView()
